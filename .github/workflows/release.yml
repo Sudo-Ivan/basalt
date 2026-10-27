@@ -1,0 +1,57 @@
+name: Release
+
+# Builds unsigned packages for Linux, Windows and macOS and uploads them
+# to a GitHub release draft when a v* tag is pushed.
+
+permissions:
+  contents: write
+
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  linux:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Install packaging tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install --no-install-recommends -y libarchive-tools libopenjp2-tools rpm
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+      - uses: ./.github/actions/install-deps
+      - name: Build and publish Linux packages
+        run: pnpm release:linux --x64 --arm64
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  windows:
+    runs-on: windows-2025
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+      - uses: ./.github/actions/install-deps
+      - name: Build
+        run: pnpm build
+      - name: Build and publish unsigned Windows portable
+        run: pnpm exec electron-builder --win portable --x64 --arm64 -p always
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CSC_IDENTITY_AUTO_DISCOVERY: 'false'
+
+  macos:
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+      - uses: ./.github/actions/install-deps
+      - name: Build
+        run: pnpm build
+      - name: Build and publish unsigned macOS packages
+        run: pnpm exec electron-builder --mac --x64 --arm64 -p always
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CSC_IDENTITY_AUTO_DISCOVERY: 'false'
