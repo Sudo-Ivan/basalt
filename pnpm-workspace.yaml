@@ -3,6 +3,21 @@ patchedDependencies:
 
 nodeLinker: hoisted
 
+minimumReleaseAge: 1440
+
+blockExoticSubdeps: true
+
+trustPolicy: no-downgrade
+
+trustPolicyExclude:
+  - 'semver@5.7.2'
+  - 'semver@6.3.1'
+  - 'undici-types@6.21.0'
+
+strictDepBuilds: true
+
+verifyDepsBeforeRun: warn
+
 overrides:
   ts-morph: 17.0.1
 
