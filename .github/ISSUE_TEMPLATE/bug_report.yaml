@@ -5,7 +5,7 @@ body:
   - type: markdown
     attributes:
       value: |-
-        ## Important: If this is a game issue, check out [our Discord server](https://discord.gg/rHJ2uqdquK) and [our Wiki](https://github.com/Heroic-Games-Launcher/HeroicGamesLauncher/wiki/Troubleshooting) to get help instead!
+        ## Important: If this is a game issue, check out the [upstream Heroic Wiki](https://github.com/Heroic-Games-Launcher/HeroicGamesLauncher/wiki/Troubleshooting) to get help instead!
         Examples for valid issues: "Heroic doesn't open", "This button is out of place", "Heroic closes unexpectedly", "Installs get interrupted"
   - type: textarea
     id: bug_description

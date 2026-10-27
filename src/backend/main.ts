@@ -111,12 +111,8 @@ import {
   customThemesWikiLink,
   discordLink,
   epicLoginUrl,
-  githubSponsorsPage,
   heroicGithubURL,
-  kofiPage,
-  patreonPage,
   sidInfoUrl,
-  supportURL,
   weblateUrl,
   wikiLink,
   wineprefixFAQ
@@ -586,17 +582,11 @@ app.on('open-url', (event, url) => {
 
 addListener('openExternalUrl', async (event, url) => openUrlOrFile(url))
 addListener('openFolder', async (event, folder) => openUrlOrFile(folder))
-addListener('openSupportPage', async () => openUrlOrFile(supportURL))
 addListener('openReleases', async () => openUrlOrFile(heroicGithubURL))
 addListener('openWeblate', async () => openUrlOrFile(weblateUrl))
 addListener('showAboutWindow', () => showAboutWindow())
 addListener('openLoginPage', async () => openUrlOrFile(epicLoginUrl))
 addListener('openDiscordLink', async () => openUrlOrFile(discordLink))
-addListener('openPatreonPage', async () => openUrlOrFile(patreonPage))
-addListener('openKofiPage', async () => openUrlOrFile(kofiPage))
-addListener('openGithubSponsorsPage', async () =>
-  openUrlOrFile(githubSponsorsPage)
-)
 addListener('openWinePrefixFAQ', async () => openUrlOrFile(wineprefixFAQ))
 addListener('openWebviewPage', async (event, url) => openUrlOrFile(url))
 addListener('openWikiLink', async () => openUrlOrFile(wikiLink))

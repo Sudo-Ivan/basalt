@@ -1,4 +1,15 @@
-# Frotend Design System
+# Frontend Design System
+
+## Theming
+
+The default theme is `void`, part of the Quad4 void design system. A light `paper`
+variant also exists. Core tokens:
+
+- canvas: `#0a0a0b`
+- raised surfaces: `#16161a`
+- text: `#d9d9de`
+- mist (secondary text): `#a1a1aa`
+- fonts: Space Grotesk for UI, Space Mono for code and numbers
 
 ## Type System
 

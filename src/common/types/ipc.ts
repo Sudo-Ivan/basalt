@@ -66,15 +66,11 @@ interface SyncIPCFunctions {
   quit: () => void
   openExternalUrl: (url: string) => void
   openFolder: (folder: string) => void
-  openSupportPage: () => void
   openReleases: () => void
   openWeblate: () => void
   showAboutWindow: () => void
   openLoginPage: () => void
   openDiscordLink: () => void
-  openPatreonPage: () => void
-  openKofiPage: () => void
-  openGithubSponsorsPage: () => void
   openWinePrefixFAQ: () => void
   openWebviewPage: (url: string) => void
   openWikiLink: () => void

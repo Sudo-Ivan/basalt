@@ -8,7 +8,7 @@ import {
 import { useTranslation } from 'react-i18next'
 import { useNavigate, useLocation, useParams } from 'react-router-dom'
 
-import { ToggleSwitch, UpdateComponent } from 'frontend/components/UI'
+import { UpdateComponent } from 'frontend/components/UI'
 import WebviewControls from 'frontend/components/UI/WebviewControls'
 import ContextProvider from 'frontend/state/ContextProvider'
 import {
@@ -19,11 +19,6 @@ import {
 import './index.css'
 import LoginWarning from '../Login/components/LoginWarning'
 import { NileLoginData } from 'common/types/nile'
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader
-} from 'frontend/components/UI/Dialog'
 
 const validStoredUrl = (url: string, store: string) => {
   switch (store) {
@@ -78,7 +73,7 @@ export default function WebView() {
   const epicLoginUrl = 'https://www.epicgames.com/id/login?responseType=code'
 
   const epicStore = `https://www.epicgames.com/store/${lang}/`
-  const gogStore = `https://af.gog.com?as=1838482841`
+  const gogStore = `https://www.gog.com`
   const amazonStore = `https://gaming.amazon.com`
   const zoomStore = `https://www.zoom-platform.com`
   const wikiURL =
@@ -239,30 +234,7 @@ export default function WebView() {
         }
       }
 
-      const onerror = ({ validatedURL }: Electron.DidFailLoadEvent) => {
-        if (validatedURL && validatedURL.match(/track\.adtraction\.com/)) {
-          const parsedUrl = new URL(validatedURL)
-          const redirectUrl = parsedUrl.searchParams.get('url')
-          const url = new URL(redirectUrl || 'https://gog.com')
-          // Remove any port definitions
-          // Recently GOG made a change where they started to provide a port
-          // in a URL that adtraction is supposed to redirect to.
-          // This leads to urls like https://gog.com:80
-          // That address is unreachable
-          //
-          // Add a entry below if you notice this line of code and cringe
-          // - username - DD/MM/YY
-          // - imLinguin - 01/07/24
-          url.port = ''
-          webview.loadURL(url.toString())
-          if (!localStorage.getItem('adtraction-warning')) {
-            setShowAdtractionWarning(true)
-          }
-        }
-      }
-
       webview.addEventListener('dom-ready', loadstop)
-      webview.addEventListener('did-fail-load', onerror)
       // if the page title changed it's because the store loaded so there's
       // connectivity, we can update the status without waiting for the checks
       const updateConnectivity = () => {
@@ -274,7 +246,6 @@ export default function WebView() {
 
       return () => {
         webview.removeEventListener('dom-ready', loadstop)
-        webview.removeEventListener('did-fail-load', onerror)
         webview.removeEventListener('page-title-updated', updateConnectivity)
       }
     }
@@ -326,12 +297,6 @@ export default function WebView() {
   const [showLoginWarningFor, setShowLoginWarningFor] = useState<
     null | 'epic' | 'gog' | 'amazon' | 'zoom'
   >(null)
-
-  const [showAdtractionWarning, setShowAdtractionWarning] =
-    useState<boolean>(false)
-
-  const [dontShowAdtractionWarning, setDontShowAdtractionWarning] =
-    useState<boolean>(false)
 
   useEffect(() => {
     if (
@@ -464,45 +429,6 @@ export default function WebView() {
           warnLoginForStore={showLoginWarningFor}
           onClose={onLoginWarningClosed}
         />
-      )}
-      {showAdtractionWarning && (
-        <Dialog
-          showCloseButton={true}
-          onClose={() => {
-            setShowAdtractionWarning(false)
-            if (dontShowAdtractionWarning)
-              localStorage.setItem('adtraction-warning', 'true')
-          }}
-        >
-          <DialogHeader
-            onClose={() => {
-              setShowAdtractionWarning(false)
-              if (dontShowAdtractionWarning)
-                localStorage.setItem('adtraction-warning', 'true')
-            }}
-          >
-            {t('adtraction-locked.title', 'Adtraction is blocked')}
-          </DialogHeader>
-          <DialogContent>
-            <p>
-              {t(
-                'adtraction-locked.description',
-                'It seems the track.adtraction.com domain was unable to load or is blocked. With adtraction, any purchase you make in the GOG store supports Heroic financially. Consider removing the block if you wish to contribute.'
-              )}
-            </p>
-            <ToggleSwitch
-              htmlId="dont-show-adtraction-warning-checkbox"
-              value={dontShowAdtractionWarning}
-              handleChange={(e) =>
-                setDontShowAdtractionWarning(e.target.checked)
-              }
-              title={t(
-                'adtraction-locked.dont-show-again',
-                "Don't show this warning again"
-              )}
-            />
-          </DialogContent>
-        </Dialog>
       )}
     </div>
   )
