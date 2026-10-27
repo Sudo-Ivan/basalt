@@ -2,7 +2,6 @@ name: E2E tests
 permissions:
   contents: read
 
-
 # Manual only. E2E needs a display and the electron sandbox, so it stays off the push path.
 on:
   workflow_dispatch:
