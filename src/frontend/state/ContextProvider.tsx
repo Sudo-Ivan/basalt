@@ -70,7 +70,7 @@ const initialContext: ContextType = {
     removeCategory: () => null,
     renameCategory: () => null
   },
-  theme: 'midnightMirage',
+  theme: 'void',
   setTheme: () => null,
   zoomPercent: 100,
   setZoomPercent: () => null,

@@ -30,6 +30,239 @@ body.alphabet-filter-button--active {
   );
 }
 
+/* Quad4 void theme (quad4.io/branding) - default */
+
+body.void {
+  /* Base tokens remapped to the void scale */
+  --brand-primary: #f4f4f5;
+  --brand-primary-hover: #d9d9de;
+  --brand-secondary: #a1a1aa;
+  --brand-secondary-hover: #d9d9de;
+  --brand-text-01: #d9d9de;
+  --brand-text-02: #a1a1aa;
+  --brand-text-03: #71717a;
+  --brand-text-04: #e9e9ec;
+  --brand-text-05: #a1a1aa;
+
+  --neutral-01: #0a0a0b;
+  --neutral-02: #16161a;
+  --neutral-03: #1f1f24;
+  --neutral-04: #3f3f46;
+  --neutral-05: #a1a1aa;
+  --neutral-06: #d9d9de;
+  --neutral-07: #e9e9ec;
+  --neutral-08: #f4f4f5;
+
+  --accent: #d9d9de;
+  --accent-overlay: #f4f4f5;
+  --primary-hover: #d9d9de;
+  --primary-active: #f4f4f5;
+  --secondary-hover: #a1a1aa;
+  --secondary-active: #71717a;
+
+  /* Text colours */
+  --text-default: var(--neutral-06);
+  --text-secondary: var(--neutral-05);
+  --text-tertiary: var(--neutral-01);
+  --text-quartenary: var(--neutral-04);
+  --text-title: var(--neutral-07);
+  --text-hover: var(--neutral-08);
+  --text-gametitle: var(--text-default);
+
+  /* Surfaces */
+  --background: var(--neutral-02);
+  --background-darker: var(--neutral-01);
+  --background-lighter: var(--neutral-03);
+  --body-background: var(--background-darker);
+  --current-background: var(--body-background);
+  --input-background: var(--neutral-02);
+  --modal-background: var(--neutral-01);
+  --modal-border: var(--neutral-03);
+  --modal-backdrop: var(--eighty-percent-black);
+  --search-bar-background: var(--neutral-01);
+  --search-bar-border: var(--neutral-03);
+  --controller-hints-background: transparent;
+
+  /* Sidebar */
+  --navbar-background: #0d0d10;
+  --navbar-active: var(--neutral-07);
+  --navbar-inactive: #71717a;
+  --navbar-active-background: #101013;
+  --navbar-accent: var(--neutral-08);
+  --divider: var(--neutral-03);
+
+  /* Buttons */
+  --primary-button: var(--brand-primary);
+  --secondary-button: var(--brand-primary);
+  --secondary-button-overlay: var(--primary-hover);
+  --button-stroke: var(--accent);
+  --play-button: var(--primary-button);
+  --install-button: var(--secondary-button);
+  --download-button: var(--brand-primary);
+  --download-button-overlay: var(--brand-primary-hover);
+  --disabled-button: var(--neutral-03);
+  --disabled-button-overlay: var(--neutral-04);
+  --link-highlight: var(--accent);
+  --success-button: var(--status-success);
+
+  /* Action Icons */
+  --action-icon: var(--neutral-05);
+  --action-icon-hover: var(--neutral-07);
+  --action-icon-active: var(--neutral-08);
+  --icon-disabled: var(--neutral-04);
+  --icon-disabled-overlay: var(--neutral-04);
+  --icons-background: var(--neutral-02);
+
+  /* On-screen keyboard */
+  --osk-background: var(--body-background);
+  --osk-button-background: var(--input-background);
+  --osk-button-border: var(--navbar-background);
+
+  /* Tour */
+  --tour-popup-background: var(--neutral-02);
+  --tour-bullet-active: var(--neutral-07);
+  --tour-bullet-inactive: var(--neutral-04);
+  --tour-popup-title: var(--text-title);
+  --tour-popup-skip-color: var(--text-secondary);
+  --tour-popup-skip-color-hover: var(--text-title);
+
+  /* Status */
+  --success: var(--status-success);
+  --success-hover: var(--status-success-hover);
+  --danger: var(--status-danger);
+  --danger-hover: var(--status-danger-hover);
+
+  /* Others for compatibility */
+  --primary: var(--brand-primary);
+  --secondary: var(--brand-secondary);
+}
+
+/* Quad4 paper theme - light variant of void */
+
+body.paper {
+  --brand-primary: #0a0a0b;
+  --brand-primary-hover: #18181b;
+  --brand-secondary: #3f3f46;
+  --brand-secondary-hover: #18181b;
+  --brand-text-01: #18181b;
+  --brand-text-02: #3f3f46;
+  --brand-text-03: #71717a;
+  --brand-text-04: #0a0a0b;
+  --brand-text-05: #3f3f46;
+
+  --neutral-01: #fafafa;
+  --neutral-02: #f4f4f5;
+  --neutral-03: #e9e9ec;
+  --neutral-04: #a1a1aa;
+  --neutral-05: #71717a;
+  --neutral-06: #3f3f46;
+  --neutral-07: #18181b;
+  --neutral-08: #0a0a0b;
+
+  --accent: #18181b;
+  --accent-overlay: #0a0a0b;
+  --primary-hover: #18181b;
+  --primary-active: #3f3f46;
+  --secondary-hover: #3f3f46;
+  --secondary-active: #71717a;
+
+  --status-success: #15803d;
+  --status-success-hover: #166534;
+  --status-warning: #b45309;
+  --status-warning-hover: #92400e;
+  --status-danger: #b91c1c;
+  --status-danger-hover: #991b1b;
+  --status-info: #0e7490;
+  --status-info-hover: #155e75;
+
+  /* Text colours */
+  --text-default: #18181b;
+  --text-secondary: #71717a;
+  --text-tertiary: #fafafa;
+  --text-quartenary: #d9d9de;
+  --text-title: #0a0a0b;
+  --text-hover: #0a0a0b;
+  --text-gametitle: var(--text-default);
+  --text-log: var(--status-warning);
+
+  /* Surfaces */
+  --background: #f4f4f5;
+  --background-darker: #fafafa;
+  --background-lighter: #fafafa;
+  --body-background: #fafafa;
+  --current-background: var(--body-background);
+  --input-background: #fafafa;
+  --modal-background: #fafafa;
+  --modal-border: #e9e9ec;
+  --modal-backdrop: var(--eighty-percent-black);
+  --search-bar-background: #f4f4f5;
+  --search-bar-border: #e9e9ec;
+  --controller-hints-background: transparent;
+  --gamecard-title-color: #f4f4f5cc;
+
+  /* Sidebar */
+  --navbar-background: #f4f4f5;
+  --navbar-active: #0a0a0b;
+  --navbar-inactive: #71717a;
+  --navbar-active-background: #e9e9ec;
+  --navbar-accent: #0a0a0b;
+  --divider: #e9e9ec;
+
+  /* Buttons */
+  --primary-button: var(--brand-primary);
+  --secondary-button: var(--brand-primary);
+  --secondary-button-overlay: var(--primary-hover);
+  --button-stroke: var(--accent);
+  --play-button: var(--primary-button);
+  --install-button: var(--secondary-button);
+  --download-button: var(--brand-primary);
+  --download-button-overlay: var(--brand-primary-hover);
+  --disabled-button: #e9e9ec;
+  --disabled-button-overlay: #d9d9de;
+  --link-highlight: var(--accent);
+  --success-button: var(--status-success);
+
+  /* Action Icons */
+  --action-icon: #71717a;
+  --action-icon-hover: #18181b;
+  --action-icon-active: #0a0a0b;
+  --icon-disabled: #a1a1aa;
+  --icon-disabled-overlay: #d9d9de;
+  --icons-background: #f4f4f5;
+
+  /* On-screen keyboard */
+  --osk-background: var(--body-background);
+  --osk-button-background: var(--input-background);
+  --osk-button-border: var(--navbar-background);
+
+  /* Tour */
+  --tour-popup-background: var(--input-background);
+  --tour-bullet-active: var(--accent);
+  --tour-bullet-inactive: #d9d9de;
+  --tour-popup-title: var(--text-title);
+  --tour-popup-skip-color: var(--text-secondary);
+  --tour-popup-skip-color-hover: var(--text-title);
+
+  /* Status */
+  --success: var(--status-success);
+  --success-hover: var(--status-success-hover);
+  --danger: var(--status-danger);
+  --danger-hover: var(--status-danger-hover);
+
+  /* Others for compatibility */
+  --primary: var(--brand-primary);
+  --secondary: var(--brand-secondary);
+
+  .MuiDialog-paper {
+    background-color: var(--modal-background);
+    color: var(--text-default);
+  }
+
+  .selectFieldWrapper select > option {
+    background: var(--background);
+  }
+}
+
 body.midnightMirage {
   /* Default Theme */
 

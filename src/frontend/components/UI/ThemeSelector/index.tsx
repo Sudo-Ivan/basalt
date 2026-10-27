@@ -8,6 +8,8 @@ import { hasHelp } from 'frontend/hooks/hasHelp'
 import { MenuItem } from '@mui/material'
 
 export const defaultThemes: Record<string, string> = {
+  void: 'Void',
+  paper: 'Paper',
   midnightMirage: 'Midnight Mirage',
   cyberSpaceOasis: 'Cyberspace Oasis',
   cyberSpaceOasisAlt: 'Cyberspace Oasis Classic',

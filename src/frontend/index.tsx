@@ -20,7 +20,7 @@ window.addEventListener('error', (ev: ErrorEvent) => {
   window.api.logError(ev.error)
 })
 
-const DEFAULT_THEME = 'midnightMirage'
+const DEFAULT_THEME = 'void'
 
 const Backend = new HttpApi(null, {
   addPath: 'build/locales/{{lng}}/{{ns}}',
