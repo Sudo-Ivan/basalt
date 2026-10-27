@@ -282,7 +282,7 @@ export default function ConsoleMode() {
     if (game.runner !== 'sideload') {
       void updateGame({
         appName: game.app_name,
-        runner: game.runner as Runner,
+        runner: game.runner,
         gameInfo: game
       })
     }

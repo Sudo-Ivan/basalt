@@ -1,4 +1,3 @@
-import { GamesDBInfo } from 'common/types'
 import { axiosClient } from 'backend/utils'
 import testData from './test-data.json'
 import { getInfoFromGamesDB } from '../utils'
@@ -44,4 +43,4 @@ describe('getInfoFromGamesDB', () => {
 
 const testGamesDBInfo = {
   steamID: '323580'
-} as GamesDBInfo
+}

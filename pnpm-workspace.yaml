@@ -1,5 +1,5 @@
 patchedDependencies:
-  '@types/node@22.19.3': patches/@types__node@22.19.3.patch
+  '@types/node@22.20.5': patches/@types__node@22.20.5.patch
 
 nodeLinker: hoisted
 

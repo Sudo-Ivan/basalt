@@ -1,7 +1,6 @@
 import { logError } from 'backend/logger'
 import { getInfoFromAppleGamingWiki } from '../utils'
 import { axiosClient } from 'backend/utils'
-import { AppleGamingWikiInfo } from 'common/types'
 
 jest.mock('backend/logger')
 jest.mock('electron-store')
@@ -97,4 +96,4 @@ const testAppleGamingWikiInfo = {
   crossoverRating: 'Playable',
   wineRating: 'Playable',
   crossoverLink: 'the-witcher-3-wild-hunt'
-} as AppleGamingWikiInfo
+}

@@ -359,7 +359,7 @@ export const loadStoredFilters = (): StoredDiscountFilters => {
     if (!raw) return {}
     const parsed = JSON.parse(raw) as unknown
     if (typeof parsed !== 'object' || parsed === null) return {}
-    return parsed as StoredDiscountFilters
+    return parsed
   } catch {
     return {}
   }

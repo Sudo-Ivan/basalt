@@ -1,6 +1,5 @@
 import { useContext, useEffect, useState } from 'react'
 import ContextProvider from 'frontend/state/ContextProvider'
-import { SyncType } from 'common/types'
 import { GOGCloudSavesLocation } from 'common/types/gog'
 import {
   InfoBox,
@@ -184,7 +183,7 @@ export default function GOGSyncSaves({
           <SelectField
             label={t('setting.manualsync.title')}
             htmlId="selectSyncType"
-            onChange={(event) => setSyncType(event.target.value as SyncType)}
+            onChange={(event) => setSyncType(event.target.value)}
             value={syncType}
             disabled={!gogSaves.every((value) => value.location.length)}
             extraClass="rightButtons"

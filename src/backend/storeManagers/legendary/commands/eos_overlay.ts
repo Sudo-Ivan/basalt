@@ -1,16 +1,8 @@
-import { z } from 'zod'
 import type { Path } from 'backend/schemas'
 import type { LegendaryAppName, NonEmptyString, ValidWinePrefix } from './base'
 
-const EosOverlayAction = z.enum([
-  'install',
-  'update',
-  'remove',
-  'enable',
-  'disable',
-  'info'
-] as const)
-type EosOverlayAction = z.infer<typeof EosOverlayAction>
+type EosOverlayAction =
+  'install' | 'update' | 'remove' | 'enable' | 'disable' | 'info'
 
 interface EosOverlayCommand {
   subcommand: 'eos-overlay'

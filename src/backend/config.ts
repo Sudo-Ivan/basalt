@@ -315,7 +315,7 @@ class GlobalConfigV0 extends GlobalConfig {
       ...this.getFactoryDefaults(),
       ...defaultSettings,
       winePrefix
-    } as AppSettings
+    }
 
     return settings
   }
