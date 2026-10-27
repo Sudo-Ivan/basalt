@@ -15,7 +15,8 @@
     "url": "https://github.com/Sudo-Ivan/heroicx"
   },
   "author": {
-    "name": "Sudo-Ivan"
+    "name": "Sudo-Ivan",
+    "email": "ivan@quad4.io"
   },
   "engines": {
     "node": ">=22"
