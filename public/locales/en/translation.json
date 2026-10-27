@@ -37,6 +37,7 @@
         "title": "This game includes anticheat software"
     },
     "box": {
+        "apply": "Apply",
         "cache-cleared": {
             "message": "Heroic cache cleared.",
             "title": "Cache cleared"
@@ -117,8 +118,8 @@
                 "detail": "Do you want to download the update in the background?",
                 "detailNoAutoupdate": "Automatic updates are not supported for your packaging format. Please use your package manager to update.",
                 "message": "There is a new Version available!",
-                "message-finished": "Do you want to restart Heroic now?",
-                "title": "Heroic Games Launcher",
+                "message-finished": "Do you want to restart Heroicx now?",
+                "title": "Heroicx",
                 "title-finished": "Update Finished"
             }
         },
@@ -310,6 +311,7 @@
         "size": "Size",
         "title": "Title"
     },
+    "Do NOT use this feature for that.<br/>Instead, <3>log into</3> the store, look for the game in your library, open the installation dialog, and click the \"Import Game\" button": "Do NOT use this feature for that.<br/>Instead, <3>log into</3> the store, look for the game in your library, open the installation dialog, and click the \"Import Game\" button",
     "docs": "Documentation",
     "download-manager": {
         "ETA": "Estimated time",
@@ -469,13 +471,14 @@
         "wine-wayland": "The Wine-Wayland experimental driver allows games to run natively under the Wayland display protocol. Enabling might break some games.",
         "WoW64": "The Wine WoW64 mode allows 32-bit Windows games to be run on 64-bit Wine. Enabling may improve performance, but could also break older 32-bit games."
     },
+    "Important information about this game, read this: <1>Open page</1>": "Important information about this game, read this: <1>Open page</1>",
     "info": {
         "heroic": {
             "beta": "Beta",
             "click-to-see-changelog": "Click to see changelog",
             "newReleases": "Update Available!",
             "stable": "Stable",
-            "version": "Heroic Version"
+            "version": "Heroicx Version"
         },
         "save-sync": {
             "searching": "Trying to detect the correct save folder (click to cancel)"
@@ -1034,6 +1037,7 @@
     },
     "store": "Epic Store",
     "stores": "Stores",
+    "This game uses anticheat software that is not compatible with your operating system or the support was not enabled by the game developers. This means that the multiplayer features will not work, and there is nothing you (or the Heroic team) can do about it.<br/><br/>To install this game and try it anyway, go to Settings, Advanced, and check the option to allow the installation of games with broken or denied anticheat.<br/><br/>Note that there is no solution for this and you will risk getting banned in the game.": "This game uses anticheat software that is not compatible with your operating system or the support was not enabled by the game developers. This means that the multiplayer features will not work, and there is nothing you (or the Heroic team) can do about it.<br/><br/>To install this game and try it anyway, go to Settings, Advanced, and check the option to allow the installation of games with broken or denied anticheat.<br/><br/>Note that there is no solution for this and you will risk getting banned in the game.",
     "title": {
         "allGames": "All Games"
     },
@@ -1064,9 +1068,9 @@
             "sortOptions": "Click here to sort games alphabetically.",
             "viewToggle": "Switch between grid and list view for your games.",
             "welcome": {
-                "intro": "Welcome to the Heroic Library! This is where you can see all your games across different stores.",
+                "intro": "Welcome to the Heroicx Library! This is where you can see all your games across different stores.",
                 "intro2": "If the library is empty, make sure to login with your accounts using the Manage accounts on the sidebar or add your own games using the Add Game button above.",
-                "title": "Welcome to Heroic!",
+                "title": "Welcome to Heroicx!",
                 "title2": "Managing the library!"
             }
         },
@@ -1074,16 +1078,16 @@
         "sidebar": {
             "accessibility": "Access accessibility features to customize your experience.",
             "accounts": "Manage your connected store accounts (Epic, GOG, Amazon), logout or login on them.",
-            "docs": "Read documentation for help with using Heroic.",
+            "docs": "Read documentation for help with using Heroicx.",
             "downloads": "Track and manage your game downloads and installations.",
             "library": "Access your game library from different stores in one place.",
             "login": "Log in to your game store accounts to access your library.",
             "quit": "Exit the application safely.",
-            "settings": "Configure Heroic's settings, game defaults, check logs and more.",
+            "settings": "Configure Heroicx's settings, game defaults, check logs and more.",
             "stores": "Browse and shop for games in different stores including Epic, GOG, and Amazon.",
-            "version": "Check your current Heroic version, click it to see latest changelog, and access this tour from the help icon.",
+            "version": "Check your current Heroicx version, click it to see latest changelog, and access this tour from the help icon.",
             "welcome": {
-                "intro": "Welcome to Heroic! This sidebar contains all the navigation options to explore the app.",
+                "intro": "Welcome to Heroicx! This sidebar contains all the navigation options to explore the app.",
                 "title": "Sidebar Navigation"
             },
             "wine": "Manage or download new version of Wine/Proton/GPTK for running Windows games on Linux or macOS."
@@ -1105,7 +1109,6 @@
         "cancel": "Cancel",
         "logging_out": "Logging out",
         "logout": "Log out",
-        "logout_confirmation": "Are you sure you want to log out?",
         "manageaccounts": "Manage Accounts",
         "quit": "Quit",
         "quitMessage": "Are you sure you want to quit?"
@@ -1161,5 +1164,6 @@
         "openGUI": "Open Winetricks GUI",
         "search": "Search fonts or components"
     },
+    "ZOOM Platform": "ZOOM Platform",
     "zoom-store": "Zoom Store"
 }

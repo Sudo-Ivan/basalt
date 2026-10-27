@@ -1,6 +1,6 @@
 import './index.css'
 
-import { MouseEvent } from 'react'
+import { type JSX, MouseEvent } from 'react'
 
 interface Props {
   onClick: (e: MouseEvent) => void

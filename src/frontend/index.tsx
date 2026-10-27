@@ -27,8 +27,18 @@ const Backend = new HttpApi(null, {
   loadPath: 'locales/{{lng}}/{{ns}}.json'
 })
 
-initGamepad()
-initShortcuts()
+// Gamepad polling and keyboard shortcuts are not needed for the first
+// paint, so register them once the browser is idle instead of blocking
+// the critical startup path.
+const runWhenIdle = (callback: () => void) => {
+  if (typeof window.requestIdleCallback === 'function') {
+    window.requestIdleCallback(callback)
+  } else {
+    setTimeout(callback, 0)
+  }
+}
+runWhenIdle(initGamepad)
+runWhenIdle(initShortcuts)
 
 const storage: Storage = window.localStorage
 storage.removeItem('nonAvailableGames')

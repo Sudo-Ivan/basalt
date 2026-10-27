@@ -10,6 +10,7 @@
     "flathub/**/*.ts",
     "playwright.config.ts",
     "electron.vite.config.ts",
+    "i18next.config.ts",
     "meta/**/*.ts",
     "meta/**/*.mts",
     "eslint.config.mjs"

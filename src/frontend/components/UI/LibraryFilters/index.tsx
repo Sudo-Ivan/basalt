@@ -1,4 +1,4 @@
-import { useContext } from 'react'
+import { type JSX, useContext } from 'react'
 import ToggleSwitch from '../ToggleSwitch'
 import { useTranslation } from 'react-i18next'
 import LibraryContext from 'frontend/screens/Library/LibraryContext'

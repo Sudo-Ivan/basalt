@@ -30,7 +30,7 @@ const SidebarTour: React.FC = () => {
       element: '[data-tour="sidebar-menu"]',
       intro: t(
         'tour.sidebar.welcome.intro',
-        'Welcome to Heroic! This sidebar contains all the navigation options to explore the app.'
+        'Welcome to Heroicx! This sidebar contains all the navigation options to explore the app.'
       ),
       title: t('tour.sidebar.welcome.title', 'Sidebar Navigation')
     },
@@ -54,7 +54,7 @@ const SidebarTour: React.FC = () => {
       element: '[data-tour="sidebar-settings"]',
       intro: t(
         'tour.sidebar.settings',
-        "Configure Heroic's settings, game defaults, and more."
+        "Configure Heroicx's settings, game defaults, and more."
       ),
       position
     },
@@ -115,7 +115,7 @@ const SidebarTour: React.FC = () => {
       element: '[data-tour="sidebar-docs"]',
       intro: t(
         'tour.sidebar.docs',
-        'Read documentation for help with using Heroic.'
+        'Read documentation for help with using Heroicx.'
       ),
       position
     },
@@ -128,7 +128,7 @@ const SidebarTour: React.FC = () => {
       element: '[data-tour="sidebar-version"]',
       intro: t(
         'tour.sidebar.version',
-        'Check your current Heroic version and access tours from here.'
+        'Check your current Heroicx version and access tours from here.'
       ),
       position: 'top'
     }

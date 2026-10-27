@@ -1,0 +1,255 @@
+@font-face {
+  font-family: 'Space Grotesk';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('fonts/space-grotesk-latin-400-normal.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Space Grotesk';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('fonts/space-grotesk-latin-500-normal.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Space Grotesk';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('fonts/space-grotesk-latin-700-normal.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Space Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('fonts/space-mono-latin-400-normal.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Space Mono';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('fonts/space-mono-latin-700-normal.woff2') format('woff2');
+}
+
+:root {
+  --canvas: #0a0a0b;
+  --panel: #16161a;
+  --hairline: #1f1f24;
+  --text: #d9d9de;
+  --mist: #a1a1aa;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--canvas);
+  color: var(--text);
+  font-family: 'Space Grotesk', system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.stars {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.4;
+  background-image:
+    radial-gradient(1px 1px at 12% 22%, #d9d9de 50%, transparent 51%),
+    radial-gradient(1px 1px at 34% 8%, #a1a1aa 50%, transparent 51%),
+    radial-gradient(1px 1px at 58% 30%, #d9d9de 50%, transparent 51%),
+    radial-gradient(1px 1px at 81% 14%, #a1a1aa 50%, transparent 51%),
+    radial-gradient(1px 1px at 92% 46%, #d9d9de 50%, transparent 51%),
+    radial-gradient(1px 1px at 6% 64%, #a1a1aa 50%, transparent 51%),
+    radial-gradient(1px 1px at 27% 82%, #d9d9de 50%, transparent 51%),
+    radial-gradient(1px 1px at 47% 60%, #a1a1aa 50%, transparent 51%),
+    radial-gradient(1px 1px at 69% 88%, #d9d9de 50%, transparent 51%),
+    radial-gradient(1px 1px at 88% 72%, #a1a1aa 50%, transparent 51%),
+    radial-gradient(1px 1px at 18% 42%, #d9d9de 50%, transparent 51%),
+    radial-gradient(1px 1px at 74% 52%, #a1a1aa 50%, transparent 51%),
+    radial-gradient(1px 1px at 40% 94%, #d9d9de 50%, transparent 51%),
+    radial-gradient(1px 1px at 96% 92%, #a1a1aa 50%, transparent 51%);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .stars {
+    animation: twinkle 8s ease-in-out infinite alternate;
+  }
+}
+
+@keyframes twinkle {
+  from {
+    opacity: 0.3;
+  }
+  to {
+    opacity: 0.4;
+  }
+}
+
+a {
+  color: var(--text);
+  text-decoration: none;
+  border-bottom: 1px solid var(--hairline);
+}
+
+a:hover {
+  border-bottom-color: var(--mist);
+}
+
+.site-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.25rem 2rem;
+  border-bottom: 1px solid var(--hairline);
+}
+
+.brand {
+  font-family: 'Space Mono', monospace;
+  font-weight: 700;
+  font-size: 0.9rem;
+  letter-spacing: 0.08em;
+}
+
+.site-header nav a {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.8rem;
+  color: var(--mist);
+  margin-left: 1.5rem;
+  border-bottom: none;
+}
+
+.site-header nav a:hover {
+  color: var(--text);
+}
+
+main {
+  flex: 1;
+  width: 100%;
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 3rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.panel {
+  background: var(--panel);
+  border: 1px solid var(--hairline);
+  padding: 2rem;
+}
+
+.label {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.75rem;
+  color: var(--mist);
+  margin: 0 0 1rem;
+  letter-spacing: 0.05em;
+}
+
+h1 {
+  font-size: 2.75rem;
+  font-weight: 700;
+  margin: 0 0 0.75rem;
+  line-height: 1.1;
+}
+
+.tagline {
+  color: var(--mist);
+  margin: 0 0 2rem;
+  max-width: 46ch;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.button {
+  display: inline-block;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.8rem;
+  padding: 0.7rem 1.2rem;
+  border: 1px solid var(--hairline);
+  color: var(--text);
+  background: var(--canvas);
+}
+
+.button:hover {
+  border-color: var(--mist);
+}
+
+.button.primary {
+  background: var(--text);
+  color: var(--canvas);
+  border-color: var(--text);
+}
+
+.button.primary:hover {
+  border-color: var(--mist);
+}
+
+.features {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.features li {
+  display: flex;
+  gap: 1.5rem;
+  padding: 1rem 0;
+  border-top: 1px solid var(--hairline);
+}
+
+.features li:first-child {
+  border-top: none;
+  padding-top: 0;
+}
+
+.feature-name {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.8rem;
+  color: var(--text);
+  flex: 0 0 9rem;
+}
+
+.feature-desc {
+  color: var(--mist);
+  font-size: 0.95rem;
+}
+
+.site-footer {
+  border-top: 1px solid var(--hairline);
+  padding: 1.5rem 2rem;
+}
+
+.site-footer p {
+  margin: 0;
+  font-size: 0.8rem;
+  color: var(--mist);
+  max-width: 720px;
+  margin-left: auto;
+  margin-right: auto;
+}

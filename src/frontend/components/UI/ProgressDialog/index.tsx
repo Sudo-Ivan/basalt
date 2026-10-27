@@ -1,6 +1,6 @@
 import './index.css'
 
-import { useEffect, useRef, useState } from 'react'
+import { type JSX, useEffect, useRef, useState } from 'react'
 import {
   Dialog,
   DialogContent,

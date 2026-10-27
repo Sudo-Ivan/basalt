@@ -1,6 +1,14 @@
 import './index.css'
 
-import { useContext, CSSProperties, useMemo, useState, useEffect } from 'react'
+import {
+  useContext,
+  CSSProperties,
+  MouseEvent,
+  useMemo,
+  useRef,
+  useState,
+  useEffect
+} from 'react'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faRepeat, faBan } from '@fortawesome/free-solid-svg-icons'
@@ -22,7 +30,7 @@ import { install, launch, updateGame } from 'frontend/helpers/library'
 import { useTranslation } from 'react-i18next'
 import ContextProvider from 'frontend/state/ContextProvider'
 import { CachedImage, SvgButton } from 'frontend/components/UI'
-import ContextMenu, { Item } from '../ContextMenu'
+import ContextMenu, { ContextMenuHandle, Item } from '../ContextMenu'
 import { hasProgress } from 'frontend/hooks/hasProgress'
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle'
 
@@ -96,6 +104,17 @@ const GameCard = ({
   const [gameInfo, setGameInfo] = useState<GameInfo>(gameInfoFromProps)
   const [showUninstallModal, setShowUninstallModal] = useState(false)
   const [isLaunching, setIsLaunching] = useState(false)
+  const contextMenuRef = useRef<ContextMenuHandle>(null)
+
+  const openCardMenu = (event: MouseEvent) => {
+    const rect = event.currentTarget.getBoundingClientRect()
+    // keyboard and gamepad clicks report clientX/Y as 0,
+    // so fall back to the button position in that case
+    contextMenuRef.current?.open(
+      event.clientX || rect.left,
+      event.clientY || rect.bottom
+    )
+  }
 
   const { t } = useTranslation('gamepage')
   const { t: t2 } = useTranslation()
@@ -453,9 +472,7 @@ const GameCard = ({
     )
   }
 
-  const showSettingsButton = isInstalled && !isUninstalling && !isBrowserGame
-  const showUpdateBadge =
-    hasUpdate && !isUpdating && !isQueued && activeController
+  const showUpdateBadge = hasUpdate && !isUpdating && !isQueued && !notAvailable
 
   return (
     <div>
@@ -467,7 +484,7 @@ const GameCard = ({
           onClose={() => setShowUninstallModal(false)}
         />
       )}
-      <ContextMenu items={items}>
+      <ContextMenu items={items} ref={contextMenuRef}>
         <div
           className={wrapperClasses}
           data-app-name={appName}
@@ -534,7 +551,29 @@ const GameCard = ({
               {getStoreName(runner, t2('Other'))}
             </span>
           </Link>
-          <>
+          {grid ? (
+            <span className="cardControls">
+              <span className="primaryAction">{renderIcon()}</span>
+              <span className="cornerActions">
+                {showUpdateButton && (
+                  <SvgButton
+                    className="updateIcon"
+                    title={`${t('button.update')} (${title})`}
+                    onClick={async () => handleUpdate()}
+                  >
+                    <FontAwesomeIcon size={'2x'} icon={faRepeat} />
+                  </SvgButton>
+                )}
+                <SvgButton
+                  title={`${t2('controller.hints.options', 'Options')} (${title})`}
+                  className="settingsIcon"
+                  onClick={openCardMenu}
+                >
+                  <SettingsIcon />
+                </SvgButton>
+              </span>
+            </span>
+          ) : (
             <span className="icons">
               {showUpdateButton && (
                 <SvgButton
@@ -545,20 +584,16 @@ const GameCard = ({
                   <FontAwesomeIcon size={'2x'} icon={faRepeat} />
                 </SvgButton>
               )}
-              {showSettingsButton && (
-                <>
-                  <SvgButton
-                    title={`${t('submenu.settings')} (${title})`}
-                    className="settingsIcon"
-                    onClick={() => openGameSettingsModal(gameInfo)}
-                  >
-                    <SettingsIcon />
-                  </SvgButton>
-                </>
-              )}
+              <SvgButton
+                title={`${t2('controller.hints.options', 'Options')} (${title})`}
+                className="settingsIcon"
+                onClick={openCardMenu}
+              >
+                <SettingsIcon />
+              </SvgButton>
               {renderIcon()}
             </span>
-          </>
+          )}
         </div>
       </ContextMenu>
     </div>

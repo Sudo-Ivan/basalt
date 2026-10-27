@@ -11,7 +11,7 @@ import { DMQueue } from 'frontend/types'
 import DownloadManagerItem from './components/DownloadManagerItem'
 import { hasHelp } from 'frontend/hooks/hasHelp'
 
-export default React.memo(function DownloadManager(): JSX.Element | null {
+export default React.memo(function DownloadManager(): React.JSX.Element | null {
   const { t } = useTranslation()
   const [refreshing, setRefreshing] = useState(false)
   const [state, setState] = useState<DownloadManagerState>('idle')

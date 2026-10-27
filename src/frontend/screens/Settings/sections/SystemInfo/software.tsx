@@ -30,10 +30,10 @@ function SoftwareInfo({ software }: Props) {
         {t('settings.systemInformation.software', 'Software:')}
       </Typography>
       <Grid container>
-        <Grid item xs={2}>
+        <Grid size={{ xs: 2 }}>
           <HeroicIcon className="heroic-icon" />
         </Grid>
-        <Grid item xs={10}>
+        <Grid size={{ xs: 10 }}>
           {t(
             'settings.systemInformation.heroicVersion',
             'Heroic: {{heroicVersion}}',

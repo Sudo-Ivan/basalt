@@ -3,8 +3,9 @@ name: Release
 # Builds unsigned packages for Linux, Windows and macOS and uploads them
 # to a GitHub release draft when a v* tag is pushed.
 
+# Read-only baseline; each publishing job elevates to contents: write itself.
 permissions:
-  contents: write
+  contents: read
 
 on:
   push:
@@ -17,24 +18,36 @@ concurrency:
 
 jobs:
   linux:
+    name: Linux
     runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    permissions:
+      contents: write # required to upload packages to the GitHub release draft
     steps:
       - name: Install packaging tools
         run: |
           sudo apt-get update
           sudo apt-get install --no-install-recommends -y libarchive-tools libopenjp2-tools rpm
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
-      - uses: ./.github/actions/install-deps
+        with:
+          persist-credentials: false
+      - uses: $/.github/actions/install-deps
       - name: Build and publish Linux packages
         run: pnpm release:linux --x64 --arm64
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   windows:
+    name: Windows
     runs-on: windows-2025
+    timeout-minutes: 60
+    permissions:
+      contents: write # required to upload packages to the GitHub release draft
     steps:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
-      - uses: ./.github/actions/install-deps
+        with:
+          persist-credentials: false
+      - uses: $/.github/actions/install-deps
       - name: Build
         run: pnpm build
       - name: Build and publish unsigned Windows portable
@@ -44,10 +57,16 @@ jobs:
           CSC_IDENTITY_AUTO_DISCOVERY: 'false'
 
   macos:
+    name: macOS
     runs-on: macos-15
+    timeout-minutes: 60
+    permissions:
+      contents: write # required to upload packages to the GitHub release draft
     steps:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
-      - uses: ./.github/actions/install-deps
+        with:
+          persist-credentials: false
+      - uses: $/.github/actions/install-deps
       - name: Build
         run: pnpm build
       - name: Build and publish unsigned macOS packages

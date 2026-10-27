@@ -1,4 +1,10 @@
-import React, { type ReactElement } from 'react'
+import React, {
+  forwardRef,
+  memo,
+  useImperativeHandle,
+  useState,
+  type ReactElement
+} from 'react'
 import Menu from '@mui/material/Menu'
 import MenuItem from '@mui/material/MenuItem'
 import './index.css'
@@ -11,16 +17,27 @@ export interface Item {
   show: boolean
 }
 
+export interface ContextMenuHandle {
+  open: (x: number, y: number) => void
+}
+
 interface Props {
   children: React.ReactNode
   items: Item[]
 }
 
-function ContextMenu({ children, items }: Props) {
-  const [contextMenu, setContextMenu] = React.useState<{
+const ContextMenu = forwardRef<ContextMenuHandle, Props>(function ContextMenu(
+  { children, items },
+  ref
+) {
+  const [contextMenu, setContextMenu] = useState<{
     mouseX: number
     mouseY: number
   } | null>(null)
+
+  useImperativeHandle(ref, () => ({
+    open: (mouseX: number, mouseY: number) => setContextMenu({ mouseX, mouseY })
+  }))
 
   const handleContextMenu = (event: React.MouseEvent) => {
     event.preventDefault()
@@ -69,6 +86,6 @@ function ContextMenu({ children, items }: Props) {
       </Menu>
     </div>
   )
-}
+})
 
-export default React.memo(ContextMenu)
+export default memo(ContextMenu)

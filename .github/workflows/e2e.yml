@@ -6,13 +6,21 @@ permissions:
 on:
   workflow_dispatch:
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   e2e:
+    name: E2E
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     steps:
       - name: Checkout repository.
         uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
-      - uses: ./.github/actions/install-deps
+        with:
+          persist-credentials: false
+      - uses: $/.github/actions/install-deps
       - name: Fix ownership and mode
         run: sudo chown root node_modules/electron/dist/chrome-sandbox && sudo chmod 4755 node_modules/electron/dist/chrome-sandbox
       - name: Test E2E

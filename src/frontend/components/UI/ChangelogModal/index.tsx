@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Dialog, DialogContent, DialogHeader } from '../Dialog'
-import ReactMarkdown from 'react-markdown'
+import ReactMarkdown, { type Components } from 'react-markdown'
 import rehypeRaw from 'rehype-raw'
 import classNames from 'classnames'
 import { Release } from 'common/types'
@@ -13,6 +13,10 @@ type Props = {
 
 const storage = window.localStorage
 const lastChangelog = storage.getItem('last_changelog')?.replaceAll('"', '')
+
+const markdownComponents: Components = {
+  a: (props) => <a {...props} target="_blank" rel="noopener noreferrer" />
+}
 
 export function ChangelogModal({ onClose, dimissVersionCheck }: Props) {
   const [currentChangelog, setCurrentChangelog] = useState<Release | null>(null)
@@ -43,8 +47,7 @@ export function ChangelogModal({ onClose, dimissVersionCheck }: Props) {
           <div className={classNames('changelogModalContent')}>
             {currentChangelog.body && (
               <ReactMarkdown
-                className="changelogModalContent"
-                linkTarget={'_blank'}
+                components={markdownComponents}
                 rehypePlugins={[rehypeRaw]}
               >
                 {currentChangelog.body}

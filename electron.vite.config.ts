@@ -14,6 +14,66 @@ const dependenciesToNotExternalize = [
   '@xhmikosr/decompress-unzip'
 ]
 
+// Split the renderer bundle into stable vendor chunks so that app-code
+// changes do not invalidate the cached vendor code (and vice versa).
+const isPackage = (id: string, packageNames: string[]) =>
+  packageNames.some((name) => id.includes(`/node_modules/${name}/`))
+
+const rendererManualChunks = (id: string): string | undefined => {
+  if (!id.includes('node_modules')) return undefined
+
+  if (
+    isPackage(id, [
+      'react',
+      'react-dom',
+      'scheduler',
+      'react-router',
+      'react-router-dom',
+      '@remix-run/router'
+    ])
+  ) {
+    return 'vendor-react'
+  }
+
+  if (
+    isPackage(id, [
+      'i18next',
+      'react-i18next',
+      'i18next-http-backend',
+      'html-parse-stringify',
+      'void-elements'
+    ])
+  ) {
+    return 'vendor-i18n'
+  }
+
+  if (
+    id.includes('/node_modules/@mui/') ||
+    id.includes('/node_modules/@emotion/') ||
+    isPackage(id, ['@popperjs/core', 'react-transition-group'])
+  ) {
+    return 'vendor-mui'
+  }
+
+  if (id.includes('/node_modules/@fortawesome/')) {
+    return 'vendor-fortawesome'
+  }
+
+  if (
+    isPackage(id, [
+      'recharts',
+      'victory-vendor',
+      'react-smooth',
+      'decimal.js-light'
+    ]) ||
+    /\/node_modules\/d3-[^/]+\//.test(id)
+  ) {
+    return 'vendor-recharts'
+  }
+
+  return undefined
+}
+
 export default defineConfig(({ mode }) => ({
   main: {
     build: {
@@ -26,7 +86,9 @@ export default defineConfig(({ mode }) => ({
       },
       outDir: 'build/main',
       minify: false,
-      sourcemap: 'inline'
+      // external .map files keep source-map-support working without
+      // inflating main.js with a ~9MB inline map that is parsed at startup
+      sourcemap: mode === 'development' ? 'inline' : true
     },
     resolve: { alias: srcAliases },
     plugins: [externalizeDepsPlugin({ exclude: dependenciesToNotExternalize })]
@@ -57,7 +119,8 @@ export default defineConfig(({ mode }) => ({
         input: path.resolve('index.html'),
         output: {
           chunkFileNames: `assets/[name].js`,
-          assetFileNames: `assets/[name].[ext]`
+          assetFileNames: `assets/[name].[ext]`,
+          manualChunks: rendererManualChunks
         }
       },
       target: 'esnext',

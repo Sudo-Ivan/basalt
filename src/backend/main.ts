@@ -334,7 +334,7 @@ if (!gotTheLock) {
 
     // try to fix notification app name on windows
     if (isWindows) {
-      app.setAppUserModelId('Heroic Games Launcher')
+      app.setAppUserModelId('io.quad4.heroicx')
     }
 
     runOnceWhenOnline(async () => {
@@ -1285,7 +1285,7 @@ addHandler('getWebviewPreloadPath', () => webviewPreloadPath)
 
 addHandler('clipboardReadText', () => clipboard.readText())
 
-addListener('clipboardWriteText', (e, text) => clipboard.writeText(text))
+addListener('clipboardWriteText', async (e, text) => clipboard.writeText(text))
 
 addHandler('getCustomThemes', async () => {
   const { customThemesPath } = GlobalConfig.get().getSettings()

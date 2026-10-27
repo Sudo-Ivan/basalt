@@ -37,10 +37,10 @@ function OSInfo({ os, isFlatpak }: OSInfoProps) {
         {t('settings.systemInformation.os', 'Operating System:')}
       </Typography>
       <Grid container spacing={1}>
-        <Grid item xs={2}>
+        <Grid size={{ xs: 2 }}>
           <OSLogo platform={os.platform} />
         </Grid>
-        <Grid item xs={10}>
+        <Grid size={{ xs: 10 }}>
           {isFlatpak
             ? t(
                 'settings.systemInformation.osNameFlatpak',

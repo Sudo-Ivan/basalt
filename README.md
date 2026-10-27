@@ -1,20 +1,19 @@
 # heroicx
 
-A personal fork of [Heroic Games Launcher](https://github.com/Heroic-Games-Launcher/HeroicGamesLauncher), themed with the Quad4 void design system. Heroic is an open source game launcher for Linux, Windows and macOS.
+A fork of [Heroic Games Launcher](https://github.com/Heroic-Games-Launcher/HeroicGamesLauncher) with the Quad4 void theme. Heroic is an open source game launcher for Linux, Windows and macOS.
 
 ## Features
 
-- Launch games from GOG, the Epic Games Store and Amazon Games
-- Log in with Epic, GOG and Amazon accounts
-- Run games with Wine, Proton or Crossover on Linux and macOS
-- Native Windows support
-- Ships with the Quad4 void theme by default
+- Libraries and login for GOG, the Epic Games Store and Amazon Games
+- Runs Windows games on Linux and macOS with Wine, Proton or CrossOver
+- Void theme by default, with a light paper variant
+- No telemetry
 
 ## Install
 
-Download a package for your platform from the [releases page](https://github.com/Sudo-Ivan/heroicx/releases), or build from source as described below.
+Download a package for your platform from the [releases page](https://github.com/Sudo-Ivan/heroicx/releases/latest).
 
-## Development
+## Develop
 
 Requires Git, Node.js and pnpm 10.
 
@@ -25,22 +24,22 @@ pnpm install
 pnpm start
 ```
 
-`pnpm start` runs the app in development mode with hot reload via electron-vite.
-
-### Building binaries
-
-Run `pnpm build` followed by electron-builder, or use one of the combined scripts:
+Useful scripts:
 
 ```bash
-pnpm dist:linux   # Linux (AppImage by default; optionally pass deb, rpm, pacman or tar.xz)
-pnpm dist:mac     # macOS
-pnpm dist:win     # Windows
+pnpm codecheck    # type-check
+pnpm lint         # eslint
+pnpm test:ci      # unit tests
+pnpm build        # production build
+pnpm dist:linux   # package for Linux (also dist:mac, dist:win)
 ```
 
-## Credits
+## Release
 
-heroicx is a fork of [Heroic Games Launcher](https://github.com/Heroic-Games-Launcher/HeroicGamesLauncher). All credit for the launcher itself goes to the upstream authors and contributors.
+Push a `v*` tag. The release workflow builds packages and publishes a draft release. Packages are unsigned.
 
 ## License
 
 GPL-3.0-only. See [COPYING](COPYING).
+
+heroicx is a fork of [Heroic Games Launcher](https://github.com/Heroic-Games-Launcher/HeroicGamesLauncher). All credit for the launcher itself goes to the upstream authors and contributors.

@@ -48,7 +48,7 @@ const GamesList = ({
   onlyInstalled = false,
   isRecent = false,
   isFavourite = false
-}: Props): JSX.Element => {
+}: Props): React.JSX.Element => {
   const { gameUpdates, allTilesInColor, titlesAlwaysVisible } =
     useContext(ContextProvider)
   const { t } = useTranslation()

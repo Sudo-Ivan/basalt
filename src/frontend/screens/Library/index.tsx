@@ -46,7 +46,7 @@ type SearchableGame = {
   normalizedTitle: string
 }
 
-export default React.memo(function Library(): JSX.Element {
+export default React.memo(function Library(): React.JSX.Element {
   const { t } = useTranslation()
 
   const {

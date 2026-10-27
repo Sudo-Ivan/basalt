@@ -17,6 +17,7 @@ import {
   InstallInfo
 } from 'common/types'
 import { NileLoginData, NileRegisterData } from 'common/types/nile'
+import type { JSX } from 'react'
 
 export type Category =
   'all' | 'legendary' | 'gog' | 'sideload' | 'nile' | 'zoom'

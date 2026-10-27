@@ -4,7 +4,6 @@
   width: 100%;
   overflow: hidden;
   position: relative;
-  transition-duration: 0.1s;
   box-shadow: 0px 0px 12px 4px #00000055;
   display: flex;
   flex-direction: column;
@@ -26,7 +25,8 @@
 }
 
 .gameCard:focus-within {
-  outline: -webkit-focus-ring-color auto 1px;
+  outline: 1px solid var(--neutral-05);
+  outline-offset: 1px;
 }
 
 .gameCard > .gameCardStatus {
@@ -57,10 +57,11 @@
   right: 28%;
   left: 5px;
   font-weight: var(--semibold);
-  background: var(--status-info);
+  background: var(--neutral-02);
+  border: 1px solid var(--neutral-04);
   padding: var(--space-3xs) var(--space-2xs);
-  border-radius: var(--space-3xs);
-  color: var(--neutral-01);
+  border-radius: 6px;
+  color: var(--text-default);
   font-size: var(--text-sm);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
   pointer-events: none;
@@ -131,36 +132,176 @@
 }
 
 .gameCard:hover .gameTitle,
+.gameCard:focus-within .gameTitle,
 .titlesAlwaysVisible .gameTitle {
   display: block;
   transform: translateY(0);
 }
 
-.gameCard > .icons {
-  background: var(--icons-background);
-  justify-content: space-around;
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-template-areas: 'update settings play';
-  padding: var(--space-xs-fixed);
+.gameCard .cardControls {
+  position: absolute;
+  inset: 0;
+  z-index: 6;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 150ms ease-in-out;
 }
 
-.gameCard.justPlayed > .icons {
-  justify-content: right;
-  grid-template-columns: 0.3fr 1fr 0.4fr 0.5fr;
-  grid-template-areas: 'update gap settings play';
+.gameCard:hover .cardControls,
+.gameCard:focus-within .cardControls {
+  opacity: 1;
+}
+
+.gameCard .cardControls .svg-button {
+  pointer-events: none;
+  transition:
+    opacity 150ms ease-in-out,
+    background-color 150ms ease-in-out;
+}
+
+.gameCard:hover .cardControls .svg-button,
+.gameCard:focus-within .cardControls .svg-button {
+  pointer-events: auto;
+}
+
+.gameCard .cardControls .primaryAction {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-xs-fixed);
+  background: rgba(10, 10, 11, 0.55);
+  border-radius: 999px;
+}
+
+.gameCard .cardControls .primaryAction:has(> .iconDisabled) {
+  display: none;
+}
+
+.gameCard .cardControls .primaryAction > svg,
+.gameCard .cardControls .primaryAction .svg-button > svg {
+  height: clamp(40px, 3vw, 52px);
+  width: auto;
+  display: block;
+}
+
+.gameCard .cardControls .primaryAction > svg.downIcon {
+  color: var(--text-secondary);
+}
+
+.gameCard .cardControls .cornerActions {
+  position: absolute;
+  right: var(--space-2xs-fixed);
+  bottom: var(--space-2xs-fixed);
+  display: flex;
+  align-items: center;
+  gap: var(--space-3xs-fixed);
+}
+
+.gameCard .cardControls .cornerActions .svg-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: var(--neutral-02);
+  border: 1px solid var(--neutral-04);
+  border-radius: 6px;
+  color: var(--text-secondary);
+}
+
+.gameCard .cardControls .cornerActions .svg-button:hover {
+  background: var(--neutral-03);
+  color: var(--text-default);
+}
+
+.gameCard .cardControls .cornerActions .svg-button:focus-visible {
+  outline: 1px solid var(--neutral-05);
+  outline-offset: 1px;
+}
+
+.gameCard .cardControls .cornerActions .updateIcon svg {
+  height: 14px;
+  width: 14px;
+}
+
+.gameCard .cardControls .cornerActions .settingsIcon svg {
+  height: 16px;
+  width: 16px;
+}
+
+.gameCard .cardControls .playIcon circle {
+  fill: var(--play-button);
+}
+
+.gameCard .cardControls .playIcon:hover circle {
+  fill: var(--primary-hover);
+}
+
+.gameCard .cardControls .playIcon[disabled] circle {
+  fill: var(--icon-disabled);
+}
+
+.gameCard .cardControls .playIcon > span {
+  background: var(--play-button);
+}
+
+.gameCard .cardControls .playIcon:hover > span {
+  background: var(--primary-hover);
+}
+
+.gameCard .cardControls .downIcon circle {
+  fill: var(--download-button);
+}
+
+.gameCard .cardControls .downIcon:hover circle {
+  fill: var(--download-button-overlay);
+}
+
+.gameCard .cardControls .cancelIcon svg circle,
+.gameCard .cardControls .queueIcon svg {
+  fill: var(--neutral-06);
+}
+
+.gameCard .cardControls .cancelIcon:hover svg circle,
+.gameCard .cardControls .queueIcon:hover svg {
+  fill: var(--neutral-08);
+}
+
+.gameCard .cardControls .notAvailableIcon circle {
+  fill: var(--neutral-04);
+}
+
+.gameCard .cardControls .notAvailableIcon:hover circle {
+  fill: var(--neutral-05);
 }
 
 .gameCard.justPlayed.hidden .justPlayedImg {
   opacity: 0.2;
 }
 
-.gameCard.gamepad > .icons {
+.gameCard.gamepad .cardControls {
   display: none;
 }
 
-.gameCard > .icons > .svg-button {
-  justify-self: center;
+@media (hover: none) {
+  .gameCard .cardControls {
+    opacity: 1;
+  }
+
+  .gameCard .cardControls .svg-button {
+    pointer-events: auto;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gameCard .cardControls,
+  .gameCard .cardControls .svg-button {
+    transition: none;
+  }
 }
 
 .gameCard .store-icon {
@@ -175,11 +316,6 @@
   place-content: center;
   background: var(--background-darker);
   fill: var(--text-default);
-}
-
-.gameCard:hover,
-.gameCard:focus-within {
-  transform: scale(1.05);
 }
 
 .gameCard.hidden .gameImg,

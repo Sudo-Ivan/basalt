@@ -1,9 +1,10 @@
 import { useContext, useEffect, useState } from 'react'
 import classnames from 'classnames'
 import ContextProvider from 'frontend/state/ContextProvider'
-import { Slider } from '@mui/material'
+import { Slider, type SliderProps } from '@mui/material'
 import './index.css'
-import { Mark } from '@mui/material/Slider/useSlider.types'
+
+type Mark = Exclude<SliderProps['marks'], boolean | undefined>[number]
 
 interface SliderFieldProps {
   htmlId: string

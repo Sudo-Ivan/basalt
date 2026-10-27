@@ -2,7 +2,11 @@ import React, { useEffect, useRef, useState } from 'react'
 import './index.scss'
 
 interface PopoverComponentProps {
-  item: React.ReactElement
+  item: React.ReactElement<{
+    id?: string
+    onClick?: React.MouseEventHandler
+    style?: React.CSSProperties
+  }>
   children: React.ReactElement | React.ReactNode | React.ReactNode[]
 }
 

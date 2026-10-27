@@ -70,7 +70,7 @@ import useGlobalState from 'frontend/state/GlobalStateV2'
 import Achievements from './components/Achievements'
 import { LaunchOptionSelector } from 'frontend/screens/Settings/components'
 
-export default React.memo(function GamePage(): JSX.Element | null {
+export default React.memo(function GamePage(): React.JSX.Element | null {
   const { appName, runner } = useParams() as { appName: string; runner: Runner }
   const location = useLocation() as {
     state: { fromDM: boolean; gameInfo: GameInfo }

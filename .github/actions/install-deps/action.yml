@@ -8,7 +8,10 @@ runs:
         runtime: node
         cache: true
     - name: Install node-gyp
-      run: pnpm add --global node-gyp
+      # node-gyp must be on PATH before pnpm install builds native modules, so it
+      # cannot come from the lockfile. Pinned to the devDependency version.
+      # zizmor: ignore[adhoc-packages]
+      run: pnpm add --global node-gyp@10.3.1
       shell: bash
     - name: Install modules
       run: pnpm install

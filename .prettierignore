@@ -7,3 +7,5 @@ flatpak
 flatpak-build
 playwright-report
 pnpm-lock.yaml
+site/fonts/
+site/favicon.png

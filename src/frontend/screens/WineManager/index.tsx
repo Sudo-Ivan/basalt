@@ -20,7 +20,7 @@ const WineItem = lazy(
   async () => import('frontend/screens/WineManager/components/WineItem')
 )
 
-export default function WineManager(): JSX.Element | null {
+export default function WineManager(): React.JSX.Element | null {
   const { t } = useTranslation()
 
   hasHelp(

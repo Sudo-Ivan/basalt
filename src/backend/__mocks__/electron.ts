@@ -38,6 +38,11 @@ class Notification {
 class BrowserWindow {
   static windows: BrowserWindow[] = []
   options: BrowserWindowConstructorOptions = {}
+  webContents = {
+    send: jest.fn(),
+    on: jest.fn(),
+    setWindowOpenHandler: jest.fn()
+  }
 
   constructor(options: BrowserWindowConstructorOptions) {
     this.options = options
