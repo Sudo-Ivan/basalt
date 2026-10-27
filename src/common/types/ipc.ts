@@ -45,11 +45,6 @@ import type {
   WineManagerStatus,
   WineVersionInfo
 } from '../types'
-import type {
-  CatalogLocaleSettings,
-  CatalogProduct,
-  GogDealsRegion
-} from './discounts'
 import type { GOGCloudSavesLocation, UserData } from './gog'
 import type { NileLoginData, NileRegisterData, NileUserData } from './nile'
 import type { GameOverride, SelectiveDownload } from './legendary'
@@ -70,7 +65,6 @@ interface SyncIPCFunctions {
   openWeblate: () => void
   showAboutWindow: () => void
   openLoginPage: () => void
-  openDiscordLink: () => void
   openWinePrefixFAQ: () => void
   openWebviewPage: (url: string) => void
   openWikiLink: () => void
@@ -344,14 +338,6 @@ interface AsyncIPCFunctions {
   getUploadedLogFiles: () => Promise<Record<string, UploadedLogData>>
   getCustomCSS: () => Promise<string>
   isIntelMac: () => boolean
-  getGogDealsRegion: () => Promise<GogDealsRegion | null>
-  getGogDiscounts: (
-    locale: CatalogLocaleSettings,
-    hideOwned?: boolean
-  ) => Promise<CatalogProduct[]>
-  getGogWishlist: () => Promise<string[]>
-  getGmgDiscounts: (currencyCode?: string) => Promise<CatalogProduct[]>
-  getHumbleDiscounts: (currencyCode?: string) => Promise<CatalogProduct[]>
   'steamgriddb.hasApiKey': () => Promise<boolean>
   'steamgriddb.setApiKey': (key: string) => Promise<void>
   'steamgriddb.searchGame': (

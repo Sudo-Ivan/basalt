@@ -120,11 +120,6 @@ const SidebarTour: React.FC = () => {
       position
     },
     {
-      element: '[data-tour="sidebar-community"]',
-      intro: t('tour.sidebar.community', 'Join our community on Discord.'),
-      position
-    },
-    {
       element: '[data-tour="sidebar-quit"]',
       intro: t('tour.sidebar.quit', 'Exit the application safely.'),
       position

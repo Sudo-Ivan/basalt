@@ -20,7 +20,6 @@ import {
   sendFrontendMessage
 } from 'backend/ipc'
 import 'backend/updater'
-import 'backend/discounts'
 import { autoUpdater } from 'electron-updater'
 import { cpus } from 'os'
 import { existsSync, readdirSync, readFileSync } from 'graceful-fs'
@@ -109,7 +108,6 @@ import { backendEvents } from './backend_events'
 import { configStore } from './constants/key_value_stores'
 import {
   customThemesWikiLink,
-  discordLink,
   epicLoginUrl,
   heroicGithubURL,
   sidInfoUrl,
@@ -586,7 +584,6 @@ addListener('openReleases', async () => openUrlOrFile(heroicGithubURL))
 addListener('openWeblate', async () => openUrlOrFile(weblateUrl))
 addListener('showAboutWindow', () => showAboutWindow())
 addListener('openLoginPage', async () => openUrlOrFile(epicLoginUrl))
-addListener('openDiscordLink', async () => openUrlOrFile(discordLink))
 addListener('openWinePrefixFAQ', async () => openUrlOrFile(wineprefixFAQ))
 addListener('openWebviewPage', async (event, url) => openUrlOrFile(url))
 addListener('openWikiLink', async () => openUrlOrFile(wikiLink))

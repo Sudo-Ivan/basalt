@@ -1,5 +1,5 @@
 import { AppSettings, WindowProps } from 'common/types'
-import { BrowserWindow, screen } from 'electron'
+import { BrowserWindow, screen, shell } from 'electron'
 import { mainPreloadPath } from './constants/paths'
 import { configStore } from './constants/key_value_stores'
 
@@ -66,6 +66,16 @@ export const createMainWindow = () => {
       // sandbox: false,
       preload: mainPreloadPath
     }
+  })
+
+  mainWindow.webContents.setWindowOpenHandler(({ url }) => {
+    if (/^https?:\/\//i.test(url)) {
+      void shell.openExternal(url)
+    }
+    return { action: 'deny' }
+  })
+  mainWindow.webContents.on('will-navigate', (event) => {
+    event.preventDefault()
   })
 
   return mainWindow

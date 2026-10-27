@@ -5,7 +5,6 @@ export const heroicGithubURL =
   'https://github.com/Heroic-Games-Launcher/HeroicGamesLauncher/releases/latest'
 export const GITHUB_API =
   'https://api.github.com/repos/Heroic-Games-Launcher/HeroicGamesLauncher/releases'
-export const discordLink = 'https://discord.gg/rHJ2uqdquK'
 export const wikiLink =
   'https://github.com/Heroic-Games-Launcher/HeroicGamesLauncher/wiki'
 export const weblateUrl =

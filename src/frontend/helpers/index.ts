@@ -22,8 +22,6 @@ const sidInfoPage = window.api.openSidInfoPage
 
 const handleQuit = window.api.quit
 
-const openDiscordLink = window.api.openDiscordLink
-
 export const size = fileSize.partial({ base: 2 }) as (arg: unknown) => string
 
 const sendKill = window.api.kill
@@ -162,7 +160,6 @@ export {
   handleQuit,
   loginPage,
   notify,
-  openDiscordLink,
   sendKill,
   sidInfoPage,
   syncSaves,
