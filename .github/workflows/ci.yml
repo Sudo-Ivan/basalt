@@ -1,4 +1,6 @@
 name: CI
+
+# Lint, typecheck, unit tests and a production build on every push to master.
 permissions:
   contents: read
 
