@@ -4,6 +4,7 @@
 //   afterPack: meta/flipFuses.js
 //
 // See https://www.electronjs.org/docs/latest/tutorial/fuses
+const fs = require('fs')
 const path = require('path')
 const { flipFuses, FuseVersion, FuseV1Options } = require('@electron/fuses')
 
@@ -20,8 +21,20 @@ function electronBinaryPath(context) {
       )
     case 'win32':
       return path.join(context.appOutDir, `${productFilename}.exe`)
-    default:
-      return path.join(context.appOutDir, productFilename)
+    default: {
+      const candidates = [
+        context.packager.executableName,
+        productFilename,
+        productFilename.toLowerCase()
+      ].filter(Boolean)
+      for (const name of candidates) {
+        const candidate = path.join(context.appOutDir, name)
+        if (fs.existsSync(candidate)) {
+          return candidate
+        }
+      }
+      return path.join(context.appOutDir, candidates[0])
+    }
   }
 }
 
