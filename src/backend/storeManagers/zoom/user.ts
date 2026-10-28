@@ -40,7 +40,7 @@ export class ZoomUser {
   public static async getUserDetails() {
     if (!isOnline()) {
       logError(
-        'Unable to get login information, Heroic offline',
+        'Unable to get login information, Basalt offline',
         LogPrefix.Zoom
       )
       return

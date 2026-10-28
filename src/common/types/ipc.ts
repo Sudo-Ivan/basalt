@@ -45,7 +45,12 @@ import type {
   WineManagerStatus,
   WineVersionInfo
 } from '../types'
-import type { GOGCloudSavesLocation, UserData } from './gog'
+import type {
+  GOGCloudSavesLocation,
+  GogOfflineInstallerProgress,
+  ProductsEndpointInstaller,
+  UserData
+} from './gog'
 import type { NileLoginData, NileRegisterData, NileUserData } from './nile'
 import type { GameOverride, SelectiveDownload } from './legendary'
 import type { GetLogFileArgs } from 'backend/logger/paths'
@@ -179,6 +184,14 @@ interface AsyncIPCFunctions {
     runner: Runner
   ) => Promise<GameSettings | null>
   getGOGLinuxInstallersLangs: (appName: string) => Promise<string[]>
+  getGogOfflineInstallers: (
+    appName: string
+  ) => Promise<ProductsEndpointInstaller[]>
+  downloadGogOfflineInstaller: (
+    appName: string,
+    installer: ProductsEndpointInstaller,
+    destination: string
+  ) => Promise<{ status: 'done' | 'error' | 'abort'; error?: string }>
   getInstallInfo: (
     appName: string,
     runner: Runner,
@@ -390,6 +403,7 @@ interface FrontendMessages {
   logFileUploaded: (url: string, data: UploadedLogData) => void
   logFileUploadDeleted: (url: string) => void
   progressUpdate: (progress: GameStatus) => void
+  gogOfflineInstallerProgress: (progress: GogOfflineInstallerProgress) => void
   metadataChanged: (
     overrides: Record<
       string,

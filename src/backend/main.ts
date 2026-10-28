@@ -108,7 +108,7 @@ import { configStore } from './constants/key_value_stores'
 import {
   customThemesWikiLink,
   epicLoginUrl,
-  heroicGithubURL,
+  basaltGithubURL,
   sidInfoUrl,
   weblateUrl,
   wikiLink,
@@ -147,8 +147,8 @@ async function initializeWindow(): Promise<BrowserWindow> {
     logInfo(
       [
         isSteamDeckGameMode
-          ? 'Heroic started via Steam-Deck gamemode.'
-          : 'Heroic started with --fullscreen',
+          ? 'Basalt started via Steam-Deck gamemode.'
+          : 'Basalt started with --fullscreen',
         'Switching to fullscreen'
       ],
       LogPrefix.Backend
@@ -300,7 +300,7 @@ const processZoomForScreen = (zoomFactor: number) => {
 }
 
 if (!gotTheLock) {
-  console.log('Heroic is already running, quitting this instance')
+  console.log('Basalt is already running, quitting this instance')
   app.quit()
 } else {
   app.on('second-instance', (event, argv) => {
@@ -473,7 +473,7 @@ process.on('uncaughtException', async (err) => {
   logError(err, LogPrefix.Backend)
 
   // We might get "object has been destroyed" exceptions in CI, since we start
-  // and close Heroic quickly there. Displaying an error box would lock up
+  // and close Basalt quickly there. Displaying an error box would lock up
   // the test (until the timeout is reached), so let's not do that
   if (process.env.CI === 'e2e') return
 
@@ -575,7 +575,7 @@ app.on('open-url', (event, url) => {
 
 addListener('openExternalUrl', async (event, url) => openUrlOrFile(url))
 addListener('openFolder', async (event, folder) => openUrlOrFile(folder))
-addListener('openReleases', async () => openUrlOrFile(heroicGithubURL))
+addListener('openReleases', async () => openUrlOrFile(basaltGithubURL))
 addListener('openWeblate', async () => openUrlOrFile(weblateUrl))
 addListener('showAboutWindow', () => showAboutWindow())
 addListener('openLoginPage', async () => openUrlOrFile(epicLoginUrl))
@@ -659,7 +659,7 @@ addListener('clearCache', (event, showDialog, fromVersionChange = false) => {
       title: i18next.t('box.cache-cleared.title', 'Cache Cleared'),
       message: i18next.t(
         'box.cache-cleared.message',
-        'Heroic Cache Was Cleared!'
+        'Basalt Cache Was Cleared!'
       ),
       type: 'MESSAGE',
       buttons: [{ text: i18next.t('box.ok', 'Ok') }]
@@ -730,6 +730,20 @@ addHandler('getGameSettings', async (event, appName, runner) => {
     return null
   }
 })
+
+addHandler('getGogOfflineInstallers', async (event, appName) =>
+  libraryManagerMap['gog'].getOfflineInstallers(appName)
+)
+
+addHandler(
+  'downloadGogOfflineInstaller',
+  async (event, appName, installer, destination) =>
+    libraryManagerMap['gog'].downloadOfflineInstaller(
+      appName,
+      installer,
+      destination
+    )
+)
 
 addHandler('getGOGLinuxInstallersLangs', async (event, appName) =>
   libraryManagerMap['gog'].getLinuxInstallersLanguages(appName)

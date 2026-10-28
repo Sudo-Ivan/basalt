@@ -24,10 +24,17 @@ import {
   GOGCredentials,
   GOGv1Manifest,
   GOGv2Manifest,
-  GOGSessionSyncQueueItem
+  GOGSessionSyncQueueItem,
+  ProductsEndpointInstaller
 } from 'common/types/gog'
-import { dirname, join } from 'node:path'
-import { existsSync, readFileSync } from 'graceful-fs'
+import { basename, dirname, join } from 'node:path'
+import {
+  createWriteStream,
+  existsSync,
+  mkdirSync,
+  readFileSync,
+  unlinkSync
+} from 'graceful-fs'
 
 import {
   getRunnerLogWriter,
@@ -52,6 +59,12 @@ import i18next from 'i18next'
 import { mkdir, readFile, writeFile } from 'node:fs/promises'
 import { unzipSync } from 'node:zlib'
 import { readdirSync, rmSync, writeFileSync } from 'node:fs'
+import { pipeline } from 'node:stream/promises'
+import { Readable } from 'node:stream'
+import {
+  createAbortController,
+  deleteAbortController
+} from 'backend/utils/aborthandler/aborthandler'
 import { checkForRedistUpdates } from './redist'
 import { runGogdlCommandStub } from './e2eMock'
 import { gogdlConfigPath } from './constants'
@@ -1461,6 +1474,141 @@ export default class GOGLibraryManager implements LibraryManager {
         }
     }
     return
+  }
+
+  /**
+   * Lists the offline (backup) installers GOG offers for a game,
+   * the same files shown under "download offline backup game
+   * installers" on gog.com
+   * @param appName id of game
+   */
+  async getOfflineInstallers(
+    appName: string
+  ): Promise<ProductsEndpointInstaller[]> {
+    const credentials = await GOGUser.getCredentials()
+    if (!credentials) return []
+
+    const response = await this.getProductApi(
+      appName,
+      ['downloads'],
+      credentials.access_token
+    )
+    return response?.data.downloads?.installers ?? []
+  }
+
+  /**
+   * Downloads all files of an offline (backup) installer into
+   * `destination`. Each file's downlink is resolved against the
+   * GOG api to get the CDN url first.
+   * @param appName id of game
+   * @param installer installer entry returned by getOfflineInstallers
+   * @param destination folder the files are written to
+   */
+  async downloadOfflineInstaller(
+    appName: string,
+    installer: ProductsEndpointInstaller,
+    destination: string
+  ): Promise<{ status: 'done' | 'error' | 'abort'; error?: string }> {
+    const credentials = await GOGUser.getCredentials()
+    if (!credentials) {
+      return { status: 'error', error: 'Not logged in to GOG' }
+    }
+
+    const abortId = `${appName}_offline_installer`
+    const abortController = createAbortController(abortId)
+
+    const totalBytes =
+      installer.total_size ||
+      installer.files.reduce((total, file) => total + file.size, 0)
+    let downloadedBytes = 0
+    let lastProgressUpdate = 0
+
+    const reportProgress = (
+      fileIndex: number,
+      fileName: string,
+      fileBytes: number,
+      fileSize: number
+    ) => {
+      const now = Date.now()
+      if (now - lastProgressUpdate < 500 && fileBytes < fileSize) return
+      lastProgressUpdate = now
+      sendFrontendMessage('gogOfflineInstallerProgress', {
+        appName,
+        fileName,
+        fileIndex,
+        totalFiles: installer.files.length,
+        filePercent: fileSize ? Math.round((fileBytes / fileSize) * 100) : 0,
+        totalPercent: totalBytes
+          ? Math.round(((downloadedBytes + fileBytes) / totalBytes) * 100)
+          : 0,
+        bytes: downloadedBytes + fileBytes
+      })
+    }
+
+    mkdirSync(destination, { recursive: true })
+    let currentFile = ''
+    try {
+      for (const [index, file] of installer.files.entries()) {
+        const downlinkResponse = await axiosClient.get<{
+          downlink?: string
+          checksum?: string
+        }>(file.downlink, {
+          headers: { Authorization: `Bearer ${credentials.access_token}` },
+          signal: abortController.signal
+        })
+        const downloadUrl = downlinkResponse.data.downlink
+        if (!downloadUrl) {
+          throw new Error(`No download url for file ${file.id}`)
+        }
+
+        currentFile =
+          decodeURIComponent(basename(new URL(downloadUrl).pathname)) ||
+          `${installer.id}_${file.id}`
+        const destinationFile = join(destination, currentFile)
+
+        logInfo(
+          [
+            'Downloading offline installer file',
+            `${index + 1}/${installer.files.length}:`,
+            currentFile
+          ],
+          LogPrefix.Gog
+        )
+
+        const response = await axios.get<Readable>(downloadUrl, {
+          responseType: 'stream',
+          signal: abortController.signal
+        })
+        let fileBytes = 0
+        response.data.on('data', (chunk: Buffer) => {
+          fileBytes += chunk.length
+          reportProgress(index + 1, currentFile, fileBytes, file.size)
+        })
+        await pipeline(response.data, createWriteStream(destinationFile))
+        reportProgress(index + 1, currentFile, file.size, file.size)
+        downloadedBytes += fileBytes
+      }
+
+      logInfo(['Offline installer downloaded to', destination], LogPrefix.Gog)
+      return { status: 'done' }
+    } catch (error) {
+      // Remove the file that was mid-download so no partial files stay behind
+      if (currentFile && existsSync(join(destination, currentFile))) {
+        unlinkSync(join(destination, currentFile))
+      }
+
+      if (abortController.signal.aborted) {
+        logInfo(
+          ['Offline installer download aborted for', appName],
+          LogPrefix.Gog
+        )
+        return { status: 'abort' }
+      }
+      logError(['Failed to download offline installer:', error], LogPrefix.Gog)
+      return { status: 'error', error: `${error}` }
+    } finally {
+      deleteAbortController(abortId)
+    }
   }
 
   /**

@@ -28,7 +28,7 @@ async function downloadFile(url: string, dst: string) {
   const response = await fetch(url, {
     keepalive: true,
     headers: {
-      'User-Agent': 'HeroicBinaryUpdater/1.0'
+      'User-Agent': 'BasaltBinaryUpdater/1.0'
     }
   })
   if (response.status !== 200) {

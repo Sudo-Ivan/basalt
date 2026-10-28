@@ -29,7 +29,7 @@ const CheckUpdatesOnStartup = () => {
       }
       title={t(
         'setting.checkForUpdatesOnStartup',
-        'Check for Heroic Updates on Startup'
+        'Check for Basalt Updates on Startup'
       )}
     />
   )

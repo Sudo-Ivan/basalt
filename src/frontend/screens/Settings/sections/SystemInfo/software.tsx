@@ -36,7 +36,7 @@ function SoftwareInfo({ software }: Props) {
         <Grid size={{ xs: 10 }}>
           {t(
             'settings.systemInformation.heroicVersion',
-            'Heroic: {{heroicVersion}}',
+            'Basalt: {{heroicVersion}}',
             {
               heroicVersion
             }

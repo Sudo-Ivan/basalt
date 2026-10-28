@@ -18,7 +18,7 @@ import { isFlatpak, isLinux } from 'backend/constants/environment'
 
 const wrapperDir = join(
   userHome,
-  '.local/share/applications/heroic-steam-shortcuts'
+  '.local/share/applications/basalt-steam-shortcuts'
 )
 
 function steamShortcutWrapperPath(gameInfo: {

@@ -22,32 +22,32 @@
   </branding>
   <description>
     <p>Basalt is an Open Source Games Launcher, forked from Heroic Games Launcher
-      (github.com/Heroic-Games-Launcher/HeroicGamesLauncher, credit to the upstream
+      (github.com/Basalt-Games-Launcher/BasaltGamesLauncher, credit to the upstream
       authors and contributors). It supports launching games from the
       Epic Games Store using Legendary, GOG Games using our custom implementation with gogdl
       and Amazon Games using Nile.</p>
-    <p xml:lang="de">Heroic ist ein Open-Source-Spielelauncher. Aktuell unterstützt er das Starten
+    <p xml:lang="de">Basalt ist ein Open-Source-Spielelauncher. Aktuell unterstützt er das Starten
       von
       Spielen aus dem Epic Games Store mit Legendary, GOG-Spielen mit unserer eigenen
       Implementierung gogdl und Amazon Games mit Nile.</p>
-    <p xml:lang="pt">Heroic é um lançador de jogos de código aberto. Atualmente suporta iniciar
+    <p xml:lang="pt">Basalt é um lançador de jogos de código aberto. Atualmente suporta iniciar
       jogos da
       Epic Games Store usando Legendary, jogos da GOG com nossa implementação personalizada gogdl
       e jogos da Amazon usando Nile.</p>
-    <p xml:lang="es">Heroic es un lanzador de juegos de código abierto. Actualmente admite iniciar
+    <p xml:lang="es">Basalt es un lanzador de juegos de código abierto. Actualmente admite iniciar
       juegos de la
       Epic Games Store con Legendary, juegos de GOG con nuestra implementación personalizada gogdl
       y juegos de Amazon con Nile.</p>
-    <p xml:lang="fr">Heroic est un lanceur de jeux open source. Il prend actuellement en charge le
+    <p xml:lang="fr">Basalt est un lanceur de jeux open source. Il prend actuellement en charge le
       lancement de
       jeux depuis l&apos;Epic Games Store avec Legendary, de jeux GOG avec notre implémentation
       personnalisée gogdl
       et de jeux Amazon avec Nile.</p>
-    <p xml:lang="zh">Heroic 是一个开源游戏启动器。目前支持使用 Legendary 启动 Epic 游戏商城中的游戏，
+    <p xml:lang="zh">Basalt 是一个开源游戏启动器。目前支持使用 Legendary 启动 Epic 游戏商城中的游戏，
       使用我们自定义的 gogdl 实现启动 GOG 游戏，以及使用 Nile 启动 Amazon 游戏。</p>
-    <p xml:lang="ja">Heroic はオープンソースのゲームランチャーです。現在 Legendary を使って Epic Games Store の
+    <p xml:lang="ja">Basalt はオープンソースのゲームランチャーです。現在 Legendary を使って Epic Games Store の
       ゲームを起動し、カスタム実装の gogdl を使用して GOG のゲームを起動し、Nile を使用して Amazon のゲームを起動できます。</p>
-    <p xml:lang="ru">Heroic — игровой лаунчер с открытым исходным кодом. Сейчас он умеет запускать
+    <p xml:lang="ru">Basalt — игровой лаунчер с открытым исходным кодом. Сейчас он умеет запускать
       игры из Epic Games Store через Legendary, игры GOG — через нашу собственную реализацию
       на базе gogdl, а игры Amazon — через Nile.</p>
     <p>Main Features:</p>
@@ -212,11 +212,11 @@
     <p xml:lang="ja">Flatpak の現在の制限：</p>
     <p xml:lang="ru">Текущие ограничения версии Flatpak:</p>
     <ul>
-      <li>Heroic will not find or use Wine and Proton Flatpak versions. At least for now.</li>
-      <li xml:lang="de">Heroic findet aktuell keine Wine oder Proton Versionen, die per Flatpak
+      <li>Basalt will not find or use Wine and Proton Flatpak versions. At least for now.</li>
+      <li xml:lang="de">Basalt findet aktuell keine Wine oder Proton Versionen, die per Flatpak
         installiert
         sind</li>
-      <li xml:lang="ru">Heroic не находит и не использует версии Wine и Proton, установленные
+      <li xml:lang="ru">Basalt не находит и не использует версии Wine и Proton, установленные
         через Flatpak. По крайней мере пока.</li>
       <li>For now would be better to use the Built-in Wine Manager to download and install
         Wine and Proton Versions.</li>
@@ -227,17 +227,17 @@
         устанавливать версии Wine и Proton.</li>
       <li>It should find Proton from the Steam folder for both Steam Flatpak and non-Flatpak
         if they are on installed on the library inside your $HOME folder</li>
-      <li xml:lang="de">Heroic sollte Proton Versionen von Steam (Nativ und Flatpak) finden, sofern
+      <li xml:lang="de">Basalt sollte Proton Versionen von Steam (Nativ und Flatpak) finden, sofern
         sie
         innerhalb der Bibliothek des Benutzerordners installiert sind.</li>
       <li xml:lang="ru">Proton из папки Steam (и обычной, и Flatpak) находится, если библиотека
         лежит внутри домашней папки.</li>
-      <li>Heroic cannot access /usr/bin so it won&apos;t be able to find any wine or proton
+      <li>Basalt cannot access /usr/bin so it won&apos;t be able to find any wine or proton
         isntalled there for now.</li>
-      <li xml:lang="de">Heroic hat keinen Zugriff auf /usr/bin, weshalb es dort installierte Wine
+      <li xml:lang="de">Basalt hat keinen Zugriff auf /usr/bin, weshalb es dort installierte Wine
         oder
         Proton Versionen nicht finden kann.</li>
-      <li xml:lang="ru">У Heroic нет доступа к /usr/bin, поэтому установленные там Wine и Proton
+      <li xml:lang="ru">У Basalt нет доступа к /usr/bin, поэтому установленные там Wine и Proton
         он пока найти не может.</li>
     </ul>
   </description>
@@ -254,7 +254,7 @@
   </content_rating>
   <launchable type="desktop-id">io.quad4.basalt.desktop</launchable>
   <releases>
-    <release version="${heroic-version}" date="${heroic-release-date}">
+    <release version="${basalt-version}" date="${basalt-release-date}">
       <description>
         <p>General</p>
         <ul>

@@ -217,7 +217,7 @@ export async function getWineOnMac(): Promise<Set<WineInstallation>> {
 
   const winePaths = new Set<string>()
 
-  // search for wine installed on $HOME/Library/Application Support/heroic/tools/wine
+  // search for wine installed on $HOME/Library/Application Support/basalt/tools/wine
   const wineToolsPath = `${toolsPath}/wine/`
   if (existsSync(wineToolsPath)) {
     readdirSync(wineToolsPath).forEach((path) => {
@@ -421,7 +421,9 @@ export async function getSystemGamePortingToolkitWine(): Promise<
   logInfo('Searching for Gaming Porting Toolkit Wine', LogPrefix.GlobalConfig)
   const { stdout } = await execAsync('mdfind wine64')
   const wineBin = stdout.split('\n').filter((p) => {
-    return p.match(/^(?!.*heroic\/tools).*game-porting-toolkit.*\/wine64$/)
+    return p.match(
+      /^(?!.*(heroic|basalt)\/tools).*game-porting-toolkit.*\/wine64$/
+    )
   })[0]
 
   if (existsSync(wineBin)) {

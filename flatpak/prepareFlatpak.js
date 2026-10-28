@@ -95,15 +95,15 @@ function createManifest(architecture, source, release = false) {
       .replaceAll('${libdir}', `${architecture.flatpak}-linux-gnu`)
       .replaceAll('${helper-arch}', architecture.electron)
   )
-  const heroic = manifest.modules.find((module) => module.name === 'heroic')
-  const sourceIndex = heroic.sources.indexOf('${heroic-app-image}')
+  const basalt = manifest.modules.find((module) => module.name === 'basalt')
+  const sourceIndex = basalt.sources.indexOf('${basalt-app-image}')
   if (sourceIndex === -1)
     throw new Error(
-      'Heroic source placeholder is missing from the Flatpak template'
+      'Basalt source placeholder is missing from the Flatpak template'
     )
-  heroic.sources[sourceIndex] = source
+  basalt.sources[sourceIndex] = source
   if (release) {
-    heroic['build-commands'].unshift(
+    basalt['build-commands'].unshift(
       'chmod +x Basalt-*.AppImage',
       './Basalt-*.AppImage --appimage-extract'
     )
@@ -202,8 +202,8 @@ async function main() {
       ),
       'utf8'
     )
-    .replace('${heroic-version}', `v${version}`)
-    .replace('${heroic-release-date}', releaseTime)
+    .replace('${basalt-version}', `v${version}`)
+    .replace('${basalt-release-date}', releaseTime)
   fs.writeFileSync(
     'flatpak-build/io.quad4.basalt.metainfo.xml',
     metainfo

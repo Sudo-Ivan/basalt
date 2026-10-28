@@ -68,7 +68,7 @@ async function downloadFile(
     .get(url, {
       ...options.axiosConfig,
       headers: {
-        'User-Agent': `HeroicGamesLauncher/${app.getVersion()}`,
+        'User-Agent': `Basalt/${app.getVersion()}`,
         ...options.axiosConfig?.headers
       }
     })

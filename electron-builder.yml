@@ -1,6 +1,7 @@
 afterPack: meta/flipFuses.js
 appId: io.quad4.basalt
 productName: Basalt
+executableName: basalt
 files:
   - build/**/*
   - node_modules/**/*

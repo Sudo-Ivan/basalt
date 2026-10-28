@@ -11,28 +11,32 @@ let configFolder = app.getPath('appData')
 if (process.env.CI === 'e2e') {
   const temp_dir = dirSync({ unsafeCleanup: true })
   console.log(
-    `CI is set to "e2e", storing Heroic config files in ${temp_dir.name}`
+    `CI is set to "e2e", storing Basalt config files in ${temp_dir.name}`
   )
   configFolder = temp_dir.name
-  mkdirSync(join(configFolder, 'heroic'))
+  mkdirSync(join(configFolder, 'basalt'))
 }
 
 export const flatpakHome = env.XDG_DATA_HOME?.replace('/data', '') || homedir()
 export const userHome = homedir()
 
-export const appFolder = join(configFolder, 'heroic')
+export const appFolder = join(configFolder, 'basalt')
+// Data folder of a Heroic Games Launcher installation (also used by Basalt
+// versions before the rename). Checked once at startup to offer importing
+// the existing data into appFolder.
+export const heroicAppFolder = join(configFolder, 'heroic')
 export const userDataPath = app.getPath('userData')
 export const toolsPath = join(appFolder, 'tools')
 export const runtimePath = join(toolsPath, 'runtimes')
 export const defaultUmuPath = join(runtimePath, 'umu', 'umu_run.py')
 export const configPath = join(appFolder, 'config.json')
 export const gamesConfigPath = join(appFolder, 'GamesConfig')
-export const heroicIconFolder = join(appFolder, 'icons')
-export const heroicInstallPath = join(userHome, 'Games', 'Heroic')
+export const iconsFolder = join(appFolder, 'icons')
+export const basaltInstallPath = join(userHome, 'Games', 'Basalt')
 export const defaultWinePrefixDir = join(
   userHome,
   'Games',
-  'Heroic',
+  'Basalt',
   'Prefixes'
 )
 export const sharedWinePrefix = join(defaultWinePrefixDir, 'shared')

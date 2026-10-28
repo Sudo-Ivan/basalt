@@ -4,7 +4,7 @@ runtime: org.freedesktop.Platform
 runtime-version: '25.08'
 base: org.electronjs.Electron2.BaseApp
 base-version: '25.08'
-command: heroic-run
+command: basalt-run
 separate-locales: false
 
 cleanup:
@@ -23,13 +23,17 @@ finish-args:
   # pressure vessel
   - --allow=per-app-dev-shm
   - --device=all
-  - --env=PATH=/app/bin:/usr/bin:/usr/lib/extensions/vulkan/MangoHud/bin:/usr/lib/extensions/vulkan/gamescope/bin:/usr/lib/extensions/vulkan/OBSVkCapture/bin:/app/bin/heroic/resources/app.asar.unpacked/build/bin/${helper-arch}/linux
+  - --env=PATH=/app/bin:/usr/bin:/usr/lib/extensions/vulkan/MangoHud/bin:/usr/lib/extensions/vulkan/gamescope/bin:/usr/lib/extensions/vulkan/OBSVkCapture/bin:/app/bin/basalt/resources/app.asar.unpacked/build/bin/${helper-arch}/linux
   - --env=LD_LIBRARY_PATH=/usr/lib/extensions/vulkan/gamescope/lib
   - --filesystem=~/.local/share/lutris:rw
   - --filesystem=~/.steam/steam:rw
   - --filesystem=~/.local/share/applications:rw
   - --filesystem=~/.steam:rw
-  - --filesystem=~/Games/Heroic:create
+  - --filesystem=~/Games/Basalt:create
+  - --filesystem=~/Games/Heroic
+  # let the app offer importing an existing Heroic installation
+  - --filesystem=xdg-config/heroic:ro
+  - --filesystem=~/.var/app/com.heroicgameslauncher.hgl/config/heroic:ro
   - --filesystem=~/.var/app/com.valvesoftware.Steam:rw
   - --filesystem=xdg-documents
   - --filesystem=xdg-desktop
@@ -167,24 +171,24 @@ modules:
           type: git
           tag-pattern: ^v([\d.]+)$
 
-  # --- Heroic ---
-  - name: heroic
+  # --- Basalt ---
+  - name: basalt
     buildsystem: simple
     build-commands:
-      - mv squashfs-root /app/bin/heroic
-      - install -D heroic-run -t /app/bin
-      - patch-electron-desktop-filename ${FLATPAK_DEST}/bin/heroic/resources/app.asar
+      - mv squashfs-root /app/bin/basalt
+      - install -D basalt-run -t /app/bin
+      - patch-electron-desktop-filename ${FLATPAK_DEST}/bin/basalt/resources/app.asar
     sources:
       - type: script
-        dest-filename: heroic-run
+        dest-filename: basalt-run
         commands:
           - for i in {0..9}; do
           - test -S $XDG_RUNTIME_DIR/discord-ipc-$i || ln -sf {app/com.discordapp.Discord,$XDG_RUNTIME_DIR}/discord-ipc-$i;
           - done
           - export TMPDIR="$XDG_RUNTIME_DIR/app/$FLATPAK_ID"
-          - zypak-wrapper /app/bin/heroic/heroic "$@"
+          - zypak-wrapper /app/bin/basalt/basalt "$@"
 
-      - ${heroic-app-image}
+      - ${basalt-app-image}
   - name: platform-bootstrap
     buildsystem: simple
     build-commands:
@@ -303,7 +307,7 @@ modules:
       - type: patch
         path: patches/0001-timidity-fix-missing-includes.patch
       - type: inline
-        dest-filename: heroic-midi-wrapper
+        dest-filename: basalt-midi-wrapper
         contents: |
           #!/bin/bash
 
@@ -359,7 +363,7 @@ modules:
     post-install:
       - install -d ${FLATPAK_DEST}/share/timidity
       - install -Dm644 custom-timidity.cfg ${FLATPAK_DEST}/share/timidity/timidity.cfg
-      - install -Dm755 heroic-midi-wrapper ${FLATPAK_DEST}/bin/gamemoderun
+      - install -Dm755 basalt-midi-wrapper ${FLATPAK_DEST}/bin/gamemoderun
 
       # Copy ALSA configuration files
       - install -d ${FLATPAK_DEST}/share/alsa

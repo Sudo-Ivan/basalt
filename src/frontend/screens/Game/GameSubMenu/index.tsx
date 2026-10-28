@@ -17,11 +17,14 @@ import { openInstallGameModal } from 'frontend/state/InstallGameModal'
 import useGlobalState from 'frontend/state/GlobalStateV2'
 import EditGameDialog from 'frontend/components/UI/EditGameDialog'
 
+import OfflineInstallersDialog from '../OfflineInstallersDialog'
+
 import {
   ArrowUpward as ArrowUpwardIcon,
   CheckCircle as CheckCircleIcon,
   Delete as DeleteIcon,
   DesktopAccessDisabled as DesktopAccessDisabledIcon,
+  Download as DownloadIcon,
   DriveFileMove as DriveFileMoveIcon,
   Edit as EditIcon,
   FindInPage as FindInPageIcon,
@@ -82,6 +85,7 @@ export default function GamesSubmenu({
   const [eosOverlayRefresh, setEosOverlayRefresh] = useState<boolean>(false)
   const eosOverlayAppName = '98bc04bc842e4906993fd6d6644ffb8d'
   const [showUninstallModal, setShowUninstallModal] = useState(false)
+  const [showOfflineInstallers, setShowOfflineInstallers] = useState(false)
   const [protonDBurl, setProtonDBurl] = useState(
     `https://www.protondb.com/search?q=${title}`
   )
@@ -297,6 +301,12 @@ export default function GamesSubmenu({
             isDlc={false}
           />
         )}
+        {showOfflineInstallers && (
+          <OfflineInstallersDialog
+            appName={appName}
+            onClose={() => setShowOfflineInstallers(false)}
+          />
+        )}
         <div className={`submenu`}>
           {isInstalled && (
             <>
@@ -447,6 +457,18 @@ export default function GamesSubmenu({
             >
               <RepartitionIcon />
               {t('game.modify', 'Modify Installation')}
+            </button>
+          )}
+          {runner === 'gog' && !isThirdPartyManaged && (
+            <button
+              onClick={async () => setShowOfflineInstallers(true)}
+              className="link button is-text is-link buttonWithIcon"
+            >
+              <DownloadIcon />
+              {t(
+                'submenu.downloadOfflineInstaller',
+                'Download offline installer'
+              )}
             </button>
           )}
           {isInstalled && (

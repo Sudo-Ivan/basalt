@@ -124,7 +124,7 @@ describe('backend/utils.ts', () => {
 
       const releases = await utils.getLatestReleases()
       expect(logError).toBeCalledWith(
-        ['Error when checking for Heroic updates', 'Failed to fetch!'],
+        ['Error when checking for Basalt updates', 'Failed to fetch!'],
         'Backend'
       )
       expect(releases).toMatchInlineSnapshot(`[]`)

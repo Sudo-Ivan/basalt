@@ -1,6 +1,7 @@
 import { TypeCheckedStoreBackend } from '../electron_store'
 import { logError, logInfo } from '../logger'
 
+import { HeroicInstallMigration } from './migrations/heroic_install'
 import { LegendaryGlobalConfigFolderMigration } from './migrations/legendary'
 import { UmuSteamRuntimeMigration } from './migrations/config'
 
@@ -72,6 +73,7 @@ export default class MigrationSystem {
 
   private getAllMigrations(): Migration[] {
     return [
+      new HeroicInstallMigration(),
       new LegendaryGlobalConfigFolderMigration(),
       new UmuSteamRuntimeMigration()
     ]

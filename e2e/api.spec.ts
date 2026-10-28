@@ -5,16 +5,16 @@ import { electronTest } from './helpers'
 declare const window: { api: typeof import('../src/preload/api').default }
 
 electronTest('renders the first page', async (app, page) => {
-  await expect(page).toHaveTitle('Heroic Games Launcher')
+  await expect(page).toHaveTitle('Basalt')
 })
 
-electronTest('gets heroic, legendary, and gog versions', async (app, page) => {
-  await test.step('get heroic version', async () => {
-    const heroicVersion = await page.evaluate(async () =>
+electronTest('gets basalt, legendary, and gog versions', async (app, page) => {
+  await test.step('get basalt version', async () => {
+    const basaltVersion = await page.evaluate(async () =>
       window.api.getHeroicVersion()
     )
-    // check that heroic version is newer or equal to 2.6.3
-    expect(compareVersions(heroicVersion, '2.6.3')).toBeGreaterThanOrEqual(0)
+    // check that basalt version is newer or equal to 2.6.3
+    expect(compareVersions(basaltVersion, '2.6.3')).toBeGreaterThanOrEqual(0)
   })
 
   await test.step('get legendary version', async () => {

@@ -83,6 +83,7 @@
         "import": "Import Game",
         "install": "Install",
         "no-path-selected": "No path selected",
+        "open_folder": "Open Folder",
         "play": "PLAY",
         "queue": {
             "remove": "Remove from Queue"
@@ -224,6 +225,7 @@
     "launch": {
         "default": "Default"
     },
+    "loading": "Loading",
     "modifyInstall": {
         "dlcsCollapsible": "DLC",
         "nodlcs": "No DLC available",
@@ -234,12 +236,22 @@
         "versionCollapsable": "Game Version"
     },
     "not_logged_in": {
-        "amazon": "You are not logged in with an Amazon account in Heroic. Don't use the store page to login, click the following button instead:",
-        "epic": "You are not logged in with an Epic account in Heroic. Don't use the store page to login, click the following button instead:",
-        "gog": "You are not logged in with a GOG account in Heroic. Don't use the store page to login, click the following button instead:",
+        "amazon": "You are not logged in with an Amazon account in Basalt. Don't use the store page to login, click the following button instead:",
+        "epic": "You are not logged in with an Epic account in Basalt. Don't use the store page to login, click the following button instead:",
+        "gog": "You are not logged in with a GOG account in Basalt. Don't use the store page to login, click the following button instead:",
         "login": "Log in",
         "title": "You are NOT logged in",
-        "zoom": "You are not logged in with a Zoom account in Heroic. Don't use the store page to login, click the following button instead:"
+        "zoom": "You are not logged in with a Zoom account in Basalt. Don't use the store page to login, click the following button instead:"
+    },
+    "offlineInstaller": {
+        "aborted": "Download cancelled.",
+        "chooseFolder": "Choose destination folder",
+        "done": "Download finished. The installer files are in {{path}}.",
+        "download": "Download",
+        "error": "Download failed: {{error}}",
+        "installer": "Installer",
+        "none": "GOG does not offer offline installers for this game.",
+        "title": "Download offline installer"
     },
     "Open": "Open",
     "open-saves-folder": "Open Saves Folder",
@@ -326,6 +338,7 @@
         "categories": "Categories",
         "change": "Change install path",
         "disableEosOverlay": "Disable EOS Overlay",
+        "downloadOfflineInstaller": "Download offline installer",
         "enableEosOverlay": "Enable EOS Overlay",
         "logs": "Logs",
         "move": "Move Game",
@@ -339,6 +352,6 @@
     "third-party-managed": {
         "header": "This game is managed by a third-party application",
         "notice1": "This game is managed by a third-party application: \"{{application_name}}\"",
-        "notice2": "After clicking Install, Heroic will run the application in order to complete the installation process"
+        "notice2": "After clicking Install, Basalt will run the application in order to complete the installation process"
     }
 }

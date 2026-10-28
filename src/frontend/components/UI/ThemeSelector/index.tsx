@@ -14,7 +14,7 @@ export const defaultThemes: Record<string, string> = {
   cyberSpaceOasis: 'Cyberspace Oasis',
   cyberSpaceOasisAlt: 'Cyberspace Oasis Classic',
   'high-contrast': 'High Contrast',
-  'old-school': 'Old School Heroic',
+  'old-school': 'Old School Basalt',
   dracula: 'Dracula',
   marine: 'Marine',
   'marine-classic': 'Marine Classic',

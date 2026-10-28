@@ -1,8 +1,8 @@
-# Heroic Games Launcher — Copilot Instructions
+# Basalt - Copilot Instructions
 
 ## Architecture Overview
 
-Heroic is an Electron app (TypeScript, React, electron-vite) that launches games from Epic Games Store, GOG, and Amazon Games. It wraps CLI tools (legendary, gogdl, nile) behind a unified **Runner** abstraction.
+Basalt is an Electron app (TypeScript, React, electron-vite) that launches games from Epic Games Store, GOG, and Amazon Games. It wraps CLI tools (legendary, gogdl, nile) behind a unified **Runner** abstraction.
 
 The codebase has four layers — never import across boundaries except through the defined IPC bridge:
 
@@ -37,7 +37,7 @@ Wine/Proton handling is a major subsystem in `src/backend/wine/` and `src/backen
 - **Wine discovery** (`src/backend/wine/manager/utils.ts`): scans the system for installed Wine/Proton/CrossOver/GPTK versions — checks `$PATH`, `~/.local/share/lutris/`, Steam `compatibilitytools.d/`, and platform-specific paths.
 - **Wine downloading** (`src/backend/wine/manager/`): downloads and installs Wine-GE, GE-Proton, Wine-Lutris, Wine-Crossover, etc. from GitHub releases. Sources defined in `downloader/constants.ts`.
 - **DXVK/VKD3D tools** (`src/backend/tools/index.ts`): manages DirectX translation layers — downloads and installs DXVK, VKD3D, DXVK-NVAPI DLLs into Wine prefixes.
-- **umu-launcher** (`src/backend/wiki_game_info/umu/`): on Linux, [umu-launcher](https://github.com/Open-Wine-Components/umu-launcher) is the preferred way to run games with Proton outside Steam. Heroic resolves the `umu-run` binary (system `$PATH` first, then a bundled Lutris runtime fallback), looks up each game's `GAMEID` via the `umu.openwinecomponents.org` API, and passes it as `GAMEID` env var so umu-launcher can apply game-specific Proton fixes. The umu path is togglable per-game.
+- **umu-launcher** (`src/backend/wiki_game_info/umu/`): on Linux, [umu-launcher](https://github.com/Open-Wine-Components/umu-launcher) is the preferred way to run games with Proton outside Steam. Basalt resolves the `umu-run` binary (system `$PATH` first, then a bundled Lutris runtime fallback), looks up each game's `GAMEID` via the `umu.openwinecomponents.org` API, and passes it as `GAMEID` env var so umu-launcher can apply game-specific Proton fixes. The umu path is togglable per-game.
 
 ## Frontend Conventions
 

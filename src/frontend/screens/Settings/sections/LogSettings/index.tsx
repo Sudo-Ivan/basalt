@@ -142,7 +142,7 @@ export default function LogSettings() {
 
   const descriptiveLogFileName = useMemo(() => {
     if (!showLogOf.runner)
-      return t('setting.log.descriptiveNames.heroic', 'General Heroic log')
+      return t('setting.log.descriptiveNames.heroic', 'General Basalt log')
     if (showLogOf.appName) {
       const gameTitle = installedGames.find(
         ({ app_name }) => app_name === showLogOf.appName
@@ -169,7 +169,7 @@ export default function LogSettings() {
 
   const logFilesToShow = useMemo(() => {
     const baseFiles: { title: string; args: GetLogFileArgs }[] = [
-      { title: 'Heroic', args: {} },
+      { title: 'Basalt', args: {} },
       { title: 'Epic/Legendary', args: { runner: 'legendary' } },
       { title: 'GOG', args: { runner: 'gog' } },
       { title: 'Amazon/Nile', args: { runner: 'nile' } }

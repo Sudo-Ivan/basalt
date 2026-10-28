@@ -58,8 +58,8 @@ async function runUpdater(
         join(root, 'flatpak/templates/io.quad4.basalt.metainfo.xml.template'),
         'utf8'
       )
-        .replace('${heroic-version}', 'v1.0.0')
-        .replace('${heroic-release-date}', '2025-01-01')
+        .replace('${basalt-version}', 'v1.0.0')
+        .replace('${basalt-release-date}', '2025-01-01')
     ]
   ])
   if (options.archiveSources) {

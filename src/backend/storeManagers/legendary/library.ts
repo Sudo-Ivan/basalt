@@ -690,7 +690,7 @@ export default class LegendaryLibraryManager implements LibraryManager {
 
     const { dir, bin } = getLegendaryBin()
 
-    // Set LEGENDARY_CONFIG_PATH to a custom, Heroic-specific location so user-made
+    // Set LEGENDARY_CONFIG_PATH to a custom, Basalt-specific location so user-made
     // changes to Legendary's main config file don't affect us
     options ??= {}
     options.env ??= {}

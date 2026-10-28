@@ -341,7 +341,17 @@ export interface BuildItem {
   }[]
 }
 
-interface ProductsEndpointFile {
+export interface GogOfflineInstallerProgress {
+  appName: string
+  fileName: string
+  fileIndex: number
+  totalFiles: number
+  filePercent: number
+  totalPercent: number
+  bytes: number
+}
+
+export interface ProductsEndpointFile {
   id: string
   size: number
   downlink: string
@@ -356,7 +366,7 @@ interface ProductsEndpointBonusContent {
   files: Array<ProductsEndpointFile>
 }
 
-interface ProductsEndpointInstaller {
+export interface ProductsEndpointInstaller {
   id: string
   name: string
   os: 'windows' | 'osx' | 'linux'

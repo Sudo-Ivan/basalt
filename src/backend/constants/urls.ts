@@ -1,7 +1,7 @@
 export const epicLoginUrl = 'https://legendary.gl/epiclogin'
 export const sidInfoUrl =
   'https://github.com/Heroic-Games-Launcher/HeroicGamesLauncher/wiki/How-To:-Epic-Alternative-Login'
-export const heroicGithubURL =
+export const basaltGithubURL =
   'https://github.com/Sudo-Ivan/basalt/releases/latest'
 export const GITHUB_API =
   'https://api.github.com/repos/Sudo-Ivan/basalt/releases'

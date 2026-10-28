@@ -74,7 +74,7 @@ import {
   configPath,
   fixAsarPath,
   gamesConfigPath,
-  heroicIconFolder,
+  iconsFolder,
   publicDir,
   toolsPath,
   windowIcon
@@ -193,7 +193,7 @@ async function isEpicServiceOffline(
     title: `${type} ${t('epic.offline-notification-title', 'offline')}`,
     body: t(
       'epic.offline-notification-body',
-      'Heroic will maybe not work probably!'
+      'Basalt will maybe not work probably!'
     ),
     urgency: 'normal',
     timeoutType: 'default',
@@ -501,7 +501,7 @@ function getNileBin(): { dir: string; bin: string } {
 }
 
 export function createNecessaryFolders() {
-  const defaultFolders = [gamesConfigPath, heroicIconFolder]
+  const defaultFolders = [gamesConfigPath, iconsFolder]
 
   const necessaryFoldersByPlatform = {
     win32: [...defaultFolders],
@@ -557,7 +557,7 @@ function constructAndUpdateRPC(gameInfo: GameInfo): RpcClient {
     clientId: '852942976564723722'
   })
 
-  const versionText = `Heroic ${app.getVersion()}`
+  const versionText = `Basalt ${app.getVersion()}`
 
   const image = gameInfo.art_icon || gameInfo.art_square
   const title = gameInfo.title
@@ -579,7 +579,7 @@ function constructAndUpdateRPC(gameInfo: GameInfo): RpcClient {
       name: title,
       type: 0,
       startTimestamp: Date.now(),
-      state: 'via Heroic on ' + getFormattedOsName(),
+      state: 'via Basalt on ' + getFormattedOsName(),
       statusDisplayType: 0, // Use game title for name plate
       ...overrides
     })
@@ -733,7 +733,7 @@ const getLatestReleases = async (): Promise<Release[]> => {
   if (process.env.CI === 'e2e') return []
 
   const newReleases: Release[] = []
-  logInfo('Checking for new Heroic Updates', LogPrefix.Backend)
+  logInfo('Checking for new Basalt Updates', LogPrefix.Backend)
 
   try {
     const { data: releases } = await axiosClient.get<Release[]>(GITHUB_API)
@@ -760,7 +760,7 @@ const getLatestReleases = async (): Promise<Release[]> => {
         title: t('Update Available!'),
         body: t(
           'notify.new-heroic-version',
-          'A new Heroic version was released!'
+          'A new Basalt version was released!'
         )
       })
     }
@@ -768,7 +768,7 @@ const getLatestReleases = async (): Promise<Release[]> => {
     return newReleases
   } catch (error) {
     logError(
-      ['Error when checking for Heroic updates', error],
+      ['Error when checking for Basalt updates', error],
       LogPrefix.Backend
     )
     return []
@@ -790,7 +790,7 @@ const getCurrentChangelog = async (): Promise<Release | null> => {
     return release as Release
   } catch (error) {
     logError(
-      ['Error when checking for current Heroic changelog:', error],
+      ['Error when checking for current Basalt changelog:', error],
       LogPrefix.Backend
     )
     return null
@@ -1288,12 +1288,12 @@ export async function checkRosettaInstall() {
   )
 
   if (!result) {
-    // show a dialog saying that Heroic wont run without rosetta and add information on how to install it
+    // show a dialog saying that Basalt wont run without rosetta and add information on how to install it
     await dialog.showMessageBox({
       title: i18next.t('box.warning.rosetta.title', 'Rosetta not found'),
       message: i18next.t(
         'box.warning.rosetta.message',
-        'Heroic requires Rosetta to run correctly on macOS with Apple Silicon chips. Please install it from the macOS terminal using the following command: "softwareupdate --install-rosetta" and restart Heroic. '
+        'Basalt requires Rosetta to run correctly on macOS with Apple Silicon chips. Please install it from the macOS terminal using the following command: "softwareupdate --install-rosetta" and restart Basalt. '
       ),
       buttons: ['OK'],
       icon: windowIcon
@@ -1585,7 +1585,7 @@ export const writeConfig = async (
   config: Partial<AppSettings>
 ) => {
   logInfo(
-    `Writing config for ${appName === 'default' ? 'Heroic' : appName}`,
+    `Writing config for ${appName === 'default' ? 'Basalt' : appName}`,
     LogPrefix.Backend
   )
   const oldConfig =

@@ -250,8 +250,8 @@ function getShortcutPath(object: ShortcutEntry): string {
 }
 
 /**
- * Check if a shortcut points to the given Heroic game.
- * Only matches shortcuts created by Heroic, identified by the heroic
+ * Check if a shortcut points to the given Basalt game.
+ * Only matches shortcuts created by Basalt, identified by the heroic
  * launch url or by the .desktop wrapper, so shortcuts with the same
  * title created by other tools are never touched. Renaming the
  * shortcut in Steam does not break the detection.
@@ -305,7 +305,7 @@ function isHeroicShortcutForGame(
 }
 
 /**
- * Builds the Exe, StartDir and LaunchOptions used for a Heroic
+ * Builds the Exe, StartDir and LaunchOptions used for a Basalt
  * shortcut entry, quoted the same way Steam stores them.
  */
 async function buildShortcutEntryConfig(gameInfo: GameInfo): Promise<{
@@ -316,20 +316,26 @@ async function buildShortcutEntryConfig(gameInfo: GameInfo): Promise<{
   const ourExePath = app.getPath('exe')
   let exe = `"${ourExePath}"`
   let startDir = `"${dirname(ourExePath)}"`
-  if (isLinux && !ourExePath.toLowerCase().endsWith('heroic')) {
-    // If we are on Linux and our executable path does not end with "heroic",
-    // we are running on a distribution packaging Electron and Heroic
+  if (
+    isLinux &&
+    !ourExePath.toLowerCase().endsWith('basalt') &&
+    !ourExePath.toLowerCase().endsWith('heroic')
+  ) {
+    // If we are on Linux and our executable path does not end with "basalt",
+    // we are running on a distribution packaging Electron and Basalt
     // separately (e.g. Arch Linux). Launching our executable alone will only
-    // launch Electron, it will not know what to do (running Heroic).
+    // launch Electron, it will not know what to do (running Basalt).
     // A proper workaround for this is not easy (we would have to pull out
     // launch-relevant parameters from our argv while also leaving temporary
-    // parameters out). The best we can do here is search for an
-    // `heroic` wrapper executable (which these types of packages make
-    // available) and launch it
-    const heroicWrapper = await searchForExecutableOnPath('heroic')
-    if (heroicWrapper) {
-      exe = `"${heroicWrapper}"`
-      startDir = `"${dirname(heroicWrapper)}"`
+    // parameters out). The best we can do here is search for a
+    // `basalt` or `heroic` wrapper executable (which these types of packages
+    // make available) and launch it
+    const launcherWrapper =
+      (await searchForExecutableOnPath('basalt')) ||
+      (await searchForExecutableOnPath('heroic'))
+    if (launcherWrapper) {
+      exe = `"${launcherWrapper}"`
+      startDir = `"${dirname(launcherWrapper)}"`
     }
   }
 
@@ -390,11 +396,11 @@ function showSteamRunningError(props: {
   const error = isSteamDeckGameMode
     ? i18next.t('box.error.steam.running-gamemode', {
         defaultValue:
-          'A one-time Steam restart is required before Heroic can manage Steam shortcuts on this device. Restart Steam and try again.'
+          'A one-time Steam restart is required before Basalt can manage Steam shortcuts on this device. Restart Steam and try again.'
       })
     : i18next.t('box.error.steam.running', {
         defaultValue:
-          'Steam is running. Close Steam and try again, or restart Steam once to let Heroic manage shortcuts while Steam is running.'
+          'Steam is running. Close Steam and try again, or restart Steam once to let Basalt manage shortcuts while Steam is running.'
       })
 
   logError(

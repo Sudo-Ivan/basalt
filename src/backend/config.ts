@@ -25,7 +25,7 @@ import {
   configPath,
   sharedWinePrefix,
   gamesConfigPath,
-  heroicInstallPath,
+  basaltInstallPath,
   userHome,
   defaultWinePrefixDir
 } from './constants/paths'
@@ -337,7 +337,7 @@ class GlobalConfigV0 extends GlobalConfig {
       checkForUpdatesOnStartup: !isFlatpak,
       autoUpdateGames: false,
       customWinePaths: [],
-      defaultInstallPath: heroicInstallPath,
+      defaultInstallPath: basaltInstallPath,
       libraryTopSection: 'disabled',
       defaultSteamPath: getSteamCompatFolder(),
       defaultWinePrefix: defaultWinePrefixDir,
@@ -351,7 +351,7 @@ class GlobalConfigV0 extends GlobalConfig {
       wrapperOptions: [],
       showFps: false,
       useGameMode: isFlatpak,
-      wineCrossoverBottle: 'Heroic',
+      wineCrossoverBottle: 'Basalt',
       winePrefix: isWindows ? '' : sharedWinePrefix,
       wineVersion: defaultWine,
       enableEsync: true,

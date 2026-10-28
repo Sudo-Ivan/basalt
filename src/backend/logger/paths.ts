@@ -13,21 +13,21 @@ function getBaseLogPath(): string {
   if (isWindows) {
     const localAppData =
       process.env.LOCALAPPDATA ?? join(homedir(), 'AppData', 'Local')
-    return join(localAppData, 'Heroic', 'logs')
+    return join(localAppData, 'Basalt', 'logs')
   }
   if (isMac) {
-    return join(homedir(), 'Library', 'Logs', 'Heroic Games Launcher')
+    return join(homedir(), 'Library', 'Logs', 'Basalt')
   }
   const stateHome =
     process.env.XDG_STATE_HOME ?? join(homedir(), '.local', 'state')
-  return join(stateHome, 'Heroic', 'logs')
+  return join(stateHome, 'Basalt', 'logs')
 }
 
 // Which game log to return. By default, the launch log is returned.
 type GameLogType =
   'launch' | 'install' | 'import' | 'repair' | 'update' | 'setup'
 type GetLogFileArgs =
-  // Heroic log
+  // Basalt log
   | { appName?: undefined; runner?: undefined }
   // Runner log
   | { appName?: undefined; runner: RunnerOrComet }
@@ -35,13 +35,13 @@ type GetLogFileArgs =
   | { appName: string; runner: Runner; type?: GameLogType }
 
 /**
- * Returns the path to the log file of a game / runner / Heroic
+ * Returns the path to the log file of a game / runner / Basalt
  * @param args Parameters to find the log file. See {@link GetLogFileArgs}
  */
 function getLogFilePath(args: GetLogFileArgs): string {
   let relativeFilePath: string
   if (!(args?.appName || args?.runner)) {
-    relativeFilePath = 'heroic'
+    relativeFilePath = 'basalt'
   } else if (args.runner && !args.appName) {
     relativeFilePath = join('runners', args.runner)
   } else {

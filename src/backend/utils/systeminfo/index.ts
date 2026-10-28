@@ -1,5 +1,5 @@
 /**
- * @file Figures out system information (CPU, GPU, memory) and software versions (Heroic, Legendary, gogdl, etc.)
+ * @file Figures out system information (CPU, GPU, memory) and software versions (Basalt, Legendary, gogdl, etc.)
  */
 
 import os from 'os'
@@ -147,7 +147,7 @@ We are${info.isAppImage ? '' : ' not'} running from an AppImage
     : ''
 }
 Software Versions:
-  Heroic: ${info.softwareInUse.heroicVersion}
+  Basalt: ${info.softwareInUse.heroicVersion}
   Legendary: ${info.softwareInUse.legendaryVersion}
   gogdl: ${info.softwareInUse.gogdlVersion}
   comet: ${info.softwareInUse.cometVersion}

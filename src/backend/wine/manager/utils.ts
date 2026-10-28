@@ -272,7 +272,7 @@ function getInstallDir(release: WineVersionInfo): string {
         return compatToolsPath
       } else {
         logWarning(
-          `Configured Steam path ("${config.defaultSteamPath}") does not appear to be valid, installing into Heroic tools path instead`,
+          `Configured Steam path ("${config.defaultSteamPath}") does not appear to be valid, installing into Basalt tools path instead`,
           LogPrefix.WineDownloader
         )
       }

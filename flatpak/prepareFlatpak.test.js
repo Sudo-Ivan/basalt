@@ -77,17 +77,17 @@ test('aarch64 has native paths without unavailable x86 extensions', () => {
 
 test('local manifests install the archive without executing an AppImage', () => {
   const manifest = createManifest(getArchitecture('arm64'), localSource)
-  const heroic = moduleNamed(manifest, 'heroic')
-  assert.deepEqual(heroic.sources.at(-1), localSource)
+  const basalt = moduleNamed(manifest, 'basalt')
+  assert.deepEqual(basalt.sources.at(-1), localSource)
   assert(
-    !heroic['build-commands'].some((command) =>
+    !basalt['build-commands'].some((command) =>
       command.includes('--appimage-extract')
     )
   )
-  assert(heroic['build-commands'].includes('mv squashfs-root /app/bin/heroic'))
+  assert(basalt['build-commands'].includes('mv squashfs-root /app/bin/basalt'))
   assert.equal(manifest.branch, undefined)
   const serialized = yaml.dump(manifest)
-  assert(!serialized.includes('${heroic-app-image}'))
+  assert(!serialized.includes('${basalt-app-image}'))
   assert(!serialized.includes('${libdir}'))
   assert(!serialized.includes('${helper-arch}'))
   assert.equal(
@@ -103,9 +103,9 @@ test('release manifests retain AppImage extraction', () => {
     sha512: 'abc'
   }
   const manifest = createManifest(getArchitecture('x64'), source, true)
-  const heroic = moduleNamed(manifest, 'heroic')
-  assert.deepEqual(heroic.sources.at(-1), source)
-  assert.deepEqual(heroic['build-commands'].slice(0, 2), [
+  const basalt = moduleNamed(manifest, 'basalt')
+  assert.deepEqual(basalt.sources.at(-1), source)
+  assert.deepEqual(basalt['build-commands'].slice(0, 2), [
     'chmod +x Basalt-*.AppImage',
     './Basalt-*.AppImage --appimage-extract'
   ])
@@ -152,12 +152,12 @@ for (const [archName, unpackedDirectory] of [
     { skip: process.platform !== 'linux' },
     (t) => {
       const root = fs.mkdtempSync(
-        path.join(os.tmpdir(), 'heroic flatpak test ')
+        path.join(os.tmpdir(), 'basalt flatpak test ')
       )
       t.after(() => fs.rmSync(root, { recursive: true, force: true }))
       const unpacked = path.join(root, 'dist', unpackedDirectory)
       fs.mkdirSync(unpacked, { recursive: true })
-      fs.writeFileSync(path.join(unpacked, 'heroic'), 'test payload')
+      fs.writeFileSync(path.join(unpacked, 'basalt'), 'test payload')
       const source = createLocalSource(getArchitecture(archName), '1.2.3', root)
       const archive = path.resolve(root, 'flatpak-build', source.path)
       const hash = () =>
@@ -165,15 +165,15 @@ for (const [archName, unpackedDirectory] of [
       const before = hash()
       assert.equal(source.sha256, before)
       const files = execFileSync('tar', ['-tf', archive], { encoding: 'utf8' })
-      assert(files.includes(`${unpackedDirectory}/heroic`))
-      fs.utimesSync(path.join(unpacked, 'heroic'), new Date(), new Date())
+      assert(files.includes(`${unpackedDirectory}/basalt`))
+      fs.utimesSync(path.join(unpacked, 'basalt'), new Date(), new Date())
       assert.deepEqual(
         createLocalSource(getArchitecture(archName), '1.2.3', root),
         source
       )
       assert.equal(hash(), before)
       assert.equal(source.dest, 'squashfs-root')
-      fs.writeFileSync(path.join(unpacked, 'heroic'), 'next payload')
+      fs.writeFileSync(path.join(unpacked, 'basalt'), 'next payload')
       const changed = createLocalSource(
         getArchitecture(archName),
         '1.2.3',
@@ -185,7 +185,7 @@ for (const [archName, unpackedDirectory] of [
       assert.equal(
         moduleNamed(
           createManifest(getArchitecture(archName), changed),
-          'heroic'
+          'basalt'
         ).sources.at(-1).sha256,
         changed.sha256
       )
@@ -194,7 +194,7 @@ for (const [archName, unpackedDirectory] of [
 }
 
 test('a missing local payload fails before creating a source archive', () => {
-  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'heroic-flatpak-missing-'))
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'basalt-flatpak-missing-'))
   try {
     assert.throws(
       () => createLocalSource(getArchitecture('aarch64'), '1.2.3', root),
