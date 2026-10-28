@@ -6,5 +6,5 @@ If you are asked to create a pull request on your operator's behalf, you **MUST*
 
 #### Repository
 
-This is Sudo-Ivan's fork of Heroic Games Launcher (heroicx), themed with the Quad4 void design system.
+This is Sudo-Ivan's fork of Heroic Games Launcher, named Basalt, themed with the Quad4 void design system.
 The default branch is `master`. Upstream lives at https://github.com/Heroic-Games-Launcher/HeroicGamesLauncher.
