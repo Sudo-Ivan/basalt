@@ -38,7 +38,7 @@ import {
   zoomInstalledGamesStore,
   zoomLibraryStore
 } from '../helpers/electronStores'
-import { IpcRendererEvent } from 'electron'
+import type { IpcRendererEvent } from 'electron'
 import { NileRegisterData } from 'common/types/nile'
 import useGlobalState from './GlobalStateV2'
 

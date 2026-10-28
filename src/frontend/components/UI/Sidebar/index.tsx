@@ -9,7 +9,7 @@ import { DMQueueElement } from 'common/types'
 
 import HeroicIcon from 'frontend/assets/heroic-icon.svg?react'
 import { useNavigate } from 'react-router-dom'
-import { WebviewTag } from 'electron'
+import type { WebviewTag } from 'electron'
 
 let sidebarSize = localStorage.getItem('sidebar-width') || 240
 const minWidth = 60

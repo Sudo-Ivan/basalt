@@ -20,8 +20,7 @@ import {
   UseDarkTrayIcon,
   UseFramelessWindow,
   WinePrefixesBasePath,
-  PlaytimeSync,
-  AnalyticsOptIn
+  PlaytimeSync
 } from '../../components'
 
 export default function GeneralSettings() {
@@ -66,8 +65,6 @@ export default function GeneralSettings() {
       <DiscordRPC />
 
       <DisableController />
-
-      <AnalyticsOptIn />
 
       <LibraryTopSection />
 

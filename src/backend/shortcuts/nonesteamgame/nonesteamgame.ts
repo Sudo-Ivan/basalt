@@ -355,7 +355,7 @@ async function buildShortcutEntryConfig(gameInfo: GameInfo): Promise<{
 
   let launchOptions = args.join(' ')
   if (isFlatpak) {
-    launchOptions = `run com.heroicgameslauncher.hgl ${launchOptions}`
+    launchOptions = `run io.quad4.basalt ${launchOptions}`
   }
 
   return { exe, startDir, launchOptions }

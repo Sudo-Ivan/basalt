@@ -25,9 +25,9 @@ const LibraryTour: React.FC = () => {
     {
       intro: t(
         'tour.library.welcome.intro',
-        'Welcome to the Heroicx Library! This is where you can see all your games across different stores.'
+        'Welcome to the Basalt Library! This is where you can see all your games across different stores.'
       ),
-      title: t('tour.library.welcome.title', 'Welcome to Heroicx!')
+      title: t('tour.library.welcome.title', 'Welcome to Basalt!')
     },
     {
       intro: t(

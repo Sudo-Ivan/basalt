@@ -25,13 +25,13 @@ interface GitHubRelease {
 async function main() {
   console.log('tag name: ', process.env.RELEASE_VERSION)
   console.log('is prerelease: ', process.env.IS_PRERELEASE)
-  const repoOrgName = 'Heroic-Games-Launcher'
-  const repoName = repoOrgName + '/HeroicGamesLauncher'
-  const packagingDirectory = process.argv[2] || './com.heroicgameslauncher.hgl'
+  const repoOrgName = 'Sudo-Ivan'
+  const repoName = repoOrgName + '/basalt'
+  const packagingDirectory = process.argv[2] || './io.quad4.basalt'
 
-  // update url in com.heroicgameslauncher.hgl.yml
-  console.log('updating url in com.heroicgameslauncher.hgl.yml')
-  const ymlFilePath = `${packagingDirectory}/com.heroicgameslauncher.hgl.yml`
+  // update url in io.quad4.basalt.yml
+  console.log('updating url in io.quad4.basalt.yml')
+  const ymlFilePath = `${packagingDirectory}/io.quad4.basalt.yml`
   let heroicYml = fs.readFileSync(ymlFilePath).toString()
 
   // Use the requested release so its URLs, checksums and metadata stay aligned.
@@ -91,7 +91,7 @@ async function main() {
     console.log(`Using AppImage: ${appimage.browser_download_url}`)
     const sha512 = await downloadChecksum(appimage.browser_download_url)
     heroicYml = heroicYml.replace(
-      /https:\/\/github.com\/Heroic-Games-Launcher\/HeroicGamesLauncher\/releases\/download\/v.*..*..*\/Heroic-.*..*..*(-linux-[a-z0-9_]+)?.AppImage/,
+      /https:\/\/github.com\/Sudo-Ivan\/basalt\/releases\/download\/v[^/\s]*\/Basalt-[^/\s]*\.AppImage/,
       appimage.browser_download_url
     )
     heroicYml = heroicYml.replace(
@@ -101,11 +101,11 @@ async function main() {
     fs.writeFileSync(ymlFilePath, heroicYml)
   }
 
-  // update release version and date on xml tag in com.heroicgameslauncher.hgl.metainfo.xml
+  // update release version and date on xml tag in io.quad4.basalt.metainfo.xml
   console.log(
-    'updating release version and date on xml tag in com.heroicgameslauncher.hgl.metainfo.xml'
+    'updating release version and date on xml tag in io.quad4.basalt.metainfo.xml'
   )
-  const xmlFilePath = `${packagingDirectory}/com.heroicgameslauncher.hgl.metainfo.xml`
+  const xmlFilePath = `${packagingDirectory}/io.quad4.basalt.metainfo.xml`
   let heroicXml = fs.readFileSync(xmlFilePath).toString()
   const isoDate = releaseData.published_at.split('T')[0]
 

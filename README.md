@@ -1,4 +1,4 @@
-# heroicx
+# basalt
 
 A fork of [Heroic Games Launcher](https://github.com/Heroic-Games-Launcher/HeroicGamesLauncher) with the Quad4 void theme. Heroic is an open source game launcher for Linux, Windows and macOS.
 
@@ -11,15 +11,15 @@ A fork of [Heroic Games Launcher](https://github.com/Heroic-Games-Launcher/Heroi
 
 ## Install
 
-Download a package for your platform from the [releases page](https://github.com/Sudo-Ivan/heroicx/releases/latest).
+Download a package for your platform from the [releases page](https://github.com/Sudo-Ivan/basalt/releases/latest).
 
 ## Develop
 
 Requires Git, Node.js and pnpm 10.
 
 ```bash
-git clone https://github.com/Sudo-Ivan/heroicx.git
-cd heroicx
+git clone https://github.com/Sudo-Ivan/basalt.git
+cd basalt
 pnpm install
 pnpm start
 ```
@@ -42,4 +42,4 @@ Push a `v*` tag. The release workflow builds packages and publishes a draft rele
 
 GPL-3.0-only. See [COPYING](COPYING).
 
-heroicx is a fork of [Heroic Games Launcher](https://github.com/Heroic-Games-Launcher/HeroicGamesLauncher). All credit for the launcher itself goes to the upstream authors and contributors.
+basalt is a fork of [Heroic Games Launcher](https://github.com/Heroic-Games-Launcher/HeroicGamesLauncher). All credit for the launcher itself goes to the upstream authors and contributors.

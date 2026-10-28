@@ -3,9 +3,9 @@ import { logWarning, LogPrefix } from 'backend/logger'
 
 const CIPHERTEXT_PREFIX = 'sgdb:v1:'
 
-function encryptionAvailable(): boolean {
+async function encryptionAvailable(): Promise<boolean> {
   try {
-    return safeStorage.isEncryptionAvailable()
+    return await safeStorage.isAsyncEncryptionAvailable()
   } catch {
     return false
   }
@@ -15,29 +15,32 @@ export function isEncryptedValue(stored: string): boolean {
   return stored.startsWith(CIPHERTEXT_PREFIX)
 }
 
-export function encryptApiKey(plain: string): string {
+export async function encryptApiKey(plain: string): Promise<string> {
   if (!plain) return ''
-  if (!encryptionAvailable()) {
+  if (!(await encryptionAvailable())) {
     logWarning(
       'safeStorage unavailable, storing SteamGridDB API key in plaintext',
       LogPrefix.Backend
     )
     return plain
   }
-  const ciphertext = safeStorage.encryptString(plain).toString('base64')
+  const ciphertext = (await safeStorage.encryptStringAsync(plain)).toString(
+    'base64'
+  )
   return `${CIPHERTEXT_PREFIX}${ciphertext}`
 }
 
-export function decryptApiKey(stored: string): string {
+export async function decryptApiKey(stored: string): Promise<string> {
   if (!stored) return ''
   if (!isEncryptedValue(stored)) {
     // Legacy plaintext from before encryption was introduced.
     return stored
   }
-  if (!encryptionAvailable()) return ''
+  if (!(await encryptionAvailable())) return ''
   try {
     const buf = Buffer.from(stored.slice(CIPHERTEXT_PREFIX.length), 'base64')
-    return safeStorage.decryptString(buf)
+    const { result } = await safeStorage.decryptStringAsync(buf)
+    return result
   } catch (error) {
     logWarning(
       ['Failed to decrypt SteamGridDB API key:', error],

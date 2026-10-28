@@ -50,8 +50,8 @@ jobs:
       - uses: $/.github/actions/install-deps
       - name: Build
         run: pnpm build
-      - name: Build and publish unsigned Windows portable
-        run: pnpm exec electron-builder --win portable --x64 --arm64 -p always
+      - name: Build and publish unsigned Windows packages
+        run: pnpm exec electron-builder --win --x64 --arm64 -p always
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           CSC_IDENTITY_AUTO_DISCOVERY: 'false'

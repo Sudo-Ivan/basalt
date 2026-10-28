@@ -1,5 +1,5 @@
 {
-  "name": "heroic",
+  "name": "basalt",
   "version": "2.24.0",
   "versionNames": {
     "stable": "Hajrudin",
@@ -12,7 +12,7 @@
   "description": "An Open Source Launcher for GOG, Epic Games and Amazon Games",
   "repository": {
     "type": "Github",
-    "url": "https://github.com/Sudo-Ivan/heroicx"
+    "url": "https://github.com/Sudo-Ivan/basalt"
   },
   "author": {
     "name": "Sudo-Ivan",
@@ -35,7 +35,7 @@
     "test:e2e": "pnpm run build && cross-env CI=e2e xvfb-maybe -- playwright test",
     "release:linux": "pnpm run build && electron-builder -p always --linux deb AppImage rpm pacman tar.xz",
     "release:mac": "pnpm run build && electron-builder -p always --mac --x64 --arm64",
-    "release:win": "pnpm run build && electron-builder -p always --win portable --x64",
+    "release:win": "pnpm run build && electron-builder -p always --win --x64 --arm64",
     "release:updateFlathub:ci": "tsc flathub/update-flathub.ts --skipLibCheck --target es2015 --moduleResolution node --module commonjs && node flathub/update-flathub.js",
     "dist:linux": "pnpm run build && electron-builder --linux",
     "dist:mac": "export CSC_IDENTITY_AUTO_DISCOVERY=false && pnpm run build && electron-builder --mac",
@@ -43,7 +43,7 @@
     "dist:flatpak": "pnpm dist:linux appimage && pnpm flatpak:prepare && pnpm flatpak:build",
     "lint": "eslint --cache .",
     "lint-fix": "eslint --fix --ext .tsx,ts ./src",
-    "flatpak:build": "cd flatpak-build && flatpak-builder build com.heroicgameslauncher.hgl.yml --install --force-clean --user",
+    "flatpak:build": "cd flatpak-build && flatpak-builder build io.quad4.basalt.yml --install --force-clean --user",
     "flatpak:prepare": "node ./flatpak/prepareFlatpak.js",
     "flatpak:prepare-release": "node ./flatpak/prepareFlatpak.js release",
     "i18n": "i18next-cli extract",
@@ -75,6 +75,7 @@
     "simple-keyboard": "^3.8.201"
   },
   "devDependencies": {
+    "@electron/fuses": "2.1.3",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
     "@eslint/js": "^9.39.5",

@@ -58,7 +58,6 @@ import {
   clearAchievementCache,
   getGame
 } from './utils'
-import { startPlausible } from './utils/plausible'
 
 import {
   getDiskInfo,
@@ -334,7 +333,7 @@ if (!gotTheLock) {
 
     // try to fix notification app name on windows
     if (isWindows) {
-      app.setAppUserModelId('io.quad4.heroicx')
+      app.setAppUserModelId('io.quad4.basalt')
     }
 
     runOnceWhenOnline(async () => {
@@ -355,10 +354,6 @@ if (!gotTheLock) {
     })
 
     const settings = GlobalConfig.get().getSettings()
-
-    if (settings && settings.analyticsOptIn === true) {
-      startPlausible()
-    }
 
     if (settings?.disableSmoothScrolling) {
       app.commandLine.appendSwitch('disable-smooth-scrolling')

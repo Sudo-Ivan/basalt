@@ -107,6 +107,17 @@ class Tray {
 
 const ipcMain = new EventEmitter()
 
+const safeStorage = {
+  isAsyncEncryptionAvailable: () => Promise.resolve(false),
+  encryptStringAsync: (plainText: string) =>
+    Promise.resolve(Buffer.from(plainText)),
+  decryptStringAsync: (encrypted: Buffer) =>
+    Promise.resolve({
+      shouldReEncrypt: false,
+      result: encrypted.toString()
+    })
+}
+
 export {
   dialog,
   app,
@@ -116,5 +127,6 @@ export {
   nativeImage,
   Tray,
   ipcMain,
-  screen
+  screen,
+  safeStorage
 }

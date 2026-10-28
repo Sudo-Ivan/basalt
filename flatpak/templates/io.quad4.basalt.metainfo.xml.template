@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component type="desktop-application">
-  <id>com.heroicgameslauncher.hgl</id>
-  <name>Heroic</name>
-  <developer_name>Heroic Games Launcher</developer_name>
+  <id>io.quad4.basalt</id>
+  <name>Basalt</name>
+  <developer_name>Sudo-Ivan</developer_name>
   <summary>Play Epic, GOG and Amazon Games</summary>
   <summary xml:lang="de">Spiele Epic-, GOG- und Amazon-Spiele</summary>
   <summary xml:lang="pt">Jogue jogos da Epic, GOG e Amazon</summary>
@@ -11,20 +11,19 @@
   <summary xml:lang="zh">游玩 Epic、GOG 和 Amazon 游戏</summary>
   <summary xml:lang="ja">Epic、GOG、Amazonのゲームをプレイ</summary>
   <summary xml:lang="ru">Запуск игр из Epic, GOG и Amazon</summary>
-  <url type="homepage">https://heroicgameslauncher.com</url>
-  <url type="bugtracker">https://github.com/Heroic-Games-Launcher/HeroicGamesLauncher/issues</url>
-  <url type="donation">https://ko-fi.com/heroicgames</url>
-  <url type="translate">https://hosted.weblate.org/projects/heroic-games-launcher</url>
-  <url type="help">https://github.com/Heroic-Games-Launcher/HeroicGamesLauncher/wiki</url>
-  <url type="vcs-browser">https://github.com/Heroic-Games-Launcher/HeroicGamesLauncher</url>
+  <url type="homepage">https://sudo-ivan.github.io/basalt/</url>
+  <url type="bugtracker">https://github.com/Sudo-Ivan/basalt/issues</url>
+  <url type="vcs-browser">https://github.com/Sudo-Ivan/basalt</url>
   <metadata_license>CC0-1.0</metadata_license>
-  <project_license>GPL-3.0</project_license>
+  <project_license>GPL-3.0-only</project_license>
   <branding>
     <color type="primary" scheme_preference="light">#ac9aac</color>
     <color type="primary" scheme_preference="dark">#1c202c</color>
   </branding>
   <description>
-    <p>Heroic is an Open Source Games Launcher. Right now it supports launching games from the
+    <p>Basalt is an Open Source Games Launcher, forked from Heroic Games Launcher
+      (github.com/Heroic-Games-Launcher/HeroicGamesLauncher, credit to the upstream
+      authors and contributors). It supports launching games from the
       Epic Games Store using Legendary, GOG Games using our custom implementation with gogdl
       and Amazon Games using Nile.</p>
     <p xml:lang="de">Heroic ist ein Open-Source-Spielelauncher. Aktuell unterstützt er das Starten
@@ -213,28 +212,6 @@
     <p xml:lang="ja">Flatpak の現在の制限：</p>
     <p xml:lang="ru">Текущие ограничения версии Flatpak:</p>
     <ul>
-      <li>Due to issues with controller on SteamDeck Gaming Mode Heroic uses Flatpak Runtime 23.08
-        on stable branch. If you need runtime 24.08 to have HDR support and more please use the beta
-        branch of flathub.</li>
-      <li xml:lang="de">Aufgrund von Problemen mit Controllern im SteamDeck Gaming Mode verwendet
-        Heroic auf dem Stable Branch Flatpak Runtime 23.08. Wenn du Runtime 24.08 für HDR Support
-        und mehr benötigst, nutze bitte den Beta Branch von Flathub.</li>
-      <li xml:lang="pt">Devido a problemas com o controle no modo de jogo SteamDeck, o Heroic usa o
-        Flatpak Runtime 23.08 no branch estável. Se você precisar do runtime 24.08 para ter suporte
-        a HDR e mais, use o branch beta do Flathub.</li>
-      <li xml:lang="es">Debido a problemas con el controlador en el modo de juego SteamDeck, Heroic
-        utiliza Flatpak Runtime 23.08 en la rama estable. Si necesitas runtime 24.08 para tener
-        soporte HDR y más, utiliza la rama beta de Flathub.</li>
-      <li xml:lang="fr">En raison de problèmes de contrôleur en mode jeu SteamDeck, Heroic utilise
-        Flatpak Runtime 23.08 sur la branche stable. Si vous avez besoin de la runtime 24.08 pour
-        bénéficier du support HDR et plus encore, veuillez utiliser la branche bêta de Flathub.</li>
-      <li xml:lang="zh">由于 SteamDeck 游戏模式下控制器的问题，Heroic 在稳定分支上使用 Flatpak Runtime 23.08。如果您需要运行时
-        24.08 来支持 HDR 等功能，请使用 Flathub 的 beta 分支。</li>
-      <li xml:lang="ja">SteamDeck ゲーミングモードでのコントローラーの問題により、Heroic は安定ブランチで Flatpak Runtime 23.08
-        を使用しています。HDR サポートなどのために Runtime 24.08 が必要な場合は、Flathub のベータブランチを使用してください。</li>
-      <li xml:lang="ru">Из-за проблем с геймпадом в игровом режиме Steam Deck стабильная ветка
-        Heroic собрана на Flatpak Runtime 23.08. Если нужен Runtime 24.08 с поддержкой HDR и
-        прочим, используйте бета-ветку на Flathub.</li>
       <li>Heroic will not find or use Wine and Proton Flatpak versions. At least for now.</li>
       <li xml:lang="de">Heroic findet aktuell keine Wine oder Proton Versionen, die per Flatpak
         installiert
@@ -275,62 +252,13 @@
     <content_attribute id="violence-bloodshed">moderate</content_attribute>
     <content_attribute id="money-purchasing">intense</content_attribute>
   </content_rating>
-  <launchable type="desktop-id">com.heroicgameslauncher.hgl.desktop</launchable>
-  <screenshots>
-    <screenshot type="default">
-      <caption>Library</caption>
-      <image>https://github.com/user-attachments/assets/ec391f3e-9820-4c31-9909-f298965b8003</image>
-    </screenshot>
-    <screenshot>
-      <caption>GamePage</caption>
-      <image>https://github.com/user-attachments/assets/c46cbbec-ff2e-4378-88d6-25c6d8651c39</image>
-    </screenshot>
-    <screenshot>
-      <caption>Stores</caption>
-      <image>https://github.com/user-attachments/assets/84d800de-51f5-44d1-9530-0d529613714f</image>
-    </screenshot>
-    <screenshot>
-      <caption>Sideload Dialog</caption>
-      <image>https://github.com/user-attachments/assets/8c4f0f79-ec45-4f48-a947-8d250204ad60</image>
-    </screenshot>
-    <screenshot>
-      <caption>Download Manager</caption>
-      <image>https://github.com/user-attachments/assets/b99f0482-953f-4528-a432-10aded523bb4</image>
-    </screenshot>
-    <screenshot>
-      <caption>Wine Manager</caption>
-      <image>https://github.com/user-attachments/assets/8c2e6c44-68ef-42cc-9dc1-ddec6989a8b2</image>
-    </screenshot>
-    <screenshot>
-      <caption>Game Settings</caption>
-      <image>https://github.com/user-attachments/assets/5f10d3f1-a918-411c-93b9-48a9f67fb5fd</image>
-    </screenshot>
-    <screenshot>
-      <caption>Install Dialog</caption>
-      <image>https://github.com/user-attachments/assets/3c61fe93-a1a3-45fb-86ec-e87cfe3c290a</image>
-    </screenshot>
-    <screenshot>
-      <caption>Winetricks</caption>
-      <image>https://github.com/user-attachments/assets/40b8f9e0-36cc-491a-9745-e3693c2f9af0</image>
-    </screenshot>
-    <screenshot>
-      <caption>Modify Installation</caption>
-      <image>https://github.com/user-attachments/assets/14a2346c-fcad-479f-bddb-45b740a97a39</image>
-    </screenshot>
-  </screenshots>
+  <launchable type="desktop-id">io.quad4.basalt.desktop</launchable>
   <releases>
     <release version="${heroic-version}" date="${heroic-release-date}">
       <description>
         <p>General</p>
         <ul>
-          <li>This version uses Flatpak Runtime 23.08. If you need 24.08 install Heroic from the
-            beta branch</li>
-          <li>Add warning dialog for disabled Shader Pre-caching on SteamDeck</li>
-          <li>Fixed app Icon</li>
-          <li>Some UMU fixes</li>
-          <li>Improved logs</li>
-          <li>Several other fixes and improvements</li>
-          <li>Translations improvements</li>
+          <li>See the release notes on the GitHub releases page for details</li>
         </ul>
       </description>
     </release>

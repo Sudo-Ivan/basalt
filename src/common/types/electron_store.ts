@@ -1,4 +1,4 @@
-import Store from 'electron-store'
+import type Store from 'electron-store'
 import { Get } from 'type-fest'
 
 import {

@@ -9,13 +9,13 @@ function readStoredApiKey(): string {
   return stored ?? ''
 }
 
-function getDecryptedApiKey(): string {
+async function getDecryptedApiKey(): Promise<string> {
   const stored = readStoredApiKey()
   if (!stored) return ''
 
   // Migrate legacy plaintext values on first read.
   if (!isEncryptedValue(stored)) {
-    const reEncrypted = encryptApiKey(stored)
+    const reEncrypted = await encryptApiKey(stored)
     if (isEncryptedValue(reEncrypted)) {
       GlobalConfig.get().setSetting('steamGridDbApiKey', reEncrypted)
     }
@@ -27,14 +27,14 @@ function getDecryptedApiKey(): string {
 
 addHandler('steamgriddb.hasApiKey', () => !!readStoredApiKey())
 
-addHandler('steamgriddb.setApiKey', (event, key) => {
+addHandler('steamgriddb.setApiKey', async (event, key) => {
   const trimmed = key.trim()
-  const stored = trimmed ? encryptApiKey(trimmed) : ''
+  const stored = trimmed ? await encryptApiKey(trimmed) : ''
   GlobalConfig.get().setSetting('steamGridDbApiKey', stored)
 })
 
 addHandler('steamgriddb.searchGame', async (event, query) => {
-  const apiKey = getDecryptedApiKey()
+  const apiKey = await getDecryptedApiKey()
   if (!apiKey) {
     return []
   }
@@ -52,7 +52,7 @@ addHandler('steamgriddb.searchGame', async (event, query) => {
 })
 
 addHandler('steamgriddb.getGrids', async (event, args) => {
-  const apiKey = getDecryptedApiKey()
+  const apiKey = await getDecryptedApiKey()
   if (!apiKey) {
     return []
   }
@@ -75,7 +75,7 @@ addHandler('steamgriddb.getGrids', async (event, args) => {
 })
 
 addHandler('steamgriddb.getHeroes', async (event, args) => {
-  const apiKey = getDecryptedApiKey()
+  const apiKey = await getDecryptedApiKey()
   if (!apiKey) {
     return []
   }

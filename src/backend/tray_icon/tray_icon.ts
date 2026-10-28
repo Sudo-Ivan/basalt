@@ -31,7 +31,7 @@ export const initTrayIcon = async (mainWindow: BrowserWindow) => {
   }
   await loadContextMenu()
 
-  appIcon.setToolTip('Heroicx')
+  appIcon.setToolTip('Basalt')
 
   // event listeners
   appIcon.on('click', () => {

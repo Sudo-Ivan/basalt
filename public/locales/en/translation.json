@@ -14,20 +14,6 @@
     "add_game": "Add Game",
     "Amazon Games": "Amazon Games",
     "amazon-luna": "Amazon Luna",
-    "analyticsModal": {
-        "disable": "Disable",
-        "enable": "Enable",
-        "info": {
-            "pt1": "In order to improve the app, Heroic collects 100% anonymous data.",
-            "pt2": "Heroic uses the open-source Plausible Analytics platform, self-hosted by the Heroic team, to gather basic data: App Version, OS, System Architecture, Linux Distribution, Stores Connected and Country.",
-            "pt3": "It will never collect any personal information, including your username, IP address or email.",
-            "pt4": "This data is used to give us insights on what to focus on next due to our limited resources and user feedback.",
-            "pt5": "Plausible Analytics is fully compliant with GDPR, CCPA and PECR.",
-            "pt6": "For transparency, you can view the data we collect on the Heroic logs.",
-            "pt7": "You can change this setting at any time in the App Settings."
-        },
-        "title": "Send Anonymous Analytics"
-    },
     "anticheat": {
         "anticheats": "Anticheats",
         "multiplayer_may_not_work": "Multiplayer features may not work due to denied or broken anticheat support.",
@@ -118,8 +104,8 @@
                 "detail": "Do you want to download the update in the background?",
                 "detailNoAutoupdate": "Automatic updates are not supported for your packaging format. Please use your package manager to update.",
                 "message": "There is a new Version available!",
-                "message-finished": "Do you want to restart Heroicx now?",
-                "title": "Heroicx",
+                "message-finished": "Do you want to restart Basalt now?",
+                "title": "Basalt",
                 "title-finished": "Update Finished"
             }
         },
@@ -386,7 +372,6 @@
     "help": {
         "advertiseAvxForRosetta": "Enables AVX instruction set support when running Windows games through Rosetta on Apple Silicon Macs. This may be required for some games like Death Stranding that need AVX support.",
         "amdfsr": "AMD's FSR helps boost framerate by upscaling lower resolutions in Fullscreen Mode. Image quality increases from 5 to 1 at the cost of a slight performance hit. Enabling may improve performance.",
-        "analytics": "Enables Heroic to collect 100% anonymous usage data to help improve the application. Needs restart to take effect.",
         "button": {
             "close": "Close Help",
             "open": "Open Help"
@@ -478,7 +463,7 @@
             "click-to-see-changelog": "Click to see changelog",
             "newReleases": "Update Available!",
             "stable": "Stable",
-            "version": "Heroicx Version"
+            "version": "Basalt Version"
         },
         "save-sync": {
             "searching": "Trying to detect the correct save folder (click to cancel)"
@@ -702,7 +687,6 @@
         "alt-gogdl-bin": "Choose an Alternative GOGDL Binary to use",
         "alt-legendary-bin": "Choose an Alternative Legendary Binary",
         "alt-nile-bin": "Choose an Alternative Nile Binary",
-        "analyticsOptIn": "Send anonymous data to help Heroic development",
         "autodxvk": "Auto Install/Update DXVK on Prefix",
         "autodxvknvapi": "Auto Install/Update DXVK-NVAPI on Prefix",
         "autosync": "Autosync Saves",
@@ -1068,9 +1052,9 @@
             "sortOptions": "Click here to sort games alphabetically.",
             "viewToggle": "Switch between grid and list view for your games.",
             "welcome": {
-                "intro": "Welcome to the Heroicx Library! This is where you can see all your games across different stores.",
+                "intro": "Welcome to the Basalt Library! This is where you can see all your games across different stores.",
                 "intro2": "If the library is empty, make sure to login with your accounts using the Manage accounts on the sidebar or add your own games using the Add Game button above.",
-                "title": "Welcome to Heroicx!",
+                "title": "Welcome to Basalt!",
                 "title2": "Managing the library!"
             }
         },
@@ -1078,16 +1062,16 @@
         "sidebar": {
             "accessibility": "Access accessibility features to customize your experience.",
             "accounts": "Manage your connected store accounts (Epic, GOG, Amazon), logout or login on them.",
-            "docs": "Read documentation for help with using Heroicx.",
+            "docs": "Read documentation for help with using Basalt.",
             "downloads": "Track and manage your game downloads and installations.",
             "library": "Access your game library from different stores in one place.",
             "login": "Log in to your game store accounts to access your library.",
             "quit": "Exit the application safely.",
-            "settings": "Configure Heroicx's settings, game defaults, check logs and more.",
+            "settings": "Configure Basalt's settings, game defaults, check logs and more.",
             "stores": "Browse and shop for games in different stores including Epic, GOG, and Amazon.",
-            "version": "Check your current Heroicx version, click it to see latest changelog, and access this tour from the help icon.",
+            "version": "Check your current Basalt version, click it to see latest changelog, and access this tour from the help icon.",
             "welcome": {
-                "intro": "Welcome to Heroicx! This sidebar contains all the navigation options to explore the app.",
+                "intro": "Welcome to Basalt! This sidebar contains all the navigation options to explore the app.",
                 "title": "Sidebar Navigation"
             },
             "wine": "Manage or download new version of Wine/Proton/GPTK for running Windows games on Linux or macOS."

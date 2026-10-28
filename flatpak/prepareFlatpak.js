@@ -41,7 +41,7 @@ function createLocalSource(architecture, version, root = process.cwd()) {
     )
   }
 
-  const archiveName = `Heroic-${version}-linux-${architecture.electron}.tar`
+  const archiveName = `Basalt-${version}-linux-${architecture.electron}.tar`
   const temporaryDirectory = fs.mkdtempSync(
     path.join(dist, '.flatpak-archive-')
   )
@@ -78,7 +78,7 @@ function createLocalSource(architecture, version, root = process.cwd()) {
 
 function getReleaseAsset(release, architecture) {
   const version = release.tag_name.replace(/^v/, '')
-  const name = `Heroic-${version}-linux-${architecture.appImage}.AppImage`
+  const name = `Basalt-${version}-linux-${architecture.appImage}.AppImage`
   const asset = release.assets.find((asset) => asset.name === name)
   if (!asset)
     throw new Error(`Release ${release.tag_name} does not contain ${name}`)
@@ -87,7 +87,7 @@ function getReleaseAsset(release, architecture) {
 
 function createManifest(architecture, source, release = false) {
   const template = fs.readFileSync(
-    path.join(__dirname, 'templates/com.heroicgameslauncher.hgl.yml.template'),
+    path.join(__dirname, 'templates/io.quad4.basalt.yml.template'),
     'utf8'
   )
   const manifest = yaml.load(
@@ -104,8 +104,8 @@ function createManifest(architecture, source, release = false) {
   heroic.sources[sourceIndex] = source
   if (release) {
     heroic['build-commands'].unshift(
-      'chmod +x Heroic-*.AppImage',
-      './Heroic-*.AppImage --appimage-extract'
+      'chmod +x Basalt-*.AppImage',
+      './Basalt-*.AppImage --appimage-extract'
     )
   }
 
@@ -171,7 +171,7 @@ async function main() {
   let source
   if (release) {
     const { data } = await axios.get(
-      'https://api.github.com/repos/Heroic-Games-Launcher/HeroicGamesLauncher/releases/latest'
+      'https://api.github.com/repos/Sudo-Ivan/basalt/releases/latest'
     )
     const asset = getReleaseAsset(data, architecture)
     const { data: content } = await axios.get(asset.browser_download_url, {
@@ -191,21 +191,21 @@ async function main() {
   const manifest = createManifest(architecture, source, release)
   fs.mkdirSync('flatpak-build/patches', { recursive: true })
   fs.writeFileSync(
-    'flatpak-build/com.heroicgameslauncher.hgl.yml',
+    'flatpak-build/io.quad4.basalt.yml',
     yaml.dump(manifest, { lineWidth: -1, noRefs: true })
   )
   const metainfo = fs
     .readFileSync(
       path.join(
         __dirname,
-        'templates/com.heroicgameslauncher.hgl.metainfo.xml.template'
+        'templates/io.quad4.basalt.metainfo.xml.template'
       ),
       'utf8'
     )
     .replace('${heroic-version}', `v${version}`)
     .replace('${heroic-release-date}', releaseTime)
   fs.writeFileSync(
-    'flatpak-build/com.heroicgameslauncher.hgl.metainfo.xml',
+    'flatpak-build/io.quad4.basalt.metainfo.xml',
     metainfo
   )
   const flathub = require('./flathub.json')
@@ -221,8 +221,8 @@ async function main() {
     ) + '\n'
   )
   for (const filename of [
-    'com.heroicgameslauncher.hgl.desktop',
-    'com.heroicgameslauncher.hgl.png',
+    'io.quad4.basalt.desktop',
+    'io.quad4.basalt.png',
     'patches/0001-timidity-fix-missing-includes.patch'
   ]) {
     fs.copyFileSync(

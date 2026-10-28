@@ -6,15 +6,13 @@ import { ModuleKind, ScriptTarget, transpileModule } from 'typescript'
 import { selectAppImageAsset } from '../../../flathub/release-assets'
 
 const root = join(__dirname, '../../..')
-const manifestPath =
-  './com.heroicgameslauncher.hgl/com.heroicgameslauncher.hgl.yml'
-const metainfoPath =
-  './com.heroicgameslauncher.hgl/com.heroicgameslauncher.hgl.metainfo.xml'
+const manifestPath = './io.quad4.basalt/io.quad4.basalt.yml'
+const metainfoPath = './io.quad4.basalt/io.quad4.basalt.metainfo.xml'
 const version = 'v2.22.1'
-const url = `https://github.com/Heroic-Games-Launcher/HeroicGamesLauncher/releases/download/${version}/Heroic-2.22.1-linux-x86_64.AppImage`
+const url = `https://github.com/Sudo-Ivan/basalt/releases/download/${version}/Basalt-2.22.1-linux-x86_64.AppImage`
 const content = Buffer.from('x86_64 release payload')
 const armContent = Buffer.from('ARM64 release payload')
-const sourcesPath = './com.heroicgameslauncher.hgl/heroic-sources.json'
+const sourcesPath = './io.quad4.basalt/heroic-sources.json'
 
 async function runUpdater(
   requestedTag?: string,
@@ -52,15 +50,12 @@ async function runUpdater(
   const files = new Map<string, string | Buffer>([
     [
       manifestPath,
-      `url: https://github.com/Heroic-Games-Launcher/HeroicGamesLauncher/releases/download/v1.0.0/Heroic-1.0.0-linux-x86_64.AppImage\nsha512: ${'0'.repeat(128)}\n`
+      `url: https://github.com/Sudo-Ivan/basalt/releases/download/v1.0.0/Basalt-1.0.0-linux-x86_64.AppImage\nsha512: ${'0'.repeat(128)}\n`
     ],
     [
       metainfoPath,
       readFileSync(
-        join(
-          root,
-          'flatpak/templates/com.heroicgameslauncher.hgl.metainfo.xml.template'
-        ),
+        join(root, 'flatpak/templates/io.quad4.basalt.metainfo.xml.template'),
         'utf8'
       )
         .replace('${heroic-version}', 'v1.0.0')
@@ -129,8 +124,8 @@ test.each([undefined, version])(
     const { files, get } = await runUpdater(requestedTag)
     expect(get).toHaveBeenCalledWith(
       requestedTag
-        ? `https://api.github.com/repos/Heroic-Games-Launcher/HeroicGamesLauncher/releases/tags/${requestedTag}`
-        : 'https://api.github.com/repos/Heroic-Games-Launcher/HeroicGamesLauncher/releases/latest'
+        ? `https://api.github.com/repos/Sudo-Ivan/basalt/releases/tags/${requestedTag}`
+        : 'https://api.github.com/repos/Sudo-Ivan/basalt/releases/latest'
     )
     const manifest = files.get(manifestPath)!.toString()
     expect(manifest).toContain(url)

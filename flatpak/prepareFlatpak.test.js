@@ -15,7 +15,7 @@ const {
 
 const localSource = {
   type: 'archive',
-  path: '../dist/Heroic-1.2.3-linux-arm64.tar',
+  path: '../dist/Basalt-1.2.3-linux-arm64.tar',
   dest: 'squashfs-root'
 }
 const moduleNamed = (manifest, name) =>
@@ -99,15 +99,15 @@ test('local manifests install the archive without executing an AppImage', () => 
 test('release manifests retain AppImage extraction', () => {
   const source = {
     type: 'file',
-    url: 'https://example.invalid/Heroic.AppImage',
+    url: 'https://example.invalid/Basalt.AppImage',
     sha512: 'abc'
   }
   const manifest = createManifest(getArchitecture('x64'), source, true)
   const heroic = moduleNamed(manifest, 'heroic')
   assert.deepEqual(heroic.sources.at(-1), source)
   assert.deepEqual(heroic['build-commands'].slice(0, 2), [
-    'chmod +x Heroic-*.AppImage',
-    './Heroic-*.AppImage --appimage-extract'
+    'chmod +x Basalt-*.AppImage',
+    './Basalt-*.AppImage --appimage-extract'
   ])
 })
 
@@ -116,11 +116,11 @@ test('selects the release asset for the requested architecture', () => {
     tag_name: 'v1.2.3',
     assets: [
       {
-        name: 'Heroic-1.2.3-linux-arm64.AppImage',
+        name: 'Basalt-1.2.3-linux-arm64.AppImage',
         browser_download_url: 'https://example.invalid/arm'
       },
       {
-        name: 'Heroic-1.2.3-linux-x86_64.AppImage',
+        name: 'Basalt-1.2.3-linux-x86_64.AppImage',
         browser_download_url: 'https://example.invalid/x86'
       }
     ]
@@ -201,7 +201,7 @@ test('a missing local payload fails before creating a source archive', () => {
       /linux-arm64-unpacked/
     )
     assert(
-      !fs.existsSync(path.join(root, 'dist', 'Heroic-1.2.3-linux-arm64.tar'))
+      !fs.existsSync(path.join(root, 'dist', 'Basalt-1.2.3-linux-arm64.tar'))
     )
   } finally {
     fs.rmSync(root, { recursive: true, force: true })

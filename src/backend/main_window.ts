@@ -62,8 +62,12 @@ export const createMainWindow = () => {
     webPreferences: {
       webviewTag: true,
       contextIsolation: true,
-      nodeIntegration: true,
-      // sandbox: false,
+      nodeIntegration: false,
+      // The preload script requires Node builtins (electron-store,
+      // graceful-fs, os, process) so the renderer cannot be sandboxed.
+      // sandbox defaults to true when nodeIntegration is off, so it has to
+      // be disabled explicitly.
+      sandbox: false,
       preload: mainPreloadPath
     }
   })

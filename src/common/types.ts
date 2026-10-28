@@ -14,8 +14,8 @@ import {
   ZoomInstalledInfo,
   ZoomInstallInfo
 } from './types/zoom'
-import { TitleBarOverlay } from 'electron'
-import { ChildProcess } from 'child_process'
+import type { TitleBarOverlay } from 'electron'
+import type { ChildProcess } from 'child_process'
 import type { HeroicHowLongToBeatEntry } from 'backend/wiki_game_info/howlongtobeat/utils'
 import type { Path } from 'backend/schemas'
 import type LogWriter from 'backend/logger/log_writer'
@@ -87,7 +87,6 @@ export type ExperimentalFeatures = {
 }
 
 export interface AppSettings extends GameSettings {
-  analyticsOptIn: boolean
   addDesktopShortcuts: boolean
   addStartMenuShortcuts: boolean
   addSteamShortcuts: boolean

@@ -1,4 +1,4 @@
-id: com.heroicgameslauncher.hgl
+id: io.quad4.basalt
 sdk: org.freedesktop.Sdk
 runtime: org.freedesktop.Platform
 runtime-version: '25.08'
@@ -198,8 +198,8 @@ modules:
           mkdir -p /app/lib/i386-linux-gnu/GL
           mkdir -p /app/lib/i386-linux-gnu/dri/intel-vaapi-driver
         fi
-        install -Dm644 com.heroicgameslauncher.hgl.png /app/share/icons/hicolor/128x128/apps/com.heroicgameslauncher.hgl.png
-        install -Dm644 com.heroicgameslauncher.hgl.desktop /app/share/applications/${FLATPAK_ID}.desktop
+        install -Dm644 io.quad4.basalt.png /app/share/icons/hicolor/128x128/apps/io.quad4.basalt.png
+        install -Dm644 io.quad4.basalt.desktop /app/share/applications/${FLATPAK_ID}.desktop
         install -Dm644 -t /app/etc ld.so.conf
         install -Dm644 $FLATPAK_ID.metainfo.xml /app/share/metainfo/$FLATPAK_ID.appdata.xml
     sources:
@@ -210,11 +210,11 @@ modules:
           /app/lib32
           /app/lib/i386-linux-gnu
       - type: file
-        path: com.heroicgameslauncher.hgl.metainfo.xml
+        path: io.quad4.basalt.metainfo.xml
       - type: file
-        path: com.heroicgameslauncher.hgl.png
+        path: io.quad4.basalt.png
       - type: file
-        path: com.heroicgameslauncher.hgl.desktop
+        path: io.quad4.basalt.desktop
 
   #START --- Winetricks Deps ---
   - name: 7zip

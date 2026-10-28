@@ -1,5 +1,6 @@
-appId: io.quad4.heroicx
-productName: Heroicx
+afterPack: meta/flipFuses.js
+appId: io.quad4.basalt
+productName: Basalt
 files:
   - build/**/*
   - node_modules/**/*
@@ -22,11 +23,27 @@ protocols:
     schemes:
       - heroic
 
+# Auto-update feed for electron-updater, served from this fork's GitHub
+# releases over HTTPS only. Update metadata (latest.yml, latest-mac.yml,
+# latest-linux.yml) is published with sha512 checksums.
+# NOTE: the released packages are unsigned, so on Windows and macOS the
+# updater can only verify a downloaded update against the sha512 checksum
+# published in the release metadata over HTTPS. There is no codesigning
+# based verification. On Linux the AppImage uses the same metadata, and
+# the zip targets feed the macOS updater.
+publish:
+  provider: github
+  owner: Sudo-Ivan
+  repo: basalt
+  private: false
+  releaseType: release
+
 win:
   artifactName: ${productName}-${version}-Setup-${arch}.${ext}
   icon: build/win_icon.ico
   target:
     - nsis
+    - portable
   files:
     - build/bin/${arch}/win32/*
     - build/bin/x64/win32/nile.exe
@@ -69,7 +86,7 @@ linux:
   icon: build/icon.png
   desktop:
     entry:
-      Name: Heroicx
+      Name: Basalt
       Comment[de]: Ein OSS-Spielelauncher für GOG, Epic Games und Amazon Games
       Comment[pl]: Otwartoźródłowy launcher dla GOG, Epic Games i Amazon Games
       Comment[fr]: Un lanceur de jeux open source pour GOG, Epic Games et Amazon Games
@@ -93,3 +110,5 @@ nsis:
   oneClick: false
   allowToChangeInstallationDirectory: true
   perMachine: true
+  createDesktopShortcut: true
+  createStartMenuShortcut: true

@@ -33,7 +33,7 @@ async function showAutoupdateDialog() {
   }
 
   let { response } = await dialog.showMessageBox({
-    title: t('box.info.update.title', 'Heroicx'),
+    title: t('box.info.update.title', 'Basalt'),
     message: t('box.info.update.message', 'There is a new Version available!'),
     detail: messageDetail,
 
@@ -49,9 +49,7 @@ async function showAutoupdateDialog() {
     autoUpdater.downloadUpdate()
   }
   if (response === 2) {
-    shell.openExternal(
-      'https://github.com/Heroic-Games-Launcher/HeroicGamesLauncher/releases'
-    )
+    shell.openExternal('https://github.com/Sudo-Ivan/basalt/releases')
     showAutoupdateDialog()
   }
 }
