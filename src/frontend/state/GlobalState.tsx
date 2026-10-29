@@ -36,7 +36,10 @@ import {
   sideloadLibrary,
   zoomConfigStore,
   zoomInstalledGamesStore,
-  zoomLibraryStore
+  zoomLibraryStore,
+  lancommanderConfigStore,
+  lancommanderInstalledGamesStore,
+  lancommanderLibraryStore
 } from '../helpers/electronStores'
 import type { IpcRendererEvent } from 'electron'
 import { NileRegisterData } from 'common/types/nile'
@@ -74,6 +77,10 @@ interface StateProps {
     library: GameInfo[]
     username?: string
     enabled: boolean
+  }
+  lancommander: {
+    library: GameInfo[]
+    username?: string
   }
   wineVersions: WineVersionInfo[]
   error: boolean
@@ -193,6 +200,23 @@ class GlobalState extends PureComponent<Props> {
     return applyGameOverrides(games, overrides)
   }
 
+  loadLCLibrary = (
+    overrides: Record<string, GameOverride> = currentOverrides()
+  ): Array<GameInfo> => {
+    const games = lancommanderLibraryStore.get('games', [])
+    const installedGames = lancommanderInstalledGamesStore.get('installed', [])
+    for (const game of games) {
+      const igame = installedGames.find(
+        (igame) => igame.appName === game.app_name
+      )
+      if (igame) {
+        game.install = igame
+        game.is_installed = true
+      }
+    }
+    return applyGameOverrides(games, overrides)
+  }
+
   state: StateProps = {
     epic: {
       library: this.loadLegendaryLibrary(),
@@ -211,6 +235,10 @@ class GlobalState extends PureComponent<Props> {
       library: this.loadZoomLibrary(),
       username: zoomConfigStore.get_nodefault('username'),
       enabled: !!globalSettings?.experimentalFeatures?.zoomPlatform
+    },
+    lancommander: {
+      library: this.loadLCLibrary(),
+      username: lancommanderConfigStore.get_nodefault('username')
     },
     wineVersions: wineDownloaderInfoStore.get('wine-releases', []),
     error: false,
@@ -665,6 +693,37 @@ class GlobalState extends PureComponent<Props> {
     window.location.reload()
   }
 
+  lcLogin = async (args: {
+    serverUrl: string
+    username: string
+    password: string
+    allowSelfSigned: boolean
+  }): Promise<{ status: string; error?: string }> => {
+    const response = await window.api.authLC(args)
+    if (response.status === 'done') {
+      this.setState({
+        lancommander: {
+          library: [],
+          username: response.data?.username
+        }
+      })
+      this.handleSuccessfulLogin('lancommander')
+    }
+    return { status: response.status, error: response.error }
+  }
+
+  lcLogout = async () => {
+    window.api.logoutLC()
+    this.setState({
+      lancommander: {
+        library: [],
+        username: null
+      }
+    })
+    console.log('Logging out from lancommander')
+    window.location.reload()
+  }
+
   updateGameOverrides = (overrides: Record<string, GameOverride>) => {
     useGlobalState.getState().setGameOverrides(overrides)
     this.setState({
@@ -783,6 +842,8 @@ class GlobalState extends PureComponent<Props> {
         if (gog.username) runners.push('gog')
         if (amazon.user_id) runners.push('nile')
         if (zoom.enabled && zoom.username) runners.push('zoom')
+        const { lancommander } = this.state
+        if (lancommander.username) runners.push('lancommander')
         runners.push('sideload')
       } else {
         runners = [library]
@@ -846,6 +907,13 @@ class GlobalState extends PureComponent<Props> {
         break
       case 'sideload':
         publishedLibrary = updatedSideload
+        break
+      case 'lancommander':
+        publishedLibrary = this.loadLCLibrary(overrides)
+        patch.lancommander = {
+          ...this.state.lancommander,
+          library: publishedLibrary
+        }
         break
     }
 
@@ -1030,6 +1098,7 @@ class GlobalState extends PureComponent<Props> {
     const gogUser = gogConfigStore.has('userData')
     const amazonUser = nileConfigStore.has('userData')
     const zoomUser = zoomConfigStore.has('isLoggedIn')
+    const lcUser = lancommanderConfigStore.get('isLoggedIn', false)
 
     const startupTasks: Promise<unknown>[] = [
       window.api
@@ -1058,6 +1127,10 @@ class GlobalState extends PureComponent<Props> {
 
     if (zoom.enabled && zoomUser) {
       startupTasks.push(window.api.getZoomUserInfo())
+    }
+
+    if (lcUser) {
+      startupTasks.push(window.api.getLCUserInfo())
     }
 
     const startupResults = await Promise.allSettled(startupTasks)
@@ -1224,6 +1297,13 @@ class GlobalState extends PureComponent<Props> {
             login: this.zoomLogin,
             logout: this.zoomLogout,
             enabled: this.state.zoom.enabled
+          },
+          lancommander: {
+            library: this.state.lancommander.library,
+            username: this.state.lancommander.username,
+            serverUrl: lancommanderConfigStore.get_nodefault('serverUrl'),
+            login: this.lcLogin,
+            logout: this.lcLogout
           },
           installingEpicGame,
           setLanguage: this.setLanguage,

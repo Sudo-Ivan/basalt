@@ -367,7 +367,7 @@ async function openUrlOrFile(url: string): Promise<string | void> {
 }
 
 function clearCache(
-  library?: 'gog' | 'legendary' | 'nile' | 'zoom',
+  library?: 'gog' | 'legendary' | 'nile' | 'zoom' | 'lancommander',
   fromVersionChange = false
 ) {
   wikiGameInfoStore.clear()

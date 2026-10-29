@@ -28,6 +28,8 @@ async function getDefaultSavePath(
       return ''
     case 'sideload':
       return ''
+    case 'lancommander':
+      return ''
     case 'zoom':
       return ''
   }

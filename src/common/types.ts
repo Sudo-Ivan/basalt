@@ -21,7 +21,8 @@ import type { Path } from 'backend/schemas'
 import type LogWriter from 'backend/logger/log_writer'
 import type { SteamRuntimeName } from './types/umu'
 
-export type Runner = 'legendary' | 'gog' | 'sideload' | 'nile' | 'zoom'
+export type Runner =
+  'legendary' | 'gog' | 'sideload' | 'nile' | 'zoom' | 'lancommander'
 
 // NOTE: Do not put enum's in this module or it will break imports
 
@@ -177,7 +178,7 @@ export type GOGAchievement = {
 export type GameAchievement = GOGAchievement
 
 export interface GameInfo {
-  runner: 'legendary' | 'gog' | 'sideload' | 'nile' | 'zoom'
+  runner: 'legendary' | 'gog' | 'sideload' | 'nile' | 'zoom' | 'lancommander'
   store_url?: string
   app_name: string
   art_cover: string
@@ -844,6 +845,7 @@ export interface KnownFixesFile {
   epic: Record<string, KnownFixesInfo>
   gog: Record<string, KnownFixesInfo>
   zoom: Record<string, KnownFixesInfo>
+  lancommander: Record<string, KnownFixesInfo>
 }
 
 export interface UploadedLogData {

@@ -79,6 +79,18 @@ const SyncSaves = () => {
     )
   }
 
+  if (runner === 'lancommander') {
+    return (
+      <ToggleSwitch
+        htmlId="autosync"
+        value={autoSyncSaves}
+        disabled={!gameInfo?.cloud_save_enabled}
+        handleChange={() => setAutoSyncSaves(!autoSyncSaves)}
+        title={t('setting.autosync')}
+      />
+    )
+  }
+
   return <></>
 }
 

@@ -11,7 +11,8 @@ const storeMapping: Record<Runner, string> = {
   legendary: 'egs',
   nile: 'amazon',
   sideload: 'sideload',
-  zoom: 'zoomplatform'
+  zoom: 'zoomplatform',
+  lancommander: 'lancommander'
 }
 
 export async function getUmuId(

@@ -3,6 +3,7 @@ import GOGLibraryManager from 'backend/storeManagers/gog/library'
 import LegendaryLibraryManager from 'backend/storeManagers/legendary/library'
 import NileLibraryManager from 'backend/storeManagers/nile/library'
 import ZoomLibraryManager from 'backend/storeManagers/zoom/library'
+import LCLibraryManager from 'backend/storeManagers/lancommander/library'
 
 import { logError, logInfo, RunnerToLogPrefixMap } from 'backend/logger'
 import { addToQueue } from 'backend/downloadmanager/downloadqueue'
@@ -15,7 +16,8 @@ export const libraryManagerMap = {
   gog: new GOGLibraryManager(),
   legendary: new LegendaryLibraryManager(),
   nile: new NileLibraryManager(),
-  zoom: new ZoomLibraryManager()
+  zoom: new ZoomLibraryManager(),
+  lancommander: new LCLibraryManager()
 } satisfies Record<Runner, LibraryManager>
 
 function getDMElement(gameInfo: GameInfo, appName: string) {

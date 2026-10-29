@@ -64,6 +64,7 @@
     "intro.js": "^7.2.0",
     "intro.js-react": "^1.0.0",
     "json5": "^2.2.3",
+    "jszip": "3.10.2",
     "plist": "^3.1.1",
     "react-markdown": "^10.1.0",
     "rehype-raw": "^7.0.0",
@@ -72,7 +73,8 @@
     "semver": "^7.8.5",
     "shlex": "^2.1.2",
     "short-uuid": "^4.2.2",
-    "simple-keyboard": "^3.8.201"
+    "simple-keyboard": "^3.8.201",
+    "unzipper": "0.12.5"
   },
   "devDependencies": {
     "@electron/fuses": "2.1.3",

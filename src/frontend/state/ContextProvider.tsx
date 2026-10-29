@@ -31,6 +31,12 @@ const initialContext: ContextType = {
     logout: async () => Promise.resolve(),
     enabled: false
   },
+  lancommander: {
+    library: [],
+    login: async () => Promise.resolve({ status: 'error' }),
+    logout: async () => Promise.resolve(),
+    serverUrl: undefined
+  },
   installingEpicGame: false,
   sideloadedLibrary: [],
   error: false,

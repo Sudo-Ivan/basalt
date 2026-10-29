@@ -9,6 +9,8 @@ import GOGLogo from 'frontend/assets/gog-logo.svg?react'
 import HeroicLogo from 'frontend/assets/heroic-icon.svg?react'
 import AmazonLogo from 'frontend/assets/amazon-logo.svg?react'
 import ZoomLogo from 'frontend/assets/zoom-logo.svg?react'
+import LANCommanderLogo from 'frontend/assets/lancommander-logo.svg?react'
+import LANCommanderLogin from './components/LANCommanderLogin'
 
 import { LanguageSelector, UpdateComponent } from '../../components/UI'
 import { FlagPosition } from '../../components/UI/LanguageSelector'
@@ -23,7 +25,7 @@ export const amazonLoginPath = '/loginweb/nile'
 export const zoomLoginPath = '/loginweb/zoom'
 
 export default React.memo(function NewLogin() {
-  const { epic, gog, amazon, zoom, refreshLibrary } =
+  const { epic, gog, amazon, zoom, lancommander, refreshLibrary } =
     useContext(ContextProvider)
   const { t } = useTranslation()
 
@@ -42,6 +44,8 @@ export default React.memo(function NewLogin() {
     Boolean(amazon.user_id)
   )
   const [isZoomLoggedIn, setIsZoomLoggedIn] = useState(Boolean(zoom.username))
+  const [isLCLoggedIn] = useState(Boolean(lancommander.username))
+  const [showLCForm, setShowLCForm] = useState(false)
 
   const systemInfo = useAwaited(window.api.systemInfo.get)
 
@@ -161,7 +165,19 @@ export default React.memo(function NewLogin() {
                 disabled={oldMac}
               />
             )}
+            <Runner
+              class="lancommander"
+              buttonText={t('login.lancommander.login', 'LANCommander Login')}
+              icon={() => <LANCommanderLogo />}
+              loginUrl=""
+              isLoggedIn={isLCLoggedIn}
+              user={lancommander.username}
+              logoutAction={lancommander.logout}
+              disabled={oldMac}
+              alternativeLoginAction={() => setShowLCForm(!showLCForm)}
+            />
           </div>
+          {showLCForm && !isLCLoggedIn && <LANCommanderLogin />}
         </div>
         <button
           onClick={async () => handleLibraryClick()}

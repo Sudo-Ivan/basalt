@@ -5,5 +5,6 @@ export const storeMap = {
   gog: 'gog',
   nile: 'amazon',
   sideload: undefined,
-  zoom: 'zoom'
+  zoom: 'zoom',
+  lancommander: 'lancommander'
 } as const satisfies Record<Runner, string | undefined>

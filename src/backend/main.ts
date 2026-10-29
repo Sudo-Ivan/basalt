@@ -36,6 +36,7 @@ import { GOGUser } from './storeManagers/gog/user'
 import gogPresence from './storeManagers/gog/presence'
 import { NileUser } from './storeManagers/nile/user'
 import { ZoomUser } from './storeManagers/zoom/user'
+import { LCUser } from './storeManagers/lancommander/user'
 import {
   clearCache,
   isEpicServiceOffline,
@@ -801,6 +802,18 @@ addHandler('authZoom', async (event, url) => {
 
 addListener('logoutZoom', () => ZoomUser.logout())
 addHandler('getZoomUserInfo', async () => ZoomUser.getUserDetails())
+
+addHandler('authLC', async (event, args) => {
+  const login = await LCUser.login(
+    args.serverUrl,
+    args.username,
+    args.password,
+    args.allowSelfSigned
+  )
+  return login
+})
+addListener('logoutLC', () => LCUser.logout())
+addHandler('getLCUserInfo', async () => LCUser.getUserDetails())
 
 addHandler('getAlternativeWine', async () =>
   GlobalConfig.get().getAlternativeWine()

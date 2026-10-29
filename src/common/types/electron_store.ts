@@ -79,6 +79,23 @@ export interface StoreStructure {
     isLoggedIn: boolean
     username?: string
   }
+  lancommanderConfigStore: {
+    serverUrl?: string
+    allowSelfSigned?: boolean
+    accessToken?: string
+    refreshToken?: string
+    tokenExpiration?: string
+    isLoggedIn: boolean
+    username?: string
+  }
+  lancommanderInstalledGamesStore: {
+    installed: InstalledInfo[]
+  }
+  lancommanderSyncStore: {
+    [appName: string]: {
+      [saveName: string]: string
+    }
+  }
   nileConfigStore: {
     userData?: NileUserData
   }

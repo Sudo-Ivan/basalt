@@ -26,6 +26,7 @@ import {
   gogCategories,
   sideloadedCategories,
   zoomCategories,
+  lancommanderCategories,
   normalizeTitle
 } from 'frontend/helpers/library'
 import RecentlyPlayed from './components/RecentlyPlayed'
@@ -57,6 +58,7 @@ export default React.memo(function Library(): React.JSX.Element {
     gog,
     amazon,
     zoom,
+    lancommander,
     sideloadedLibrary,
     favouriteGames,
     libraryTopSection,
@@ -93,7 +95,8 @@ export default React.memo(function Library(): React.JSX.Element {
       gog: gogCategories.includes(storedCategory),
       nile: amazonCategories.includes(storedCategory),
       sideload: sideloadedCategories.includes(storedCategory),
-      zoom: zoom.enabled && zoomCategories.includes(storedCategory)
+      zoom: zoom.enabled && zoomCategories.includes(storedCategory),
+      lancommander: lancommanderCategories.includes(storedCategory)
     }
   }
 
@@ -374,6 +377,9 @@ export default React.memo(function Library(): React.JSX.Element {
       zoom.library.forEach((game) => {
         if (favouriteAppNames.includes(game.app_name)) tempArray.push(game)
       })
+      lancommander.library.forEach((game) => {
+        if (favouriteAppNames.includes(game.app_name)) tempArray.push(game)
+      })
     }
     return tempArray.sort((a, b) => {
       const gameA = a.title.toUpperCase().replace('THE ', '')
@@ -388,7 +394,8 @@ export default React.memo(function Library(): React.JSX.Element {
     gog,
     amazon,
     sideloadedLibrary,
-    zoom
+    zoom,
+    lancommander
   ])
 
   const favouritesIds = useMemo(() => {
@@ -412,6 +419,9 @@ export default React.memo(function Library(): React.JSX.Element {
     if (storesFilters['zoom'] && zoom.username) {
       displayedStores.push('zoom')
     }
+    if (storesFilters['lancommander'] && lancommander.username) {
+      displayedStores.push('lancommander')
+    }
 
     if (!displayedStores.length) {
       displayedStores = Object.keys(storesFilters)
@@ -422,19 +432,23 @@ export default React.memo(function Library(): React.JSX.Element {
     const showAmazon = amazon.user_id && displayedStores.includes('nile')
     const showSideloaded = displayedStores.includes('sideload')
     const showZoom = zoom.username && displayedStores.includes('zoom')
+    const showLC =
+      lancommander.username && displayedStores.includes('lancommander')
 
     const epicLibrary = showEpic ? epic.library : []
     const gogLibrary = showGog ? gog.library : []
     const sideloadedApps = showSideloaded ? sideloadedLibrary : []
     const amazonLibrary = showAmazon ? amazon.library : []
     const zoomLibrary = showZoom ? zoom.library : []
+    const lcLibrary = showLC ? lancommander.library : []
 
     return [
       ...sideloadedApps,
       ...epicLibrary,
       ...gogLibrary,
       ...amazonLibrary,
-      ...zoomLibrary
+      ...zoomLibrary,
+      ...lcLibrary
     ]
   }
 
@@ -569,6 +583,7 @@ export default React.memo(function Library(): React.JSX.Element {
     gog.library,
     amazon.library,
     zoom.library,
+    lancommander.library,
     sideloadedLibrary,
     platform,
     filterText,
@@ -672,7 +687,7 @@ export default React.memo(function Library(): React.JSX.Element {
     }
   }, [])
 
-  if (!epic && !gog && !amazon && !zoom) {
+  if (!epic && !gog && !amazon && !zoom && !lancommander) {
     return (
       <ErrorComponent
         message={t(

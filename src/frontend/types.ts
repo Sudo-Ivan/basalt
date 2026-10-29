@@ -20,7 +20,7 @@ import { NileLoginData, NileRegisterData } from 'common/types/nile'
 import type { JSX } from 'react'
 
 export type Category =
-  'all' | 'legendary' | 'gog' | 'sideload' | 'nile' | 'zoom'
+  'all' | 'legendary' | 'gog' | 'sideload' | 'nile' | 'zoom' | 'lancommander'
 
 export interface ContextType {
   error: boolean
@@ -90,6 +90,18 @@ export interface ContextType {
     login: (url: string) => Promise<string>
     logout: () => Promise<void>
     enabled: boolean
+  }
+  lancommander: {
+    library: GameInfo[]
+    username?: string
+    serverUrl?: string
+    login: (args: {
+      serverUrl: string
+      username: string
+      password: string
+      allowSelfSigned: boolean
+    }) => Promise<{ status: string; error?: string }>
+    logout: () => Promise<void>
   }
   installingEpicGame: boolean
   allTilesInColor: boolean
@@ -208,6 +220,7 @@ export interface StoresFilters {
   nile: boolean
   sideload: boolean
   zoom: boolean
+  lancommander: boolean
 }
 
 export interface PlatformsFilters {

@@ -153,6 +153,24 @@ const zoomConfigStore = new TypeCheckedStoreFrontend('zoomConfigStore', {
   cwd: 'zoom_store'
 })
 
+const lancommanderLibraryStore = new CacheStore<GameInfo[], 'games'>(
+  'lancommander_library',
+  null
+)
+const lancommanderInstalledGamesStore = new TypeCheckedStoreFrontend(
+  'lancommanderInstalledGamesStore',
+  {
+    cwd: 'lancommander_store',
+    name: 'installed'
+  }
+)
+const lancommanderConfigStore = new TypeCheckedStoreFrontend(
+  'lancommanderConfigStore',
+  {
+    cwd: 'lancommander_store'
+  }
+)
+
 const nileLibraryStore = new CacheStore<GameInfo[], 'library'>(
   'nile_library',
   null
@@ -196,5 +214,8 @@ export {
   zoomLibraryStore,
   zoomInstalledGamesStore,
   zoomConfigStore,
+  lancommanderLibraryStore,
+  lancommanderInstalledGamesStore,
+  lancommanderConfigStore,
   gameOverridesStore
 }

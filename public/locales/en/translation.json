@@ -495,6 +495,7 @@
         "loading": "Loading",
         "releaseDate": "Release Date"
     },
+    "LANCommander": "LANCommander",
     "launch": {
         "options": "Launch Options..."
     },
@@ -519,8 +520,18 @@
         "amazon": "Amazon Login",
         "epic": "Epic Games Login",
         "gog": "GOG Login",
+        "lancommander": {
+            "failed": "Login failed",
+            "login": "LANCommander Login",
+            "notice": "Scripts provided by this server can run on your system with your permissions when PowerShell 7 is installed. Only connect to servers you trust.",
+            "selfsigned": "Allow self-signed certificate",
+            "server": "Server URL"
+        },
+        "logging-in": "Logging in...",
         "message": "Login with your platform. You can login to more than one platform at the same time.",
         "old-mac": "Your macOS version is {{version}}. macOS 12 or newer is required to log in.",
+        "password": "Password",
+        "username": "Username",
         "zoom": "Zoom Login"
     },
     "message": {
@@ -562,6 +573,10 @@
             "imported": "Game Imported",
             "paused": "Installation Paused",
             "startInstall": "Installation Started"
+        },
+        "lancommander": {
+            "install-script-warning": "The install script reported an error; the game was installed anyway.",
+            "scripts-skipped": "PowerShell 7 (pwsh) was not found, so game scripts were skipped."
         },
         "moved": "Finished Moving",
         "moving": "Moving Game",

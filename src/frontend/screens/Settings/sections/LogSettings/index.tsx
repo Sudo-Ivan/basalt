@@ -78,7 +78,7 @@ export default function LogSettings() {
   )
   const [refreshing, setRefreshing] = useState<boolean>(true)
 
-  const { epic, gog, amazon, zoom, sideloadedLibrary } =
+  const { epic, gog, amazon, zoom, lancommander, sideloadedLibrary } =
     useContext(ContextProvider)
   const [installedGames, setInstalledGames] = useState<GameInfo[]>([])
 
@@ -88,6 +88,9 @@ export default function LogSettings() {
     games = games.concat(gog.library.filter((game) => game.is_installed))
     games = games.concat(amazon.library.filter((game) => game.is_installed))
     games = games.concat(zoom.library.filter((game) => game.is_installed))
+    games = games.concat(
+      lancommander.library.filter((game) => game.is_installed)
+    )
     games = games.concat(sideloadedLibrary.filter((game) => game.is_installed))
     games = games.sort((game1, game2) => game1.title.localeCompare(game2.title))
 
@@ -97,7 +100,8 @@ export default function LogSettings() {
     gog.library,
     amazon.library,
     sideloadedLibrary,
-    zoom.library
+    zoom.library,
+    lancommander.library
   ])
 
   const isFetching = useRef<boolean>(false)
