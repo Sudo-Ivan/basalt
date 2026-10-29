@@ -384,8 +384,8 @@ importers:
         specifier: ^22.5.1
         version: 22.5.1
       i18next-cli:
-        specifier: 1.80.4
-        version: 1.80.4(@types/node@22.20.5(patch_hash=8c1b2354f08e74aa2381e5f6c314a45bb82ae9f8763bf63f0e1b6797e9232831))(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(typescript@5.9.3)
+        specifier: 1.80.5
+        version: 1.80.5(@types/node@22.20.5(patch_hash=8c1b2354f08e74aa2381e5f6c314a45bb82ae9f8763bf63f0e1b6797e9232831))(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(typescript@5.9.3)
       i18next-fs-backend:
         specifier: ^2.6.9
         version: 2.6.9
@@ -3716,8 +3716,8 @@ packages:
     engines: {node: '>=14'}
     hasBin: true
 
-  i18next-cli@1.80.4:
-    resolution: {integrity: sha512-8lKouBLRrxirQgtnFm3WCR71o7657CIyhCR0iLJxG/+DMljRwjEn2DxCA81Nbp7Db3T+T8TnD7s2VY6N8fVWWA==}
+  i18next-cli@1.80.5:
+    resolution: {integrity: sha512-WhH15VGhKmtcvEB5LWWCe5WgKcPLsKIGTcBeJtcfs4yZjZn+7ywVkRC/cAcPiq5Lnzm05cUK2UjH/dKsYNCN8g==}
     engines: {node: '>=22'}
     hasBin: true
 
@@ -9707,7 +9707,7 @@ snapshots:
 
   husky@8.0.3: {}
 
-  i18next-cli@1.80.4(@types/node@22.20.5(patch_hash=8c1b2354f08e74aa2381e5f6c314a45bb82ae9f8763bf63f0e1b6797e9232831))(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(typescript@5.9.3):
+  i18next-cli@1.80.5(@types/node@22.20.5(patch_hash=8c1b2354f08e74aa2381e5f6c314a45bb82ae9f8763bf63f0e1b6797e9232831))(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(typescript@5.9.3):
     dependencies:
       '@croct/json5-parser': 0.2.2
       '@formatjs/icu-messageformat-parser': 3.5.22
