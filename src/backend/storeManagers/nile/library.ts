@@ -25,6 +25,7 @@ import { NileUser } from './user'
 import { runNileCommandStub } from './e2eMock'
 import { nileConfigPath, nileInstalled, nileLibrary } from './constants'
 import NileGame from './games'
+import { singleFlight } from 'backend/utils/singleFlight'
 import type { LibraryManager } from 'common/types/game_manager'
 
 export default class NileLibraryManager implements LibraryManager {
@@ -40,7 +41,12 @@ export default class NileLibraryManager implements LibraryManager {
       await NileUser.getUserData()
     }
 
-    this.refresh()
+    this.refresh().catch((error) => {
+      logError(
+        ['Failed to refresh Amazon library on init:', error],
+        LogPrefix.Nile
+      )
+    })
   }
 
   getGame(id: string): NileGame {
@@ -267,12 +273,16 @@ export default class NileLibraryManager implements LibraryManager {
    * @returns Array of objects.
    */
   async refresh(): Promise<ExecResult | null> {
+    return singleFlight('nile-refresh', () => this.doRefresh())
+  }
+
+  private async doRefresh(): Promise<ExecResult | null> {
     if (!NileUser.isLoggedIn()) {
       return this.defaultExecResult
     }
     logInfo('Refreshing library...', LogPrefix.Nile)
 
-    this.refreshNile()
+    await this.refreshNile()
     this.refreshInstalled()
     this.loadGamesInAccount()
 

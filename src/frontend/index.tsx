@@ -20,6 +20,15 @@ window.addEventListener('error', (ev: ErrorEvent) => {
   window.api.logError(ev.error)
 })
 
+window.addEventListener('unhandledrejection', (ev: PromiseRejectionEvent) => {
+  const reason = ev.reason
+  window.api.logError(
+    reason instanceof Error
+      ? String(reason.stack ?? reason.message)
+      : String(reason)
+  )
+})
+
 const DEFAULT_THEME = 'void'
 
 const Backend = new HttpApi(null, {

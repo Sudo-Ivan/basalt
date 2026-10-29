@@ -328,6 +328,12 @@
     },
     "Epic Games": "Epic Games",
     "error": "Error",
+    "error-page": {
+        "go-to-library": "Go to Library",
+        "reload-window": "Reload window",
+        "something-went-wrong": "Something went wrong",
+        "try-again": "Try again"
+    },
     "externalLink": {
         "dontAskAgain": "Don't ask again",
         "warning": "You are about to open an external link."

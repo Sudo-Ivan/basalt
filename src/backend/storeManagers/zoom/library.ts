@@ -28,6 +28,7 @@ import {
 import { isOnline } from '../../online_monitor'
 import { apiUrl } from './constants'
 import { GlobalConfig } from 'backend/config'
+import { singleFlight } from 'backend/utils/singleFlight'
 import { LibraryManager } from 'common/types/game_manager'
 
 const libraryCache = new CacheStore<ZoomGameInfo[]>('zoom-library')
@@ -39,7 +40,12 @@ export default class ZoomLibraryManager implements LibraryManager {
     if (!GlobalConfig.get().getSettings().experimentalFeatures?.zoomPlatform)
       return
 
-    await this.refresh()
+    this.refresh().catch((error) => {
+      logError(
+        ['Failed to refresh Zoom library on init:', error],
+        LogPrefix.Zoom
+      )
+    })
   }
 
   getGame(id: string): ZoomGame {
@@ -47,6 +53,10 @@ export default class ZoomLibraryManager implements LibraryManager {
   }
 
   async refresh(): Promise<ExecResult> {
+    return singleFlight('zoom-refresh', () => this.doRefresh())
+  }
+
+  private async doRefresh(): Promise<ExecResult> {
     if (!GlobalConfig.get().getSettings().experimentalFeatures?.zoomPlatform)
       return { stdout: '', stderr: 'Zoom Support disabled' }
     libraryCache.clear()

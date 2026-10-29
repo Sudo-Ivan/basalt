@@ -36,19 +36,18 @@ export default function ProgressHeader(props: {
       return
     }
 
-    if (avgSpeed.length > sampleSize - 1) {
-      avgSpeed.shift()
-    }
-
-    avgSpeed.push({
-      download:
-        progress.downSpeed && progress.downSpeed > 0
-          ? progress.downSpeed
-          : (avgSpeed.at(-1)?.download ?? 0),
-      disk: progress.diskSpeed ?? 0
+    setAvgDownloadSpeed((previous) => {
+      const next =
+        previous.length > sampleSize - 1 ? previous.slice(1) : [...previous]
+      next.push({
+        download:
+          progress.downSpeed && progress.downSpeed > 0
+            ? progress.downSpeed
+            : (previous.at(-1)?.download ?? 0),
+        disk: progress.diskSpeed ?? 0
+      })
+      return next
     })
-
-    setAvgDownloadSpeed([...avgSpeed])
   }, [progress, props.state])
 
   return (

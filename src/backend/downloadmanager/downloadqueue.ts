@@ -222,8 +222,29 @@ function removeFromQueue(appName: string) {
 }
 
 function getQueueInformation() {
-  const elements = downloadManager.get('queue', [])
-  const finished = downloadManager.get('finished', [])
+  const storedQueue = downloadManager.get('queue', [])
+  const storedFinished = downloadManager.get('finished', [])
+
+  const isValid = (element: DMQueueElement) => {
+    if (!element?.params?.appName) {
+      logWarning(
+        'Dropping malformed download manager entry without params.appName',
+        LogPrefix.DownloadManager
+      )
+      return false
+    }
+    return true
+  }
+
+  const elements = storedQueue.filter(isValid)
+  const finished = storedFinished.filter(isValid)
+
+  if (elements.length !== storedQueue.length) {
+    downloadManager.set('queue', elements)
+  }
+  if (finished.length !== storedFinished.length) {
+    downloadManager.set('finished', finished)
+  }
 
   return { elements, finished, state: queueState }
 }

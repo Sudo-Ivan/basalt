@@ -71,7 +71,12 @@ export default tseslint.config(
     }
   },
   {
-    files: ['**/__tests__/**/*.ts', '**/__mocks__/**/*.ts'],
+    files: [
+      '**/__tests__/**/*.ts',
+      '**/__tests__/**/*.tsx',
+      '**/__mocks__/**/*.ts',
+      '**/__mocks__/**/*.tsx'
+    ],
     rules: {
       '@typescript-eslint/no-explicit-any': 'off',
       '@typescript-eslint/unbound-method': 'warn'

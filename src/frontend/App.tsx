@@ -5,6 +5,7 @@ import {
   createHashRouter,
   Navigate,
   Outlet,
+  RouteObject,
   RouterProvider,
   useLocation
 } from 'react-router-dom'
@@ -21,6 +22,7 @@ import UploadedLogFilesList from './screens/Settings/sections/LogSettings/compon
 import { TourProvider } from './state/TourContext'
 import { InstallGameWrapper } from './screens/Library/components/InstallModal'
 import { SettingsModalWrapper } from './screens/Settings/components/SettingsModal'
+import RouteErrorFallback from './components/UI/RouteErrorFallback'
 
 function Root() {
   const {
@@ -112,75 +114,83 @@ function Root() {
   )
 }
 
-function makeLazyFunc(
-  importedFile: Promise<Record<'default', React.ComponentType>>
+function lazyRoute(
+  loadComponent: () => Promise<Record<'default', React.ComponentType>>
 ) {
   return async () => {
-    const component = await importedFile
+    const component = await loadComponent()
     return { Component: component.default }
   }
 }
 
-const router = createHashRouter([
+export const routes: RouteObject[] = [
   {
     path: '/',
     element: <Root />,
+    errorElement: <RouteErrorFallback />,
     children: [
       {
-        index: true,
-        lazy: makeLazyFunc(import('./screens/Library'))
-      },
-      {
-        path: 'login',
-        lazy: makeLazyFunc(import('./screens/Login'))
-      },
-      {
-        path: 'store/:store',
-        lazy: makeLazyFunc(import('./screens/WebView'))
-      },
-      {
-        path: 'wiki',
-        lazy: makeLazyFunc(import('./screens/Docs'))
-      },
-      {
-        path: 'gamepage/:runner/:appName',
-        lazy: makeLazyFunc(import('./screens/Game/GamePage'))
-      },
-      {
-        path: 'store-page',
-        lazy: makeLazyFunc(import('./screens/WebView'))
-      },
-      {
-        path: 'loginweb/:runner',
-        lazy: makeLazyFunc(import('./screens/WebView'))
-      },
-      {
-        path: 'settings/:type',
-        lazy: makeLazyFunc(import('./screens/Settings'))
-      },
-      {
-        path: 'wine-manager',
-        lazy: makeLazyFunc(import('./screens/WineManager'))
-      },
-      {
-        path: 'download-manager',
-        lazy: makeLazyFunc(import('./screens/DownloadManager'))
-      },
-      {
-        path: 'accessibility',
-        lazy: makeLazyFunc(import('./screens/Accessibility'))
-      },
-      {
-        path: 'console',
-        lazy: makeLazyFunc(import('./screens/ConsoleMode'))
-      },
-      {
-        path: '*',
-        element: <Navigate replace to="/" />
+        errorElement: <RouteErrorFallback />,
+        children: [
+          {
+            index: true,
+            lazy: lazyRoute(() => import('./screens/Library'))
+          },
+          {
+            path: 'login',
+            lazy: lazyRoute(() => import('./screens/Login'))
+          },
+          {
+            path: 'store/:store',
+            lazy: lazyRoute(() => import('./screens/WebView'))
+          },
+          {
+            path: 'wiki',
+            lazy: lazyRoute(() => import('./screens/Docs'))
+          },
+          {
+            path: 'gamepage/:runner/:appName',
+            lazy: lazyRoute(() => import('./screens/Game/GamePage'))
+          },
+          {
+            path: 'store-page',
+            lazy: lazyRoute(() => import('./screens/WebView'))
+          },
+          {
+            path: 'loginweb/:runner',
+            lazy: lazyRoute(() => import('./screens/WebView'))
+          },
+          {
+            path: 'settings/:type',
+            lazy: lazyRoute(() => import('./screens/Settings'))
+          },
+          {
+            path: 'wine-manager',
+            lazy: lazyRoute(() => import('./screens/WineManager'))
+          },
+          {
+            path: 'download-manager',
+            lazy: lazyRoute(() => import('./screens/DownloadManager'))
+          },
+          {
+            path: 'accessibility',
+            lazy: lazyRoute(() => import('./screens/Accessibility'))
+          },
+          {
+            path: 'console',
+            lazy: lazyRoute(() => import('./screens/ConsoleMode'))
+          },
+          {
+            path: '*',
+            element: <Navigate replace to="/" />
+          }
+        ]
       }
     ]
   }
-])
+]
+
+const router = createHashRouter(routes)
 
 export default function App() {
   return <RouterProvider router={router} />

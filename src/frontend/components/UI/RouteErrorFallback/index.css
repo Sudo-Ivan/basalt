@@ -1,0 +1,30 @@
+.routeErrorFallback {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: var(--space-md);
+  height: 100%;
+  min-height: 50vh;
+  padding: var(--space-xl);
+  text-align: center;
+}
+
+.routeErrorFallback > .routeErrorTitle {
+  font-size: var(--text-3xl);
+  color: var(--text-default);
+}
+
+.routeErrorFallback > .routeErrorMessage {
+  font-size: var(--text-md);
+  color: var(--text-secondary);
+  max-width: 60ch;
+  overflow-wrap: anywhere;
+}
+
+.routeErrorFallback > .routeErrorButtons {
+  display: flex;
+  gap: var(--space-md);
+  flex-wrap: wrap;
+  justify-content: center;
+}

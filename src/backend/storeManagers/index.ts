@@ -4,7 +4,7 @@ import LegendaryLibraryManager from 'backend/storeManagers/legendary/library'
 import NileLibraryManager from 'backend/storeManagers/nile/library'
 import ZoomLibraryManager from 'backend/storeManagers/zoom/library'
 
-import { logInfo, RunnerToLogPrefixMap } from 'backend/logger'
+import { logError, logInfo, RunnerToLogPrefixMap } from 'backend/logger'
 import { addToQueue } from 'backend/downloadmanager/downloadqueue'
 
 import type { DMQueueElement, GameInfo, Runner } from 'common/types'
@@ -60,7 +60,19 @@ export function autoUpdate(runner: Runner, gamesToUpdate: string[]) {
 }
 
 export async function initStoreManagers() {
-  return Promise.all(
-    Object.values(libraryManagerMap).map((manager) => manager.init())
+  const entries = Object.entries(libraryManagerMap)
+  const results = await Promise.allSettled(
+    entries.map(([, manager]) => manager.init())
   )
+  results.forEach((result, index) => {
+    if (result.status === 'rejected') {
+      logError(
+        [
+          `Failed to initialize ${entries[index][0]} store manager:`,
+          result.reason
+        ],
+        RunnerToLogPrefixMap[entries[index][0] as Runner]
+      )
+    }
+  })
 }

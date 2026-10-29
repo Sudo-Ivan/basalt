@@ -29,12 +29,22 @@ export default React.memo(function DownloadManager(): React.JSX.Element | null {
 
   useEffect(() => {
     setRefreshing(true)
-    window.api.getDMQueueInformation().then(({ elements, state }: DMQueue) => {
-      setCurrentElement(elements[0])
-      setPlannendElements([...elements.slice(1)])
-      setRefreshing(false)
-      setState(state)
-    })
+    window.api
+      .getDMQueueInformation()
+      .then((queue: DMQueue | undefined) => {
+        const elements = (queue?.elements ?? []).filter(
+          (element) => element?.params
+        )
+        setCurrentElement(elements[0])
+        setPlannendElements([...elements.slice(1)])
+        setState(queue?.state ?? 'idle')
+      })
+      .catch((error) => {
+        window.api.logError(
+          `Failed to get download queue information: ${String(error)}`
+        )
+      })
+      .finally(() => setRefreshing(false))
 
     const removeHandleDMQueueInformation = window.api.handleDMQueueInformation(
       (
@@ -43,8 +53,9 @@ export default React.memo(function DownloadManager(): React.JSX.Element | null {
         state: DownloadManagerState
       ) => {
         if (elements) {
-          setCurrentElement(elements[0])
-          setPlannendElements([...elements.slice(1)])
+          const validElements = elements.filter((element) => element?.params)
+          setCurrentElement(validElements[0])
+          setPlannendElements([...validElements.slice(1)])
           setState(state)
         }
       }
@@ -56,9 +67,19 @@ export default React.memo(function DownloadManager(): React.JSX.Element | null {
   }, [])
 
   useEffect(() => {
-    window.api.getDMQueueInformation().then(({ finished }: DMQueue) => {
-      setFinishedElem(finished)
-    })
+    window.api
+      .getDMQueueInformation()
+      .then((queue: DMQueue | undefined) => {
+        const finished = (queue?.finished ?? []).filter(
+          (element) => element?.params
+        )
+        setFinishedElem(finished)
+      })
+      .catch((error) => {
+        window.api.logError(
+          `Failed to get finished downloads: ${String(error)}`
+        )
+      })
   }, [plannendElements.length, currentElement?.params.appName])
 
   if (refreshing) {
@@ -83,9 +104,9 @@ export default React.memo(function DownloadManager(): React.JSX.Element | null {
 
   const doneElements =
     (finishedElem?.length &&
-      finishedElem.sort((a, b) => {
+      [...finishedElem].sort((a, b) => {
         // Sort by endTime
-        return b.endTime - a.endTime
+        return (b.endTime ?? 0) - (a.endTime ?? 0)
       })) ||
     []
 

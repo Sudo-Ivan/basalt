@@ -71,6 +71,8 @@ import { gogdlConfigPath } from './constants'
 import { userDataPath } from 'backend/constants/paths'
 import GOGGame from './games'
 import { productToGameInfo } from './unified_info'
+import { singleFlight } from 'backend/utils/singleFlight'
+import { mapWithConcurrency } from 'backend/utils/mapWithConcurrency'
 import type { LibraryManager } from 'common/types/game_manager'
 import { libraryManagerMap } from '../index'
 import { readdir } from 'fs/promises'
@@ -83,7 +85,11 @@ export default class GOGLibraryManager implements LibraryManager {
   private readonly gameCache: Map<string, GOGGame> = new Map()
 
   async init() {
-    await this.refresh()
+    this.refreshInstalled()
+    await this.loadLocalLibrary()
+    this.refresh().catch((error) => {
+      logError(['Failed to refresh GOG library on init:', error], LogPrefix.Gog)
+    })
 
     // Based on installed games scan for missing manifests and attempt to pull
     // them
@@ -461,6 +467,10 @@ export default class GOGLibraryManager implements LibraryManager {
   }
 
   async refresh(): Promise<ExecResult> {
+    return singleFlight('gog-refresh', () => this.doRefresh())
+  }
+
+  private async doRefresh(): Promise<ExecResult> {
     if (!GOGUser.isLoggedIn()) {
       return this.defaultExecResult
     }
@@ -504,7 +514,8 @@ export default class GOGLibraryManager implements LibraryManager {
 
     const gamesObjects: GameInfo[] = [redistGameInfo]
     apiInfoCache.use_in_memory() // Prevent blocking operations
-    for (const game of filteredApiArray) {
+
+    const fetchGameMetadata = async (game: GalaxyLibraryEntry) => {
       let unifiedObject: GameInfo | undefined
       let gamesdbUnavailable = false
       let retries = 5
@@ -535,7 +546,21 @@ export default class GOGLibraryManager implements LibraryManager {
         if (candidate.app_name) unifiedObject = candidate
         break
       }
+      return { game, unifiedObject, gamesdbUnavailable }
+    }
 
+    const fetchedMetadata = await mapWithConcurrency(
+      filteredApiArray,
+      4,
+      fetchGameMetadata
+    )
+
+    for (const {
+      game,
+      gamesdbUnavailable,
+      unifiedObject: fetched
+    } of fetchedMetadata) {
+      let unifiedObject = fetched
       if (!unifiedObject && gamesdbUnavailable) {
         const productResponse = await this.getProductApi(
           String(game.external_id),

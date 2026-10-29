@@ -41,6 +41,7 @@ import {
 import type { IpcRendererEvent } from 'electron'
 import { NileRegisterData } from 'common/types/nile'
 import useGlobalState from './GlobalStateV2'
+import { refreshRunnersProgressively } from './libraryRefresh'
 
 const storage: Storage = window.localStorage
 const globalSettings = configStore.get_nodefault('settings')
@@ -719,29 +720,14 @@ class GlobalState extends PureComponent<Props> {
       epicLibrary = legendaryLibrary
     }
 
-    let gogLibrary = this.loadGOGLibrary(overrides)
-    if (gog.username && (!gogLibrary.length || !gog.library.length)) {
-      window.api.logInfo('No cache found, getting data from gog...')
-      await window.api.refreshLibrary('gog')
-      gogLibrary = this.loadGOGLibrary(overrides)
-    }
+    const gogLibrary = this.loadGOGLibrary(overrides)
 
     let zoomLibrary: GameInfo[] = []
     if (zoom.enabled) {
       zoomLibrary = this.loadZoomLibrary(overrides)
-      if (zoom.username && (!zoomLibrary.length || !zoom.library.length)) {
-        window.api.logInfo('No cache found, getting data from zoom...')
-        await window.api.refreshLibrary('zoom')
-        zoomLibrary = this.loadZoomLibrary(overrides)
-      }
     }
 
-    let amazonLibrary = nileLibraryStore.get('library', [])
-    if (amazon.user_id && (!amazonLibrary.length || !amazon.library.length)) {
-      window.api.logInfo('No cache found, getting data from nile...')
-      await window.api.refreshLibrary('nile')
-      amazonLibrary = this.loadAmazonLibrary(overrides)
-    }
+    const amazonLibrary = this.loadAmazonLibrary(overrides)
 
     const updatedSideload = sideloadLibrary.get('games', [])
 
@@ -789,11 +775,85 @@ class GlobalState extends PureComponent<Props> {
     })
     window.api.logInfo(`Refreshing ${library} Library`)
     try {
-      await window.api.refreshLibrary(library)
-      return await this.refresh(library, checkForUpdates)
+      const { epic, gog, amazon, zoom } = this.state
+      let runners: Runner[]
+      if (library === undefined || library === 'all') {
+        runners = []
+        if (epic.username) runners.push('legendary')
+        if (gog.username) runners.push('gog')
+        if (amazon.user_id) runners.push('nile')
+        if (zoom.enabled && zoom.username) runners.push('zoom')
+        runners.push('sideload')
+      } else {
+        runners = [library]
+      }
+
+      const { failed } = await refreshRunnersProgressively({
+        runners,
+        refreshRunner: (runner) => window.api.refreshLibrary(runner),
+        publish: (runner) => this.publishRunnerLibrary(runner)
+      })
+      if (failed.length) {
+        window.api.logError(`Library refresh failed for: ${failed.join(', ')}`)
+      }
     } catch (error) {
       window.api.logError(`Library refresh failed: ${String(error)}`)
+    } finally {
+      this.setState({ refreshing: false })
     }
+
+    if (checkForUpdates) {
+      window.api
+        .checkGameUpdates()
+        .then((gameUpdates) => {
+          storage.setItem('updates', JSON.stringify(gameUpdates))
+          this.setState({ gameUpdates })
+        })
+        .catch((error) => {
+          window.api.logError(`Game update check failed: ${String(error)}`)
+        })
+    }
+  }
+
+  publishRunnerLibrary = (runner: Runner) => {
+    const overrides = currentOverrides()
+    const updatedSideload = applyGameOverrides(
+      sideloadLibrary.get('games', []),
+      overrides
+    )
+
+    const patch: Partial<StateProps> = { sideloadedLibrary: updatedSideload }
+    let publishedLibrary: GameInfo[] = []
+
+    switch (runner) {
+      case 'legendary':
+        publishedLibrary = this.loadLegendaryLibrary(overrides)
+        patch.epic = { ...this.state.epic, library: publishedLibrary }
+        break
+      case 'gog':
+        publishedLibrary = this.loadGOGLibrary(overrides)
+        patch.gog = { ...this.state.gog, library: publishedLibrary }
+        break
+      case 'nile':
+        publishedLibrary = this.loadAmazonLibrary(overrides)
+        patch.amazon = { ...this.state.amazon, library: publishedLibrary }
+        break
+      case 'zoom':
+        if (this.state.zoom.enabled) {
+          publishedLibrary = this.loadZoomLibrary(overrides)
+          patch.zoom = { ...this.state.zoom, library: publishedLibrary }
+        }
+        break
+      case 'sideload':
+        publishedLibrary = updatedSideload
+        break
+    }
+
+    if (publishedLibrary.length && !this.state.refreshingInTheBackground) {
+      patch.refreshingInTheBackground = true
+    }
+
+    this.setState(patch)
   }
 
   handleGameStatus = async ({
@@ -964,36 +1024,54 @@ class GlobalState extends PureComponent<Props> {
       }
     })
 
-    if (platform === 'darwin') {
-      this.setState({ isIntelMac: await window.api.isIntelMac() })
-    }
-
-    this.setState({
-      isFullscreen: await window.api.isFullscreen(),
-      isFrameless: await window.api.isFrameless()
-    })
-    window.api.handleFullscreen(
-      (e: IpcRendererEvent, isFullscreen: boolean) => {
-        this.setState({ isFullscreen })
-      }
-    )
+    window.api.frontendReady()
 
     const legendaryUser = configStore.has('userInfo')
     const gogUser = gogConfigStore.has('userData')
     const amazonUser = nileConfigStore.has('userData')
     const zoomUser = zoomConfigStore.has('isLoggedIn')
 
+    const startupTasks: Promise<unknown>[] = [
+      window.api
+        .isFullscreen()
+        .then((isFullscreen) => this.setState({ isFullscreen })),
+      window.api
+        .isFrameless()
+        .then((isFrameless) => this.setState({ isFrameless }))
+    ]
+
+    if (platform === 'darwin') {
+      startupTasks.push(
+        window.api
+          .isIntelMac()
+          .then((isIntelMac) => this.setState({ isIntelMac }))
+      )
+    }
+
     if (legendaryUser) {
-      await window.api.getUserInfo()
+      startupTasks.push(window.api.getUserInfo())
     }
 
     if (amazonUser) {
-      await window.api.getAmazonUserInfo()
+      startupTasks.push(window.api.getAmazonUserInfo())
     }
 
     if (zoom.enabled && zoomUser) {
-      await window.api.getZoomUserInfo()
+      startupTasks.push(window.api.getZoomUserInfo())
     }
+
+    const startupResults = await Promise.allSettled(startupTasks)
+    startupResults.forEach((result) => {
+      if (result.status === 'rejected') {
+        window.api.logError(`Startup request failed: ${String(result.reason)}`)
+      }
+    })
+
+    window.api.handleFullscreen(
+      (e: IpcRendererEvent, isFullscreen: boolean) => {
+        this.setState({ isFullscreen })
+      }
+    )
 
     if (!gameUpdates.length) {
       const storedGameUpdates = JSON.parse(storage.getItem('updates') || '[]')
@@ -1034,8 +1112,6 @@ class GlobalState extends PureComponent<Props> {
 
     this.setPrimaryFontFamily(this.state.primaryFontFamily, false)
     this.setSecondaryFontFamily(this.state.secondaryFontFamily, false)
-
-    window.api.frontendReady()
   }
 
   componentDidUpdate() {

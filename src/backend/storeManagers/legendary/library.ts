@@ -37,6 +37,8 @@ import {
   libraryStore
 } from './electronStores'
 import { callRunner } from '../../launcher'
+import { singleFlight } from 'backend/utils/singleFlight'
+import { isListFresh } from 'backend/utils/listFreshness'
 import { dirname, join } from 'path'
 import { isOnline } from 'backend/online_monitor'
 import { LegendaryCommand } from './commands'
@@ -56,6 +58,8 @@ const fallBackImage = 'fallback'
 const allGames: Set<string> = new Set()
 let installedGames: Map<string, InstalledJsonMetadata> = new Map()
 const library: Map<string, GameInfo> = new Map()
+
+let lastListSuccessAt = 0
 
 export default class LegendaryLibraryManager implements LibraryManager {
   private readonly gameCache: Map<LegendaryAppName, LegendaryGame> = new Map()
@@ -119,6 +123,8 @@ export default class LegendaryLibraryManager implements LibraryManager {
 
     if (res.error) {
       logError(['Failed to refresh library:', res.error], LogPrefix.Legendary)
+    } else if (!res.abort) {
+      lastListSuccessAt = Date.now()
     }
     this.refreshInstalled()
     return res
@@ -165,6 +171,10 @@ export default class LegendaryLibraryManager implements LibraryManager {
    * @returns Array of objects.
    */
   async refresh(): Promise<ExecResult | null> {
+    return singleFlight('legendary-refresh', () => this.doRefresh())
+  }
+
+  private async doRefresh(): Promise<ExecResult | null> {
     logInfo('Refreshing library...', LogPrefix.Legendary)
     if (!LegendaryUser.isLoggedIn()) {
       return this.defaultExecResult
@@ -295,24 +305,32 @@ export default class LegendaryLibraryManager implements LibraryManager {
       return []
     }
 
-    const res = await this.runRunnerCommand(
-      { subcommand: 'list', '--third-party': true },
-      {
-        abortId: 'legendary-check-updates',
-        logMessagePrefix: 'Checking for game updates'
-      }
-    )
-
-    if (res.abort) {
-      return []
-    }
-
-    if (res.error) {
-      logError(
-        ['Failed to check for game updates:', res.error],
+    if (isListFresh(lastListSuccessAt, Date.now(), 2 * 60 * 1000)) {
+      logDebug(
+        'Skipping legendary list, game list was refreshed recently',
         LogPrefix.Legendary
       )
-      return []
+    } else {
+      const res = await this.runRunnerCommand(
+        { subcommand: 'list', '--third-party': true },
+        {
+          abortId: 'legendary-check-updates',
+          logMessagePrefix: 'Checking for game updates'
+        }
+      )
+
+      if (res.abort) {
+        return []
+      }
+
+      if (res.error) {
+        logError(
+          ['Failed to check for game updates:', res.error],
+          LogPrefix.Legendary
+        )
+        return []
+      }
+      lastListSuccessAt = Date.now()
     }
 
     // Once we ran `legendary list`, `assets.json` will be updated with the newest

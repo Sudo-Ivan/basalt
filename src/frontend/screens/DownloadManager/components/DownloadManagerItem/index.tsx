@@ -26,8 +26,8 @@ const options: Intl.DateTimeFormatOptions = {
   minute: 'numeric'
 }
 
-function convertToTime(time: number) {
-  const date = time ? new Date(time) : new Date()
+function convertToTime(time: number | undefined) {
+  const date = time && !Number.isNaN(time) ? new Date(time) : new Date()
   const hour = new Intl.DateTimeFormat(undefined, options).format(date)
   return {
     hour,
@@ -49,7 +49,36 @@ const DownloadManagerItem = ({
 
   const navigate = useNavigate()
 
-  if (!element) {
+  const params = element?.params
+  const appName = params?.appName ?? ''
+  const runner = params?.runner ?? 'legendary'
+
+  const [gameInfo, setGameInfo] = useState(params?.gameInfo)
+
+  useEffect(() => {
+    const getNewInfo = async () => {
+      try {
+        const newInfo = await getGameInfo(appName, runner)
+        if (newInfo && newInfo.runner !== 'sideload') {
+          setGameInfo(newInfo)
+        }
+      } catch (error) {
+        window.api.logError(
+          `Failed to get game info for ${appName}: ${String(error)}`
+        )
+      }
+    }
+    if (appName) {
+      void getNewInfo()
+    }
+  }, [element])
+
+  const { art_cover, art_square } = gameInfo || {}
+  const is_dlc = gameInfo?.install?.is_dlc
+
+  const [progress] = hasProgress(appName, runner)
+
+  if (!element || !params) {
     return (
       <h5 style={{ paddingTop: 'var(--space-xs' }}>
         {t2('queue.label.empty', 'Nothing to download')}
@@ -59,35 +88,9 @@ const DownloadManagerItem = ({
 
   const library = [...epic.library, ...gog.library, ...amazon.library]
 
-  const { params, addToQueueTime, endTime, type, startTime } = element
-  const {
-    appName,
-    runner,
-    path,
-    gameInfo: DmGameInfo,
-    size,
-    platformToInstall
-  } = params
+  const { addToQueueTime, endTime, type, startTime } = element
+  const { path, size, platformToInstall } = params
 
-  const [gameInfo, setGameInfo] = useState(DmGameInfo)
-
-  useEffect(() => {
-    const getNewInfo = async () => {
-      const newInfo = await getGameInfo(appName, runner)
-      if (newInfo && newInfo.runner !== 'sideload') {
-        setGameInfo(newInfo)
-      }
-    }
-    getNewInfo()
-  }, [element])
-
-  const {
-    art_cover,
-    art_square,
-    install: { is_dlc }
-  } = gameInfo || {}
-
-  const [progress] = hasProgress(appName, runner)
   const { status } = element
   const finished = status === 'done'
   const canceled = status === 'error' || (status === 'abort' && !current)
